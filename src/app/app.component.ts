@@ -1,27 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-
+import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
-  template: `<h1>{{ message }}</h1>`,
+  imports : [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  message: string = 'Chưa có dữ liệu';
-  private webSocket !: WebSocket;
-
+  constructor () { }
   ngOnInit() {
-    this.webSocket = new WebSocket('ws://localhost:8082/client-info');
+    // this.webSocket = new WebSocket('ws://localhost:8082/users/send');
 
-    this.webSocket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data); // Xử lý JSON
-        this.message = data.message;
-      } catch (e) {
-        this.message = event.data; // Xử lý plain text
-      }
-    };
+    // this.webSocket.onmessage = (event) => {
+    //   try {
+    //     const data = JSON.parse(event.data);
+    //     this.message = data.message;
+    //   } catch (e) {
+    //     this.message = event.data; 
+    //   }
+    // };
 
-    this.webSocket.onerror = (error) => {
-      console.error('Lỗi WebSocket:', error);
-    };
+    // this.webSocket.onerror = (error) => {
+    //   console.error('Lỗi WebSocket:', error);
+    // };
   }
 }

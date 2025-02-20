@@ -1,0 +1,10 @@
+<p>code đăng nhập ở đây</p>
+<form (ngSubmit)="onSubmit()">
+    <label for="email">Email:</label>
+    <input type="email" id="email" [(ngModel)]="email" name="email" required>
+  
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="password" name="password" required>
+  
+    <button type="submit">Đăng Nhập</button>
+</form>
