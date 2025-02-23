@@ -4,6 +4,7 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
+  viewChild,
 } from '@angular/core';
 import { usesService } from '../service/users.service';
 import { FormsModule } from '@angular/forms';
@@ -39,11 +40,18 @@ export class LoginComponent {
   //   );
   // }
 
-  @ViewChild('btn') btn!: ElementRef<HTMLButtonElement>;
+  @ViewChild('btn1') btn1!: ElementRef<HTMLButtonElement>;
+  @ViewChild('btnContainer1') btnContainer1!: ElementRef<HTMLDivElement>;
+  @ViewChild('btn2') btn2!: ElementRef<HTMLButtonElement>;
+  @ViewChild('btnContainer2') btnContainer2!: ElementRef<HTMLDivElement>;
   @ViewChild('msg') msg!: ElementRef<HTMLDivElement>;
+  @ViewChild('not') not!: ElementRef<HTMLDivElement>;
   @ViewChild('account') account!: ElementRef<HTMLInputElement>;
   @ViewChild('password') password!: ElementRef<HTMLInputElement>;
-  @ViewChild('btnContainer') btnContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('user') user!: ElementRef<HTMLInputElement>;
+  @ViewChild('email') email!: ElementRef<HTMLInputElement>;
+  @ViewChild('pass') pass!: ElementRef<HTMLInputElement>;
+  @ViewChild('pass_check') passCheck!: ElementRef<HTMLInputElement>;
   signInAccount = '';
   signInPassword = '';
   signUpUser = '';
@@ -51,15 +59,17 @@ export class LoginComponent {
   signUpPassword = '';
   signUpPasswordConfirm = '';
   isLoginDisabled = true;
+  isRegisterDisabled = true;
   message = '';
+  notifical = '';
   isRightPanelActive = false;
   // Hàm RightPanel
   togglePanel(isRightPanelActive: boolean) {
     this.isRightPanelActive = isRightPanelActive;
   }
 
-  // Hàm shiftButton
-  shiftButton() {
+  // Hàm shiftButtonLogin
+  shiftButtonLogin() {
     this.showMsg();
     const positions = [
       'shift-left',
@@ -68,12 +78,24 @@ export class LoginComponent {
       'shift-bottom',
     ];
     const currentPosition = positions.find((dir) =>
-      this.btn.nativeElement.classList.contains(dir)
+      this.btn2.nativeElement.classList.contains(dir)
     );
     const nextPosition =
       positions[(positions.indexOf(currentPosition!) + 1) % positions.length];
-    this.btn.nativeElement.classList.remove(currentPosition!);
-    this.btn.nativeElement.classList.add(nextPosition);
+    this.btn2.nativeElement.classList.remove(currentPosition!);
+    this.btn2.nativeElement.classList.add(nextPosition);
+  }
+  // Hàm shiftButtonRegister
+  shiftButtonRegister() {
+    this.showNot();
+    const positions = ['shift-left', 'shift-right', 'shift-bottom'];
+    const currentPosition = positions.find((dir) =>
+      this.btn1.nativeElement.classList.contains(dir)
+    );
+    const nextPosition =
+      positions[(positions.indexOf(currentPosition!) + 1) % positions.length];
+    this.btn1.nativeElement.classList.remove(currentPosition!);
+    this.btn1.nativeElement.classList.add(nextPosition);
   }
 
   // Hàm showMsg
@@ -81,28 +103,52 @@ export class LoginComponent {
     const isEmpty =
       this.account.nativeElement.value === '' ||
       this.password.nativeElement.value === '';
-    this.btn.nativeElement.classList.toggle('no-shift', !isEmpty);
+    this.btn2.nativeElement.classList.toggle('no-shift', !isEmpty);
 
     if (isEmpty) {
-      this.isLoginDisabled = true;
+      this.isLoginDisabled == true;
       this.msg.nativeElement.style.color = 'rgb(218 49 49)';
       this.message = 'Vui lòng điền đầy đủ thông tin!!';
     } else {
       this.message = "Gút chóp...Let's play!";
       this.msg.nativeElement.style.color = '#46DFB1';
       this.isLoginDisabled = false;
-      this.btn.nativeElement.classList.add('no-shift');
+      this.btn2.nativeElement.classList.add('no-shift');
+    }
+  }
+  showNot() {
+    const isNull =
+      this.user.nativeElement.value === '' ||
+      this.email.nativeElement.value === '' ||
+      this.pass.nativeElement.value === '' ||
+      this.passCheck.nativeElement.value === '';
+    this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
+    if (isNull) {
+      this.isRegisterDisabled == true;
+      this.not.nativeElement.style.color = 'rgb(218 49 49)';
+      this.notifical = 'Vui lòng điền đầy đủ thông tin!!';
+    } else {
+      this.notifical = 'I remembered the information';
+      this.not.nativeElement.style.color = '#46DFB1';
+      this.isRegisterDisabled = false;
+      this.btn1.nativeElement.classList.add('no-shift');
     }
   }
 
   // Lắng nghe sự kiện mouseover trên btnContainer
+  // Lắng nghe sự kiện mouseover
   @HostListener('mouseover', ['$event.target'])
   onMouseOver(target: HTMLElement) {
     if (
-      target === this.btnContainer.nativeElement ||
-      target === this.btn.nativeElement
+      target === this.btnContainer2.nativeElement ||
+      target === this.btn2.nativeElement
     ) {
-      this.shiftButton();
+      this.shiftButtonLogin();
+    } else if (
+      target === this.btnContainer1.nativeElement ||
+      target === this.btn1.nativeElement
+    ) {
+      this.shiftButtonRegister();
     }
   }
 
@@ -110,13 +156,16 @@ export class LoginComponent {
   @HostListener('input')
   onInput() {
     this.showMsg();
+    this.showNot();
   }
 
   // Lắng nghe sự kiện touchstart trên btn
   @HostListener('touchstart', ['$event.target'])
   onTouchStart(target: HTMLElement) {
-    if (target === this.btn.nativeElement) {
-      this.shiftButton();
+    if (target === this.btn2.nativeElement) {
+      this.shiftButtonLogin();
+    } else if (target === this.btn1.nativeElement) {
+      this.shiftButtonRegister();
     }
   }
 }

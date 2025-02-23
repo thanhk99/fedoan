@@ -4,6 +4,7 @@
     <div class="form-container sign-up-container">
       <form action="#">
         <h1>Tạo tài khoản</h1>
+        <div #note class="note">{{ notifical }}</div>
         <input
           type="text"
           placeholder="Tài khoản (6-30 kí tự)"
@@ -32,7 +33,16 @@
           name="pass_check"
           required
         />
-        <button type="submit">Đăng ký</button>
+        <div #btnContainer1 class="btn-container1">
+          <button
+            #btn1
+            class="btn1"
+            type="submit"
+            [disabled]="isRegisterDisabled"
+          >
+            Đăng ký
+          </button>
+        </div>
       </form>
     </div>
     <div class="form-container sign-in-container">
@@ -56,8 +66,8 @@
           required
         />
         <a href="#">Quên mật khẩu ?</a>
-        <div #btnContainer class="btn-container">
-          <button #btn type="submit" [disabled]="isLoginDisabled">
+        <div #btnContainer2 class="btn-container2">
+          <button #btn2 class="btn2" type="submit" [disabled]="isLoginDisabled">
             Đăng nhập
           </button>
         </div>

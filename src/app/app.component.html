@@ -1,7 +1,7 @@
-<main>
-  <!-- <p>Dựng layout ở đây</p> -->
+<main *ngIf="!isLoginPage()">
+  <app-header *ngIf="!isLoginPage()"></app-header>
   <div class="content">
-    <app-login></app-login>
     <router-outlet></router-outlet>
   </div>
 </main>
+<app-login *ngIf="isLoginPage()"></app-login>
