@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-<main>
-    <app-header></app-header>
-    <app-leftside></app-leftside>
-    <app-rightside></app-rightside>
-    <div class="content">
-        
-        <router-outlet></router-outlet>
-    </div>
-</main>
-=======
 <main *ngIf="!isLoginPage()">
-  <app-header *ngIf="!isLoginPage()"></app-header>
+  <app-header></app-header>
+  <app-leftside></app-leftside>
+  <app-rightside></app-rightside>
   <div class="content">
     <router-outlet></router-outlet>
   </div>
 </main>
 <app-login *ngIf="isLoginPage()"></app-login>
->>>>>>> 8329f1fc7d918ee2da28575058418bb988bfb68d

@@ -2,10 +2,11 @@
   <h2>Đăng nhập/Đăng ký</h2>
   <div class="container" [class.right-panel-active]="isRightPanelActive">
     <div class="form-container sign-up-container">
-      <form action="#">
+      <form >
         <h1>Tạo tài khoản</h1>
-        <div #note class="note">{{ notifical }}</div>
+        <div #not class="note">{{ notifical }}</div>
         <input
+          #user
           type="text"
           placeholder="Tài khoản (6-30 kí tự)"
           [(ngModel)]="signUpUser"
@@ -13,6 +14,7 @@
           required
         />
         <input
+          #email
           type="email"
           placeholder="Email"
           [(ngModel)]="signUpEmail"
@@ -20,13 +22,14 @@
           required
         />
         <input
+          #pass
           type="password"
           placeholder="Mật khẩu"
           [(ngModel)]="signUpPassword"
           name="pass"
-          required
-        />
+          required/>
         <input
+          #pass_check
           type="password"
           placeholder="Nhập lại mật khẩu"
           [(ngModel)]="signUpPasswordConfirm"
@@ -46,7 +49,7 @@
       </form>
     </div>
     <div class="form-container sign-in-container">
-      <form action="#">
+      <form (ngSubmit)="onSubmit()">
         <h1>Đăng nhập</h1>
         <div #msg class="msg">{{ message }}</div>
         <input

@@ -6,9 +6,11 @@ import {
   HostListener,
   viewChild,
 } from '@angular/core';
-import { usesService } from '../service/users.service';
+import { userService } from '../service/users.service';
 import { FormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service'
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   imports: [FormsModule, HttpClientModule],
@@ -16,30 +18,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   standalone: true,
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
-  // email: string = '';
-  // password: string = '';
-  // fullname: string = '';
-  // constructor(private http: HttpClient, private usesService: usesService) {}
-
-  // onSubmit() {
-  //   console.log(this.email);
-  //   console.log(this.password);
-  // }
-  // ngOnInit() {
-  //   this.loadUser();
-  // }
-  // loadUser() {
-  //   this.usesService.getUsers().subscribe(
-  //     (data) => {
-  //       console.log(data);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
-
+export class LoginComponent implements OnInit {
+  constructor(private http: HttpClient, 
+              private userService: userService,
+              private cookieService :CookieService,
+              private router: Router) { }
   @ViewChild('btn1') btn1!: ElementRef<HTMLButtonElement>;
   @ViewChild('btnContainer1') btnContainer1!: ElementRef<HTMLDivElement>;
   @ViewChild('btn2') btn2!: ElementRef<HTMLButtonElement>;
@@ -51,7 +34,7 @@ export class LoginComponent {
   @ViewChild('user') user!: ElementRef<HTMLInputElement>;
   @ViewChild('email') email!: ElementRef<HTMLInputElement>;
   @ViewChild('pass') pass!: ElementRef<HTMLInputElement>;
-  @ViewChild('pass_check') passCheck!: ElementRef<HTMLInputElement>;
+  @ViewChild('pass_check') pass_check!: ElementRef<HTMLInputElement>;
   signInAccount = '';
   signInPassword = '';
   signUpUser = '';
@@ -88,7 +71,12 @@ export class LoginComponent {
   // Hàm shiftButtonRegister
   shiftButtonRegister() {
     this.showNot();
-    const positions = ['shift-left', 'shift-right', 'shift-bottom'];
+    const positions = [
+      'shift-left',
+      'shift-top',
+      'shift-right',
+      'shift-bottom',
+    ];
     const currentPosition = positions.find((dir) =>
       this.btn1.nativeElement.classList.contains(dir)
     );
@@ -106,7 +94,7 @@ export class LoginComponent {
     this.btn2.nativeElement.classList.toggle('no-shift', !isEmpty);
 
     if (isEmpty) {
-      this.isLoginDisabled == true;
+      this.isLoginDisabled = true;
       this.msg.nativeElement.style.color = 'rgb(218 49 49)';
       this.message = 'Vui lòng điền đầy đủ thông tin!!';
     } else {
@@ -121,10 +109,10 @@ export class LoginComponent {
       this.user.nativeElement.value === '' ||
       this.email.nativeElement.value === '' ||
       this.pass.nativeElement.value === '' ||
-      this.passCheck.nativeElement.value === '';
-    this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
+      this.pass_check.nativeElement.value === '';
+      this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
     if (isNull) {
-      this.isRegisterDisabled == true;
+      this.isRegisterDisabled = true;
       this.not.nativeElement.style.color = 'rgb(218 49 49)';
       this.notifical = 'Vui lòng điền đầy đủ thông tin!!';
     } else {
@@ -134,9 +122,6 @@ export class LoginComponent {
       this.btn1.nativeElement.classList.add('no-shift');
     }
   }
-
-  // Lắng nghe sự kiện mouseover trên btnContainer
-  // Lắng nghe sự kiện mouseover
   @HostListener('mouseover', ['$event.target'])
   onMouseOver(target: HTMLElement) {
     if (
@@ -144,28 +129,43 @@ export class LoginComponent {
       target === this.btn2.nativeElement
     ) {
       this.shiftButtonLogin();
-    } else if (
+    } 
+    if (
       target === this.btnContainer1.nativeElement ||
       target === this.btn1.nativeElement
     ) {
       this.shiftButtonRegister();
     }
   }
-
-  // Lắng nghe sự kiện input trên form
   @HostListener('input')
   onInput() {
-    this.showMsg();
     this.showNot();
+    this.showMsg();
   }
-
-  // Lắng nghe sự kiện touchstart trên btn
   @HostListener('touchstart', ['$event.target'])
   onTouchStart(target: HTMLElement) {
     if (target === this.btn2.nativeElement) {
+      console.log("login")
       this.shiftButtonLogin();
     } else if (target === this.btn1.nativeElement) {
+      console.log("regius")
       this.shiftButtonRegister();
     }
+  }
+  ngOnInit(): void {
+      if(this.userService.getCookies()!= ""){
+        this.router.navigate(['/home'])
+      }
+  }
+  onSubmit() {
+    this.userService.login(this.signInAccount,this.signInPassword).subscribe(
+      data =>{
+        this.cookieService.set('id',data.id,3)
+        this.router.navigate(['']);
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 }

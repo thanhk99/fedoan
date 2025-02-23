@@ -9,11 +9,7 @@ import { LeftsideComponent } from "./shared/leftside/leftside.component";
 import { RightsideComponent } from "./shared/rightside/rightside.component";
 @Component({
   selector: 'app-root',
-<<<<<<< HEAD
-  imports: [RouterOutlet, HeaderComponent, LeftsideComponent, RightsideComponent],
-=======
-  imports: [RouterOutlet, HeaderComponent, LoginComponent, NgIf],
->>>>>>> 8329f1fc7d918ee2da28575058418bb988bfb68d
+  imports: [RouterOutlet, HeaderComponent, LeftsideComponent, RightsideComponent, LoginComponent, NgIf],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
