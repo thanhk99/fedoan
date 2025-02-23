@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { LeftsideComponent } from "./shared/leftside/leftside.component";
+import { RightsideComponent } from "./shared/rightside/rightside.component";
 @Component({
   selector: 'app-root',
-  imports : [RouterOutlet,HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, LeftsideComponent, RightsideComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

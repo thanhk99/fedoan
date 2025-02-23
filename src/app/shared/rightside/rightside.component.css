@@ -1,0 +1,55 @@
+.sidebar.right {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: #2B0E0E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    height: 60%;
+    border-radius: 30px;
+    width: 50px;
+    overflow: hidden; /* Ẩn phần thừa bên ngoài */
+}
+
+.logo-friend {
+    margin-bottom: 20px; /* Khoảng cách giữa logo và danh sách bạn bè */
+}
+
+.logo-friend svg {
+    width: 30px;
+    height: 30px;
+}
+
+.friends-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1; /* Chiếm hết phần còn lại của sidebar */
+    overflow-y: auto; /* Cho phép cuộn khi có nhiều bạn bè */
+    max-height: 100%; /* Không vượt quá chiều cao sidebar */
+}
+
+.friends-list li {
+    padding: 10px;
+}
+
+.friends-list svg {
+    width: 30px;
+    height: 30px;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.friends-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.friends-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
