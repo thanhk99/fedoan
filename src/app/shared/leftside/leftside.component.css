@@ -60,7 +60,7 @@
 .sidebar nav ul li {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 15px ;
     font-size: 16px;
     cursor: pointer;
     width: 100%;
@@ -74,9 +74,9 @@
 }
 
 /* Icon */
-.sidebar nav ul li i { 
+.sidebar nav ul li a { 
     font-size: 20px;
-    margin-right: 10px;
+    /* margin-right: 10px; */
     width: 30px;
     text-align: center;
 }
@@ -84,6 +84,7 @@
 /* Ẩn chữ khi không hover */
 .sidebar nav ul li span {
     opacity: 0;
+    width: 0%;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     white-space: nowrap;
