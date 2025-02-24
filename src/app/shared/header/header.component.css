@@ -25,16 +25,7 @@
     font-size: 18px;
 }
 
-/* Thanh tìm kiếm */
-.search-box {
-    padding: 8px 15px;
-    border-radius: 30px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    width: 200px;
-    background-color: #522125;
-}
+
 
 /* Nhóm bên phải: Vàng, nạp vàng, thông báo */
 .header-group.right {
