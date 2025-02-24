@@ -1,8 +1,8 @@
 .sidebar.left {
     position: absolute;
     top: 50%;
-    left: 1.5%; 
-    transform: translateY(-50%); /* Căn giữa theo chiều dọc */
+    left: 1.5%;
+    transform: translateY(-50%);
     background: #2B0E0E;
     display: flex;
     flex-direction: column;
@@ -10,38 +10,100 @@
     padding: 10px;
     height: 90%;
     border-radius: 30px;
-    width: 50px;
+    width: 60px; /* Mặc định sidebar nhỏ */
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
+.sidebar.left:hover {
+    width: 200px; /* Mở rộng sidebar khi hover */
+    align-items: flex-start;
+    padding-left: 15px;
+}
+
+/* Định dạng logo */
 .logo {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 20px;
     color: white;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 50px; /* Logo cố định */
+}
+
+/* Đảm bảo logo vẫn nằm giữa khi mở rộng */
+.sidebar.left:hover .logo {
+    width: 100%;
+    text-align: left;
+}
+
+/* Định dạng danh sách */
+.sidebar nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .sidebar nav ul {
     list-style: none;
     padding: 0;
-
+    margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Căn giữa theo chiều ngang */
-    justify-content: center; /* Căn giữa theo chiều dọc */
-    height: 100%; /* Đảm bảo danh sách icon chiếm toàn bộ chiều cao sidebar */
+    align-items: flex-start; /* Căn trái khi mở rộng */
+    width: 100%;
 }
 
 .sidebar nav ul li {
-    padding: 15px;
-    font-size: 20px;
-    cursor: pointer;
-    text-align: center;
-    width: 70%;
+    display: flex;
     align-items: center;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    color: white;
+    transition: background 0.3s;
 }
 
-
-.sidebar nav ul li.active {
+.sidebar nav ul li:hover {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
+}
+
+/* Icon */
+.sidebar nav ul li i { 
+    font-size: 20px;
+    margin-right: 10px;
+    width: 30px;
+    text-align: center;
+}
+
+/* Ẩn chữ khi không hover */
+.sidebar nav ul li span {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    white-space: nowrap;
+}
+
+/* Hiện chữ khi hover vào sidebar */
+.sidebar.left:hover nav ul li span {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Exit Button */
+.exit {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    color: white;
+}
+.exit a {
+    font-size: 20px;
+    margin-right: 10px;
 }
