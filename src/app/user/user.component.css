@@ -1,0 +1,9 @@
+.profile {
+    position: relative;
+    background: white;
+    top: 10%;
+    left: 15%;
+    width: 70%;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
