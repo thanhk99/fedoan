@@ -1,9 +1,167 @@
 .profile {
     position: relative;
     background: white;
-    top: 10%;
+    top: 4.5rem;
     left: 15%;
     width: 70%;
+    height: 36rem;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+}
+
+.left-section {
+    width: 60%; /* Tăng width để phù hợp */
+    padding: 10px;
+    border-right: 2px solid black;
+    height: 34.680rem ;
+}
+
+/* Đưa profile và thông tin lên cùng hàng */
+.profile-left {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Khoảng cách giữa avatar và thông tin */
+}
+
+/* Ảnh đại diện */
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border: 3px solid black;
+    border-radius: 50%;
+}
+
+/* Container chứa username và ID */
+.user-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Tên người dùng */
+.username p {
+    margin: 0;
+    font-weight: bold;
+}
+
+/* ID */
+.id-user p {
+    border: 2px solid black;
+    display: inline-block;
+    padding: 3px 8px;
+    margin-top: 5px;
+}
+
+/* Nút đổi mật khẩu */
+.change-password {
+    border: 2px solid black;
+    padding: 5px;
+    background: none;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.change-password:hover {
+    background-color: bisque;
+}
+
+/* Ô nội dung */
+.money {
+    width: 90%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none; 
+    background: none; 
+}
+
+/* Thiết kế thẻ */
+.card {
+    width: 350px;
+    height: 180px;
+    background: linear-gradient(135deg, #1f1f1f, #d1d1d1);
+    border-radius: 20px;
+    padding: 15px;
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Header chứa logo, số thẻ và hạn */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Logo Mastercard */
+.logo {
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 30% 30%, red 40%, transparent 41%), 
+                radial-gradient(circle at 70% 70%, orange 40%, transparent 41%);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Balance text */
+.balance-text {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+/* Số tiền */
+.balance-amount {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Huy hiệu "New" */
+.new-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: purple;
+    color: white;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* Thành tích */
+.right-section {
+    width: 40%; /* Đảm bảo nó đủ rộng để nằm bên phải */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Căn achievements lên trên */
+}
+
+.achievements {
+    border: 2px solid black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.achievement-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.icon {
+    width: 25px;
+    height: 25px;
+    border: 2px solid black;
+    border-radius: 50%;
 }

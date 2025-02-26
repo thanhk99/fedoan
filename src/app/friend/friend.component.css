@@ -1,0 +1,11 @@
+.friend {
+    position: relative;
+    background: white;
+    top: 4.5rem;
+    left: 15%;
+    width: 70%;
+    height: 36rem;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+}
