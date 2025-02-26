@@ -60,6 +60,7 @@
     background: none;
     margin-top: 10px;
     cursor: pointer;
+    margin-top: 2rem;
 }
 
 .change-password:hover {
@@ -75,6 +76,7 @@
     justify-content: center;
     border: none; 
     background: none; 
+    margin-top:5rem ;
 }
 
 /* Thiết kế thẻ */
@@ -143,25 +145,35 @@
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Căn achievements lên trên */
+    height: 30%;
+    border: 0.5rem solid #ffb6c1;
+    border-radius: 20px;
 }
 
+
 .achievements {
-    border: 2px solid black;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    text-align: center; /* Căn giữa chữ "ACHIEVEMENTS" */
 }
 
 .achievement-icons {
     display: flex;
+    justify-content: center; /* Căn giữa các icon */
+    gap: 15px; /* Tạo khoảng cách giữa các icon */
+    margin-top: 10px; /* Thêm khoảng cách giữa tiêu đề và icon */
+}
+
+.achievement-icons ul {
+    list-style: none; /* Xóa dấu chấm mặc định của danh sách */
+    padding: 0;
+    display: flex; /* Xếp các icon theo hàng ngang */
     gap: 10px;
 }
 
-.icon {
-    width: 25px;
-    height: 25px;
-    border: 2px solid black;
-    border-radius: 50%;
+.achievement-icons ul li {
+    display: flex;
+}
+
+.achievement-icons ul li a svg {
+    width: 40px; /* Điều chỉnh kích thước icon */
+    height: 40px;
 }
