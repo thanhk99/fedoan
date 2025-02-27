@@ -1,6 +1,6 @@
 .profile {
     position: relative;
-    background: white;
+    background: #bebebe;
     top: 4.5rem;
     left: 15%;
     width: 70%;
@@ -61,6 +61,7 @@
     margin-top: 10px;
     cursor: pointer;
     margin-top: 2rem;
+    border-radius: 20px;
 }
 
 .change-password:hover {
@@ -115,7 +116,7 @@
 
 /* Balance text */
 .balance-text {
-    font-size: 14px;
+    font-size: 24px;
     opacity: 0.7;
 }
 
@@ -146,7 +147,7 @@
     justify-content: center;
     align-items: flex-start; /* Căn achievements lên trên */
     height: 30%;
-    border: 0.5rem solid #ffb6c1;
+    border: 0.3rem solid #b3908a;
     border-radius: 20px;
 }
 
