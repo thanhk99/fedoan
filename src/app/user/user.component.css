@@ -1,20 +1,48 @@
-.profile {
-    position: relative;
-    background: #bebebe;
-    top: 4.5rem;
-    left: 15%;
-    width: 70%;
-    height: 36rem;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+body{
+    background: linear-gradient(45deg , #8d0000,
+                #44006b, #270164, #010433);
+    background-attachment: fixed;
+    background-size: 500%;
+    animation: backgroundAnimation 4s infinite ease;
 }
 
+p{
+    color: white;
+}
+
+@keyframes backgroundAnimation {
+    0%, 100%{
+        background-position: 0% 50%;
+    }
+    50%{
+        background-position: 100% 50%;
+    }
+}
+
+
+.profile {
+    display: flex;
+    position: relative;
+    gap: 20px;
+    top: 6rem;
+    left: 10%;
+    width: 80%;
+    height: 36rem;
+    border-radius: 10px;
+}
+
+
 .left-section {
-    width: 60%; /* Tăng width để phù hợp */
+    width: 50%; 
     padding: 10px;
-    border-right: 2px solid black;
-    height: 34.680rem ;
+    height: 25rem;
+    background: transparent;
+    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5); 
 }
 
 /* Đưa profile và thông tin lên cùng hàng */
@@ -47,25 +75,25 @@
 
 /* ID */
 .id-user p {
-    border: 2px solid black;
     display: inline-block;
-    padding: 3px 8px;
     margin-top: 5px;
+    font-weight: bold;
 }
 
 /* Nút đổi mật khẩu */
 .change-password {
-    border: 2px solid black;
+    border: 2px solid white;
     padding: 5px;
     background: none;
     margin-top: 10px;
     cursor: pointer;
     margin-top: 2rem;
     border-radius: 20px;
+    color: white;
 }
 
 .change-password:hover {
-    background-color: bisque;
+    background-color: #ada9a9;
 }
 
 /* Ô nội dung */
@@ -77,13 +105,13 @@
     justify-content: center;
     border: none; 
     background: none; 
-    margin-top:5rem ;
+    margin-top:3rem ;
 }
 
 /* Thiết kế thẻ */
 .card {
-    width: 350px;
-    height: 180px;
+    width: 300px;
+    height: 100px;
     background: linear-gradient(135deg, #1f1f1f, #d1d1d1);
     border-radius: 20px;
     padding: 15px;
@@ -141,26 +169,26 @@
 
 /* Thành tích */
 .right-section {
-    width: 40%; /* Đảm bảo nó đủ rộng để nằm bên phải */
+    width: 50%; /* Đảm bảo nó đủ rộng để nằm bên phải */
     padding: 10px;
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Căn achievements lên trên */
-    height: 30%;
+    height: 20%;
     border: 0.3rem solid #b3908a;
     border-radius: 20px;
 }
 
 
 .achievements {
-    text-align: center; /* Căn giữa chữ "ACHIEVEMENTS" */
+    text-align: center; 
 }
 
 .achievement-icons {
     display: flex;
     justify-content: center; /* Căn giữa các icon */
-    gap: 15px; /* Tạo khoảng cách giữa các icon */
-    margin-top: 10px; /* Thêm khoảng cách giữa tiêu đề và icon */
+    gap: 3rem; 
+    margin-top: 10px; 
 }
 
 .achievement-icons ul {

@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #60272e;
+    background: transparent;
     padding: 0 40px; 
     height: 60px;
     width: 80%; 
@@ -10,7 +10,10 @@
     position: absolute; /* Để căn giữa */
     left: 50%;
     transform: translateX(-50%); /* Dịch ngược lại 50% để căn giữa */
+    color: white; 
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); 
 }
+
 
 /* Nhóm bên trái: Chào + Tìm kiếm */
 .header-group.left {
