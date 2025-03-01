@@ -1,0 +1,79 @@
+<body>
+  <div class="relative flex items-center justify-center mb-8">
+    <div class="circle-bg">
+      <div class="inner-circle">
+        <div class="black-circle">
+          <!-- Xúc xắc -->
+          <div class="dice1">
+            <div class="face front"></div>
+            <div class="face back"></div>
+            <div class="face top"></div>
+            <div class="face bot"></div>
+            <div class="face right"></div>
+            <div class="face left"></div>
+          </div>
+          <!-- Bát xúc xắc -->
+          <div class="yellow-circle" id="draggable">
+            <span id="countdown" class="countdown">15</span>
+          </div>
+          <!-- Chẵn  -->
+          <div class="bet_chan">
+            <span class="circle" id="chan">CHẴN</span>
+            <div
+              class="people"
+              style="position: absolute; left: -10rem; bottom: 70%"
+            >
+              <i class="fas fa-users icon icon-right"></i>
+              <span class="text" id="sum_people_chan">29899</span>
+            </div>
+            <span id="sum_chan" class="number">1,670,134,097</span>
+            <button
+              id="cuoc_chan"
+              class="button-dat-cuoc"
+              onclick="toggleBetOptions('tai')"
+            >
+              Đặt cược
+            </button>
+          </div>
+          <!-- Lẻ -->
+          <div class="bet_le">
+            <span class="circle" id="le">LẺ</span>
+            <div
+              class="people"
+              style="position: absolute; right: -10rem; bottom: 70%"
+            >
+              <span class="text" id="sum_people_le">298</span>
+              <i class="fas fa-users icon icon-left"></i>
+            </div>
+
+            <span id="sum_le" class="number">1,670,134,097</span>
+            <button
+              id="cuoc_le"
+              class="button-dat-cuoc"
+              onclick="toggleBetOptions('xiu')"
+            >
+              Đặt cược
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bet-button-group">
+    <div class="options">
+      <button>1K</button>
+      <button>10K</button>
+      <button>50K</button>
+      <button>100K</button>
+      <button>500K</button>
+      <button>5M</button>
+      <button>10M</button>
+      <button>50M</button>
+    </div>
+    <div class="action">
+      <button class="all-in">ALL-IN</button>
+      <button class="dat-cuoc">ĐẶT CƯỢC</button>
+      <button class="huy">HỦY</button>
+    </div>
+  </div>
+</body>

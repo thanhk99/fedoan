@@ -45,7 +45,7 @@ export class LoginComponent {
   @ViewChild('btn2') btn2!: ElementRef<HTMLButtonElement>;
   @ViewChild('btnContainer2') btnContainer2!: ElementRef<HTMLDivElement>;
   @ViewChild('msg') msg!: ElementRef<HTMLDivElement>;
-  @ViewChild('not') not!: ElementRef<HTMLDivElement>;
+  @ViewChild('note') note!: ElementRef<HTMLDivElement>;
   @ViewChild('account') account!: ElementRef<HTMLInputElement>;
   @ViewChild('password') password!: ElementRef<HTMLInputElement>;
   @ViewChild('user') user!: ElementRef<HTMLInputElement>;
@@ -125,11 +125,11 @@ export class LoginComponent {
     this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
     if (isNull) {
       this.isRegisterDisabled == true;
-      this.not.nativeElement.style.color = 'rgb(218 49 49)';
+      this.note.nativeElement.style.color = 'rgb(218 49 49)';
       this.notifical = 'Vui lòng điền đầy đủ thông tin!!';
     } else {
       this.notifical = 'I remembered the information';
-      this.not.nativeElement.style.color = '#46DFB1';
+      this.note.nativeElement.style.color = '#46DFB1';
       this.isRegisterDisabled = false;
       this.btn1.nativeElement.classList.add('no-shift');
     }
