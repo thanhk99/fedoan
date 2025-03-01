@@ -1,6 +1,14 @@
 /* bàn ngoài */
+.cl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  top: 4.5rem;
+}
 .circle-bg {
-  background-image: url("/public/pngtree-brown-wooden-texture-polished-vector-background-image_306870.jpg");
+  background-image: url("http://localhost:4200/pngtree-brown-wooden-texture-polished-vector-background-image_306870.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -11,7 +19,7 @@
 }
 /* bàn trong */
 .inner-circle {
-  background-image: url("/public/wooden-background-board-wallpaper-preview.jpg");
+  background-image: url("http://localhost:4200/wooden-background-board-wallpaper-preview.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -42,7 +50,7 @@
 }
 /* Bát che xúc xắc */
 .yellow-circle {
-  background-image: url("/public/bolt.png");
+  background-image: url("http://localhost:4200/bolt.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -80,7 +88,7 @@ span {
 }
 /*Kết quả chăn lẻ */
 .circle {
-  background-image: url("/public//dia.png");
+  /* background-image: url("/public//dia.png"); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
