@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClComponent } from './cl.component';
+import { MessageComponent } from './message.component';
 
-describe('ClComponent', () => {
-  let component: ClComponent;
-  let fixture: ComponentFixture<ClComponent>;
+describe('MessageComponent', () => {
+  let component: MessageComponent;
+  let fixture: ComponentFixture<MessageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ClComponent]
+      imports: [MessageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ClComponent);
+    fixture = TestBed.createComponent(MessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

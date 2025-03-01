@@ -1,0 +1,104 @@
+.sidebar_right_container {
+    position: absolute;
+    top: 50%;
+    right: 1.5%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    width: 50px;
+    justify-content: space-between;
+}
+
+/* Thanh bạn bè (Trên) */
+.sidebar-right {
+    background: #2B0E0E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    height: 50%;
+    width: 50px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+/* Logo bạn bè */
+.logo-friend {
+    margin-bottom: 10px;
+}
+
+/* Danh sách bạn bè */
+.friends-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 80%;
+}
+
+.friends-list li {
+    margin-bottom: 20%;
+}
+
+/* Thanh nhóm (Dưới) */
+.bottom-bar {
+    background: #2B0E0E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    height: 35%;
+    width: 50px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+/* Logo nhóm */
+.logo-group {
+    margin-bottom: 10px;
+}
+
+/* Danh sách nhóm */
+.group-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 80%;
+}
+
+.group-list li{
+    margin-bottom: 20%;
+}
+
+/* Icon trong sidebar */
+.sidebar-right svg, .bottom-bar svg {
+    width: 30px;
+    height: 30px;
+    fill: #ada9a9;
+}
+
+/* Thanh cuộn */
+.friends-list::-webkit-scrollbar,
+.group-list::-webkit-scrollbar {
+    width: 5px;
+    position: absolute;
+    right: 0; /* Đặt thanh cuộn sát cạnh phải */
+}
+
+/* Style thanh cuộn */
+.friends-list::-webkit-scrollbar-thumb,
+.group-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}

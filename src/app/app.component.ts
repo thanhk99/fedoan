@@ -5,9 +5,19 @@ import { Router } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { LeftsideComponent } from './shared/leftside/leftside.component';
+import { RightsideComponent } from './shared/rightside/rightside.component';
+import { ClComponent } from './game/cl/cl.component';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, LoginComponent, NgIf],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    LeftsideComponent,
+    RightsideComponent,
+    LoginComponent,
+    NgIf,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
