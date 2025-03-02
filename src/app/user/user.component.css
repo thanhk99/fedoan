@@ -219,7 +219,7 @@ td {
 }
 
 th {
-  background: #664747;
+  background: #727070;
   color: white;
 }
 
@@ -238,7 +238,7 @@ th {
 }
 
 .pagination button:hover {
-  background: bisque;
+  background: #727070;
 }
 
 @media (max-width: 1200px) {
