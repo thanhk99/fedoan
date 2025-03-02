@@ -13,11 +13,12 @@ p {
 }
 
 .left-section {
-  width: 50%;
+  width: 40%;
   padding: 10px;
   height: 70%;
   background: transparent;
   box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
+  border-radius: 20px;
 }
 
 /* Đưa profile và thông tin lên cùng hàng */
@@ -144,7 +145,7 @@ p {
 
 /* bên phải */
 .right-section {
-  width: 50%;
+  width: 60%;
   padding: 10px;
   display: flex;
   flex-direction: column; /* Đặt các phần tử theo cột */
@@ -193,6 +194,7 @@ p {
   text-align: center;
   box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
   height: 80%;
+  border-radius: 20px;
 }
 
 .transaction-history h2 {
