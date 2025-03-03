@@ -10,7 +10,10 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     gap: 1rem;
+
 }
+  
+
 
 .left-column, .right-column {
     display: flex;
@@ -32,8 +35,8 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     flex: 1;
-    
 }
+    
 .acp_friend, .list_friend, .show_friend{
     overflow-y: auto;
 }
@@ -88,7 +91,7 @@
     height: 20px;
 }
 
-.btn-delefriend, .accept-friend {
+.btn-delefriend, .accept-friend , .list-add_fr , .message {
     background: #007bff;
     color: white;
     border: none;
@@ -97,7 +100,7 @@
     cursor: pointer;
 }
 
-.btn-delefriend {
+.btn-delefriend  , .message {
     background: #e40a53; /* Màu đỏ cho nút Xóa */
 }
 
