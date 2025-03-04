@@ -1,13 +1,14 @@
-.message {
+.messenger {
     position: relative;
     background: #bebebe;
-    top: 4.5rem;
+    top: 6rem;
     left: 15%;
     width: 70%;
-    height: 36rem;
+    height: 25rem;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     display: flex;
+    overflow: hidden;
 }
 .messenger-container {
     display: flex;
@@ -42,19 +43,23 @@
     background: #f0f0f0;
     padding: 15px;
     font-weight: bold;
+    box-shadow: #5e5c5c 0px 0px 10px;
 }
 .chat-messages {
     flex-grow: 1;
-    padding: 15px;
+    padding: 1rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden; 
 }
 .message {
     padding: 10px;
     margin: 5px 0;
     border-radius: 10px;
     max-width: 70%;
+    word-wrap: break-word;
+    display: inline-block;
 }
 .received {
     background: #e4e6eb;
