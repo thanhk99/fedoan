@@ -4,7 +4,7 @@
       <div class="inner-circle">
         <div class="black-circle">
           <!-- Xúc xắc -->
-          <div class="dice1">
+          <div class="dice1" #dice1>
             <div class="face front"></div>
             <div class="face back"></div>
             <div class="face top"></div>
@@ -13,44 +13,63 @@
             <div class="face left"></div>
           </div>
           <!-- Bát xúc xắc -->
-          <div class="yellow-circle" id="draggable">
-            <span id="countdown" class="countdown">15</span>
+          <div class="yellow-circle" id="draggable" #draggable>
+            <span id="countdown" class="countdown" #countdown>15</span>
           </div>
           <!-- Chẵn  -->
           <div class="bet_chan">
-            <span class="circle" id="chan">CHẴN</span>
+            <span class="circle" id="chan" #chan>CHẴN</span>
             <div
               class="people"
               style="position: absolute; left: -10rem; bottom: 70%"
             >
               <i class="fas fa-users icon icon-right"></i>
-              <span class="text" id="sum_people_chan">29899</span>
+              <span class="text" id="sum_people_chan" #sum_people_chan
+                >29899</span
+              >
             </div>
-            <span id="sum_chan" class="number">1,670,134,097</span>
+            <span id="sum_chan" class="number" #sum_chan>1,670,134,097</span>
+            <input
+              type="text"
+              id="betvalue_chan"
+              #betvalue_chan
+              class="money-input"
+              placeholder="0"
+              style="left: -9.8rem; bottom: -0.8rem"
+            />
             <button
               id="cuoc_chan"
+              #cuoc_chan
+              (click)="toggleButton(cuoc_chanElement)"
               class="button-dat-cuoc"
-              onclick="toggleBetOptions('tai')"
             >
               Đặt cược
             </button>
           </div>
           <!-- Lẻ -->
           <div class="bet_le">
-            <span class="circle" id="le">LẺ</span>
+            <span class="circle" id="le" #le>LẺ</span>
             <div
               class="people"
               style="position: absolute; right: -10rem; bottom: 70%"
             >
-              <span class="text" id="sum_people_le">298</span>
+              <span class="text" id="sum_people_le" #sum_people_le>298</span>
               <i class="fas fa-users icon icon-left"></i>
             </div>
-
-            <span id="sum_le" class="number">1,670,134,097</span>
+            <span id="sum_le" #sum_le class="number">1,670,134,097</span>
+            <input
+              type="text"
+              id="betvalue_le"
+              #betvalue_le
+              class="money-input"
+              placeholder="0"
+              style="right: -9.8rem; bottom: -0.8rem"
+            />
             <button
               id="cuoc_le"
+              #cuoc_le
+              (click)="toggleButton(cuoc_leElement)"
               class="button-dat-cuoc"
-              onclick="toggleBetOptions('xiu')"
             >
               Đặt cược
             </button>
@@ -59,21 +78,21 @@
       </div>
     </div>
   </div>
-  <div class="bet-button-group">
+  <div class="bet-button-group" *ngIf="isOptions">
     <div class="options">
-      <button>1K</button>
-      <button>10K</button>
-      <button>50K</button>
-      <button>100K</button>
-      <button>500K</button>
-      <button>5M</button>
-      <button>10M</button>
-      <button>50M</button>
+      <button onclick="updateBetValue(1000)">1K</button>
+      <button onclick="updateBetValue(10000)">10K</button>
+      <button onclick="updateBetValue(50000)">50K</button>
+      <button onclick="updateBetValue(100000)">100K</button>
+      <button onclick="updateBetValue(500000)">500K</button>
+      <button onclick="updateBetValue(5000000)">5M</button>
+      <button onclick="updateBetValue(10000000)">10M</button>
+      <button onclick="updateBetValue(50000000)">50M</button>
     </div>
     <div class="action">
       <button class="all-in">ALL-IN</button>
       <button class="dat-cuoc">ĐẶT CƯỢC</button>
-      <button class="huy">HỦY</button>
+      <button class="huy" (click)="cancelCuoc()">HỦY</button>
     </div>
   </div>
 </div>
