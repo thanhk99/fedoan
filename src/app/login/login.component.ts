@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private userService: userService,
     private cookieService: CookieService,
-    private router: Router
+    private router: Router,
   ) {}
   @ViewChild('btn1') btn1!: ElementRef<HTMLButtonElement>;
   @ViewChild('btnContainer1') btnContainer1!: ElementRef<HTMLDivElement>;
@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
       this.email.nativeElement.value === '' ||
       this.pass.nativeElement.value === '' ||
       this.pass_check.nativeElement.value === '';
-    this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
+      this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
     if (isNull) {
       this.isRegisterDisabled = true;
       this.note.nativeElement.style.color = 'rgb(218 49 49)';
@@ -155,19 +155,42 @@ export class LoginComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    if (this.userService.getCookies() != '') {
-      this.router.navigate(['/home']);
-    }
+    // console.log(this.userService.getCookies())
+    // if (this.userService.getCookies() !== '') {
+    //   this.router.navigate(['/home']);
+    // }
   }
-  onSubmit() {
+  ngLogin() {
     this.userService.login(this.signInAccount, this.signInPassword).subscribe(
       (data) => {
         this.cookieService.set('id', data.id, 3);
+        this.loadAtm()
+        this.loadUser()
         this.router.navigate(['']);
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+  loadUser(){
+    this.userService.getUser().subscribe(
+      (data:any)=>{
+        this.cookieService.set('fullname',data.fullname,3)
+      },
+      error=>{
+        console.log(error)
+      }
+    )
+  }
+  loadAtm(){
+    this.userService.getAtmUser().subscribe(
+      (data:any)=>{
+        this.cookieService.set('balance',data.balance,3)
+      },
+      error=>{
+        console.log(error)
+      }
+    )
   }
 }

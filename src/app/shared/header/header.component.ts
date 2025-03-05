@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { userService } from '../../service/users.service';
+import { error } from 'node:console';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-header',
   imports: [],
@@ -8,20 +10,15 @@ import { userService } from '../../service/users.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  constructor (private userService: userService) { }
+  constructor (
+    private userService: userService,
+    private cookie:CookieService
+  ) { }
   fullname:any =""
+  money:any=""
   ngOnInit(): void {
-      this.loadUser()
+    this.fullname=this.cookie.get('fullname')
+    this.money=this.cookie.get('balance')
   }
-  loadUser(){
-    this.userService.getUser().subscribe(
-      (data:any)=>{
-        this.fullname=data.fullname
-        console.log(this.fullname)
-      },
-      error=>{
-        console.log(error)
-      }
-    )
-  }
+
 }

@@ -9,6 +9,7 @@ import { CookieService } from 'ngx-cookie-service'
 export class userService {
   private apiLogin= 'http://localhost:8082/user/login'; // Thay đổi URL cho phù hợp
   private apiGetInfo= "http://localhost:8082/user/info"
+  private apiGetAtm="http://localhost:8082/user/atm"
   constructor(private http: HttpClient,
               private cookieService: CookieService
   ) {}
@@ -18,6 +19,10 @@ export class userService {
   }
   getUser(){
     return this.http.get(this.apiGetInfo,{ withCredentials: true });
+  }
+  getAtmUser() : Observable<any>{
+    const body ={"idPlayer":this.getCookies()}
+    return this.http.post(this.apiGetAtm,body)
   }
   getCookies(){
     return this.cookieService.get('id');

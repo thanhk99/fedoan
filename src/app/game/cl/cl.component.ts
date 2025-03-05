@@ -185,14 +185,14 @@ export class ClComponent implements OnInit {
 
     // Hiện lại button đang ẩn (nếu có)
     if (this.hiddenButton) {
-      this.hiddenButton.nativeElement.classList.remove('hidden');
+      this.hiddenButton.nativeElement.textContent="Đặt cược";
       console.log(
         `Button "${this.hiddenButton.nativeElement.id}" is now visible!`
       );
     }
 
     // Ẩn button được click
-    button.nativeElement.classList.add('hidden');
+    button.nativeElement.textContent="0"
     console.log(`Button "${button.nativeElement.id}" is now hidden!`);
 
     // Lưu trữ button đang ẩn
@@ -200,38 +200,35 @@ export class ClComponent implements OnInit {
     this.isOptions = true;
     let currentBet = 0;
     if (this.hiddenButton && this.hiddenButton.nativeElement.id === 'cuoc_le') {
-      function updateBetValue(amount: number): void {
-        const betValueElement = document.getElementById('betvalue_le');
-        if (betValueElement) {
-          currentBet += amount;
-          betValueElement.innerText = currentBet.toString();
-        }
-      }
+
     }
   }
   cancelCuoc() {
     if (this.hiddenButton) {
-      this.hiddenButton.nativeElement.classList.remove('hidden');
+      this.hiddenButton.nativeElement.textContent="Đặt cược"
       this.hiddenButton = null;
       this.isOptions = false;
     }
   }
-
   // updateBetValue(amount: number): void {
-  //   const elementId =
-  //     this.hiddenButton && this.hiddenButton.nativeElement.id === 'cuoc_le'
-  //       ? 'betvalue_le'
-  //       : 'betvalue_chan';
-  //   const betValueElement = document.getElementById(elementId);
-  //   let currentBet = 0;
-  //   console.log(betValueElement);
+  //   const betValueElement = document.getElementById('betvalue_le');
   //   if (betValueElement) {
   //     currentBet += amount;
   //     betValueElement.innerText = currentBet.toString();
-  //   } else {
-  //     console.error("Element with ID 'bet-value' not found!");
   //   }
   // }
+  updateBetValue(amount: number): void {
+    const doorBet =this.hiddenButton?.nativeElement
+    let tempBet:any
+    tempBet=doorBet?.textContent
+    let currentBet=parseInt(tempBet,10)
+    if (doorBet) {
+      currentBet += amount;
+      doorBet.innerHTML = currentBet.toString();
+    } else {
+      console.error("Element with ID 'bet-value' not found!");
+    }
+  }
 
   // allIn(): void {
   //   // Assuming all-in means setting the bet to a maximum value, e.g., 100M

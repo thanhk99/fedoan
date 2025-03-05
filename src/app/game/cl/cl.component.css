@@ -192,7 +192,7 @@ span {
   outline: none; /* Loại bỏ viền mặc định khi focus */
 }
 /* Nút đặt cược */
-.button-dat-cuoc {
+.betValue {
   background: linear-gradient(to bottom, #d2a679, #4d2600);
   border-radius: 20px;
   padding: 10px 20px;
@@ -203,14 +203,16 @@ span {
   border: 2px solid #8c6239;
   position: absolute;
   display: flex;
+  cursor: pointer;
+  width: 6rem;
 }
 #cuoc_chan {
   left: -10rem;
-  bottom: -1rem;
+  bottom: -2rem;
 }
 #cuoc_le {
   right: -10rem;
-  bottom: -1rem;
+  bottom: -2rem;
 }
 .hidden {
   display: none;
