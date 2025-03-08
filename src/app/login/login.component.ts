@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private userService: userService,
     private cookieService: CookieService,
-    private router: Router
+    private router: Router,
   ) {}
   @ViewChild('btn1') btn1!: ElementRef<HTMLButtonElement>;
   @ViewChild('btnContainer1') btnContainer1!: ElementRef<HTMLDivElement>;
@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
       this.email.nativeElement.value === '' ||
       this.pass.nativeElement.value === '' ||
       this.pass_check.nativeElement.value === '';
-    this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
+      this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
     if (isNull) {
       this.isRegisterDisabled = true;
       this.note.nativeElement.style.color = 'rgb(218 49 49)';
@@ -147,22 +147,34 @@ export class LoginComponent implements OnInit {
   @HostListener('touchstart', ['$event.target'])
   onTouchStart(target: HTMLElement) {
     if (target === this.btn2.nativeElement) {
-      console.log('login');
       this.shiftButtonLogin();
     } else if (target === this.btn1.nativeElement) {
-      console.log('regius');
       this.shiftButtonRegister();
     }
   }
   ngOnInit(): void {
-    if (this.userService.getCookies() != '') {
+    if (this.userService.getCookies() !== '') {
       this.router.navigate(['/home']);
     }
   }
-  onSubmit() {
+  ngLogin() {
     this.userService.login(this.signInAccount, this.signInPassword).subscribe(
       (data) => {
-        this.cookieService.set('id', data.id, 3);
+        this.cookieService.set('fullname',this.userService.encryptData(data.fullname),{
+          expires:1,
+          secure:true,
+          sameSite: 'Strict'
+        });
+        this.cookieService.set('id',this.userService.encryptData(data.id.toString()),{
+          expires:1,
+          secure:true,
+          sameSite: 'Strict'
+        });
+        this.cookieService.set('balance',this.userService.encryptData(data.balance.toString()),{
+          expires:1,
+          secure:true,
+          sameSite: 'Strict'
+        });
         this.router.navigate(['']);
       },
       (error) => {
@@ -170,4 +182,5 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
 }

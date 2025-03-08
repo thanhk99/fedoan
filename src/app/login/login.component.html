@@ -4,7 +4,7 @@
     <div class="form-container sign-up-container">
       <form >
         <h1>Tạo tài khoản</h1>
-        <div #not class="note">{{ notifical }}</div>
+        <div #note class="note">{{ notifical }}</div>
         <input
           #user
           type="text"
@@ -49,7 +49,7 @@
       </form>
     </div>
     <div class="form-container sign-in-container">
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="ngLogin()">
         <h1>Đăng nhập</h1>
         <div #msg class="msg">{{ message }}</div>
         <input

@@ -1,11 +1,16 @@
 <header class="header">
     <div class="header-group left">
-        <h2>Welcome, <span>{{fullname}}</span></h2>
+        <h2 *ngIf="fullname; else loginRegister">
+            Welcome, <span>{{ fullname }}</span>
+        </h2>
+        <ng-template #loginRegister>
+            <button (click)="Login()">Đăng nhập/Đăng nhập</button>
+        </ng-template>
     </div>
     
     <div class="header-group right">
         <div class="currency">
-            <span class="gold">💰 2,340</span>
+            <span class="gold">💰 {{money}}</span>
             <button class="recharge-btn" >Đóng vé quan tâm</button>
         </div>
         <div class="notification">

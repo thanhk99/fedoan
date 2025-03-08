@@ -6,6 +6,7 @@
   flex-direction: column;
   position: relative;
   top: 4.5rem;
+  user-select: none;
 }
 .circle-bg {
   background-image: url("http://localhost:4200/pngtree-brown-wooden-texture-polished-vector-background-image_306870.jpg");
@@ -54,8 +55,8 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  width: 11.5rem;
-  height: 11.5rem;
+  width: 11.9rem;
+  height: 11.9rem;
   border-radius: 9999px;
   position: absolute;
   top: 50%;
@@ -88,7 +89,7 @@ span {
 }
 /*Kết quả chăn lẻ */
 .circle {
-  /* background-image: url("/public//dia.png"); */
+  background-image: url("http://localhost:4200/dia.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -177,8 +178,21 @@ span {
   right: -10rem;
   bottom: 2.4rem;
 }
+/* Số tiền đặt cược */
+.money-input {
+  display: flex;
+  position: absolute;
+  width: 5rem;
+  padding: 5px; /* Khoảng cách bên trong input */
+  border: 2px solid yellow; /* Viền màu vàng, độ dày 2px */
+  border-radius: 25px; /* Bo tròn viền */
+  background-color: black; /* Nền đen */
+  color: yellow; /* Màu chữ vàng */
+  font-size: 1rem;
+  outline: none; /* Loại bỏ viền mặc định khi focus */
+}
 /* Nút đặt cược */
-.button-dat-cuoc {
+.betValue {
   background: linear-gradient(to bottom, #d2a679, #4d2600);
   border-radius: 20px;
   padding: 10px 20px;
@@ -189,20 +203,25 @@ span {
   border: 2px solid #8c6239;
   position: absolute;
   display: flex;
+  cursor: pointer;
+  width: 6rem;
 }
 #cuoc_chan {
   left: -10rem;
-  bottom: -1rem;
+  bottom: -2rem;
 }
 #cuoc_le {
   right: -10rem;
-  bottom: -1rem;
+  bottom: -2rem;
+}
+.hidden {
+  display: none;
 }
 /* Giá trị cược */
 .options {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin: 16px 0;
   align-items: center;
   justify-content: center;
 }
