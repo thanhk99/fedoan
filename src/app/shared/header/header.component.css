@@ -16,7 +16,6 @@
     border-end-end-radius: 20px;
 }
 
-
 /* Nhóm bên trái: Chào + Tìm kiếm */
 .header-group.left {
     display: flex;
@@ -24,13 +23,36 @@
     gap: 100px;
 }
 
+.login-btn {
+    background-color: #f8afbc; 
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn:hover {
+    background-color: #e07b8c;
+    box-shadow: 0px 6px 10px rgba(235, 194, 194, 0.3);
+}
+
+.login-btn:active {
+    transform: scale(0.95);
+    box-shadow: 0px 2px 4px rgba(240, 206, 206, 0.2);
+}
+
 /* Tên người dùng */
 .header-group h2 {
     color: white;
     font-size: 18px;
 }
-
-
 
 /* Nhóm bên phải: Vàng, nạp vàng, thông báo */
 .header-group.right {
@@ -56,7 +78,7 @@
 
 /* Nút nạp vàng */
 .recharge-btn {
-    background-color: #ff9800; /* Màu cam nổi bật */
+    background-color: #ff9800; 
     color: white;
     border: none;
     padding: 8px 12px;
@@ -71,6 +93,10 @@
 
 .recharge-btn:hover {
     background-color: #e68900;
+}
+
+.recharge-btn:active {
+    transform: scale(0.95);
 }
 
 /* Icon thông báo */
