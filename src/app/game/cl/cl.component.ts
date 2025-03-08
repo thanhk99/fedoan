@@ -174,7 +174,6 @@ export class ClComponent implements OnInit {
     this.rollDice(random);
   }
   //Xử lý logic button cược
-
   private hiddenButton: ElementRef<HTMLButtonElement> | null = null;
   isOptions: boolean = false;
   toggleButton(button: ElementRef<HTMLButtonElement>) {
@@ -210,13 +209,7 @@ export class ClComponent implements OnInit {
       this.isOptions = false;
     }
   }
-  // updateBetValue(amount: number): void {
-  //   const betValueElement = document.getElementById('betvalue_le');
-  //   if (betValueElement) {
-  //     currentBet += amount;
-  //     betValueElement.innerText = currentBet.toString();
-  //   }
-  // }
+
   updateBetValue(amount: number): void {
     const doorBet =this.hiddenButton?.nativeElement
     let tempBet:any
