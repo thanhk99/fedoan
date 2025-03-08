@@ -8,8 +8,8 @@
     <div class="right-column">
         <div class="search">
             <p>Tìm kiếm</p>
-            <input type="text" placeholder="Nhập tên bạn bè hoặc ID">
-            <button class="btn_searchfr">Tìm kiếm</button>
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Nhập tên bạn bè hoặc ID">
+            <button class="btn_searchfr" (click)="searchFriends()">Tìm kiếm</button>
         </div>
 
         <div class="right-content">
@@ -36,6 +36,18 @@
                         <button class="btn_acp">Chấp nhận</button>
                     </li>
                 </ul>
+            </div>
+            <div *ngIf="showSearchResults">
+                <h3>Kết quả tìm kiếm</h3>
+                <ul *ngIf="searchResults.length > 0; else noResults">
+                    <li *ngFor="let result of searchResults">
+                        {{ result }}
+                        <button class="btn_addFriend">Thêm bạn bè</button>
+                    </li>
+                </ul>
+                <ng-template #noResults>
+                    <p>Không tìm thấy kết quả nào.</p>
+                </ng-template>
             </div>
         </div>
     </div>
