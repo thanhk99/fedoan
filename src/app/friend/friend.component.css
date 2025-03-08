@@ -38,7 +38,7 @@
     margin-bottom: 2%;
 }
 
-.search .btn_searchfr {
+.search .btn_searchfr  {
     padding: 10px 20px;
     border: none;
     background-color: #007bff;
@@ -63,7 +63,7 @@
     cursor: pointer;
     text-align: left;
 }
-.btn_message, .btn_delete , .btn_acp {
+.btn_message, .btn_delete , .btn_acp , .btn_addFriend{
     padding: 5px 10px;
     margin: 5px;
     border: none;
@@ -71,7 +71,7 @@
     cursor: pointer;
 }
 
-.btn_message , .btn_acp {
+.btn_message , .btn_acp , .btn_addFriend {
     background-color:  #217fe4; /* Màu nền cho nút nhắn tin */
     color: white;
 }

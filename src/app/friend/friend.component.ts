@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-friend',
-  imports: [CommonModule, BrowserModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './friend.component.html',
   styleUrl: './friend.component.css'
 })
