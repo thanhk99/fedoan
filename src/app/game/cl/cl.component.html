@@ -14,7 +14,7 @@
           </div>
           <!-- Bát xúc xắc -->
           <div class="yellow-circle" id="draggable" #draggable>
-            <span id="countdown" class="countdown" #countdown>15</span>
+            <span id="countdown" class="countdown" #countdown>0</span>
           </div>
           <!-- Chẵn  -->
           <div class="bet_chan">
@@ -28,7 +28,7 @@
                 >29899</span
               >
             </div>
-            <span id="sum_chan" class="number" #sum_chan>1,670,134,097</span>
+            <span id="sum_chan" class="number" #sum_chan>{{totalMoneyC}}</span>
             <div class="betValue" id="cuoc_chan" #cuoc_chan (click)="toggleButton(cuoc_chanElement)">Đặt cược</div>
           </div>
           <!-- Lẻ -->
@@ -41,7 +41,7 @@
               <span class="text" id="sum_people_le" #sum_people_le>298</span>
               <i class="fas fa-users icon icon-left"></i>
             </div>
-            <span id="sum_le" #sum_le class="number">1,670,134,097</span>
+            <span id="sum_le" #sum_le class="number">{{totalMoneyL}}</span>
             <div class="betValue" id="cuoc_le" #cuoc_le  (click)="toggleButton(cuoc_leElement)">Đặt cược</div>
           </div>
         </div>

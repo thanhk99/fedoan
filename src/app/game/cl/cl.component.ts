@@ -6,7 +6,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { WebSocketService } from '../../service/socket.service';
+import { userService } from '../../service/users.service';
 @Component({
   selector: 'app-cl',
   imports: [CommonModule],
@@ -31,18 +34,69 @@ export class ClComponent implements OnInit {
   offsetX: number = 0;
   offsetY: number = 0;
   initialPosition: { x: number; y: number } = { x: 0, y: 0 };
-
-  constructor() {}
+  //be
+  urlSocket:string = 'ws://192.168.1.191:8082/game/cl';
+  totalMoneyL=0
+  totalMoneyC=0
+  result :any
+  flagEnd=false
+  messages: any[] = [];
+  messageInput: string = '';
+  isConnected = false;
+  private messageSubscription !: Subscription;
+  private connectionSubscription !: Subscription;
+  constructor (private router:Router,
+    private socket:WebSocketService,
+    private userService: userService
+  ) { }
 
   ngOnInit(): void {
-    this.initialPosition = {
-      x: this.draggableElement.nativeElement.offsetLeft,
-      y: this.draggableElement.nativeElement.offsetTop,
-    };
-    this.startCountdown(15, this.countdownElement.nativeElement);
+      this.userService.getUser()
+      // Kết nối tới WebSocket
+      let username:any =this.userService.getNameCookies()
+      this.urlSocket +="?username="+username
+      this.socket.connect(this.urlSocket)
+      //Lắng nghe tin nhắn
+      this.messageSubscription = this.socket.getMessages().subscribe(
+        messageData => { 
+          if (messageData.url === this.urlSocket) {
+              if(!this.isConnected){
+              this.isConnected = true;
+              this.startCountdown(messageData.message,this.countdownElement.nativeElement)
+            }
+            if( messageData.message === 'start'){
+              this.startCountdown(14, this.countdownElement.nativeElement);
+            }
+            if(messageData.message === 'end'){
+              this.flagEnd=true
+            }
+            else if (this.flagEnd){
+              this.result=messageData.message
+              this.flagEnd=false
+             this.rollDice(this.result);
+            }
+            console.log("Received message:", messageData.message);
+            this.messages.push(messageData.message);
+          }
+        }
+      );
+  
+      // Theo dõi trạng thái kết nối
+      this.connectionSubscription = this.socket.getConnectionStatus().subscribe(
+        status => {
+        }
+      );
+      this.initialPosition = {
+        x: this.draggableElement.nativeElement.offsetLeft,
+        y: this.draggableElement.nativeElement.offsetTop,
+      };
+      
   }
 
   startCountdown(duration: number, display: HTMLElement): void {
+    this.resetPosition();
+    this.chanElement.nativeElement.classList.remove('blink-animation');
+    this.leElement.nativeElement.classList.remove('blink-animation');
     this.isCountingDown = true;
     this.draggableElement.nativeElement.classList.add('disabled');
 
@@ -59,11 +113,6 @@ export class ClComponent implements OnInit {
         clearInterval(interval);
         this.isCountingDown = false;
         this.draggableElement.nativeElement.classList.remove('disabled');
-        this.randomDice();
-        setTimeout(() => {
-          this.startCountdown(duration, display);
-          this.resetPosition();
-        }, 15000);
       }
     }, 1000);
   }
@@ -152,26 +201,12 @@ export class ClComponent implements OnInit {
       timing
     );
     diceAnimation.addEventListener('finish', () => {
-      console.log('Animation finished');
       if (random % 2 === 0) {
         this.chanElement.nativeElement.classList.add('blink-animation');
-        setTimeout(() => {
-          this.chanElement.nativeElement.classList.remove('blink-animation');
-        }, 10000);
       } else {
         this.leElement.nativeElement.classList.add('blink-animation');
-
-        setTimeout(() => {
-          this.leElement.nativeElement.classList.remove('blink-animation');
-        }, 10000);
       }
     });
-  }
-
-  randomDice(): void {
-    const random = Math.floor(Math.random() * 6) + 1;
-    console.log('Kết quả xúc xắc:', random);
-    this.rollDice(random);
   }
   //Xử lý logic button cược
   private hiddenButton: ElementRef<HTMLButtonElement> | null = null;

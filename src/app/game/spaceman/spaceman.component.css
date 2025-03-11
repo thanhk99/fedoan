@@ -1,0 +1,469 @@
+.spaceman-container {
+    display: flex;
+    position: relative;
+    background-image:url("http://localhost:4200/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat-x;
+    /* top: 4.5rem;
+    left: 10%; */
+    width: 100%;
+    height: 37rem;
+    /* border-radius: 10px; */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    gap: 1rem;
+    flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+    align-items: center; /* Căn giữa các phần tử theo chiều ngang */
+    box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước phần tử */
+
+}
+
+@keyframes backgroundMove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.spaceman-container.move {
+    animation: backgroundMove 3s linear forwards;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between; /* Căn chỉnh các phần tử sang hai bên */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px 10px 0 0; /* Bo góc trên trái và phải */
+}
+
+.title {
+    flex: 1; /* Chiếm không gian còn lại */
+    text-align: left; /* Căn chỉnh văn bản sang bên trái */
+    color: white; /* Màu chữ */
+    position: relative;
+    font-size: 1rem;
+    display: flex;
+    gap:1%;
+
+}
+
+.exit {
+    flex: 0; /* Không chiếm thêm không gian */
+
+}
+
+
+.btn-exit {
+    background-color: #ff4d4d; /* Màu nền cho nút thoát */
+    color: white; /* Màu chữ */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    opacity: 0.5;
+}
+
+.btn-exit:hover {
+    background-color: #ff1a1a; /* Màu nền khi hover */
+    opacity: 1;
+}
+.btn-exit:active {
+    background-color: #ff1a1a; /* Màu nền khi click */
+    transform: scale(0.95); /* Phóng to nút thoát khi click */
+}
+.bet-btn:focus {
+    background-color: #ff1a1a; /* Màu nền khi click */
+}
+.btn-exit li {
+    list-style: none; /* Loại bỏ dấu chấm của thẻ li */
+    margin: 0;
+    padding: 0;
+}
+
+.btn-exit a {
+    color: white; /* Màu chữ của liên kết */
+    text-decoration: none; /* Loại bỏ gạch chân của liên kết */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-exit svg {
+    width: 24px; /* Đặt chiều rộng của biểu tượng SVG */
+    height: 24px; /* Đặt chiều cao của biểu tượng SVG */
+    fill: white; /* Màu của biểu tượng SVG */
+}
+.content {
+    flex: 1 1 auto; /* Chiếm không gian còn lại */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+.spaceship{
+    background-image: url("http://localhost:4200/diabay.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 10rem;
+    height: 10rem;
+    margin-top: 5rem;
+    position: absolute; /* Đặt vị trí tuyệt đối để có thể xoay tròn */
+    top: 0; /* Đặt trên đầu của spaceman */
+    animation: flyUpDown 3s ease-in-out infinite; /* Tạo hiệu ứng bay lên và bay xuống */
+}
+.light {
+    position: absolute;
+    top: 10rem; /* Điều chỉnh vị trí để ánh sáng bắt đầu từ đĩa bay */
+    width: 0;
+    height: 0;
+    border-left: 5rem solid transparent;
+    border-right: 5rem solid transparent;
+    border-top: 10rem solid rgba(255, 0, 0, 0.5); /* Màu đỏ với độ mờ */
+    z-index: -1; /* Đặt ánh sáng phía sau phi hành gia */
+    animation: lightEffect 3s ease-in-out infinite; /* Tạo hiệu ứng ánh sáng */
+}
+.spaceman{
+    background-image: url("http://localhost:4200/phg-removebg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 10rem;
+    height: 10rem;
+    align-items: center;
+    position: relative; /* Đặt vị trí tương đối để spaceship có thể đặt trên đầu */
+    display: flex;
+    margin-top: 10rem;
+    justify-content: center;
+    align-items: center;
+    animation: flyUpDown 3s ease-in-out infinite; /* Tạo hiệu ứng bay lên và bay xuống */
+}
+@keyframes flyUpDown {
+    0%, 100% {
+        transform: translateY(0); /* Vị trí ban đầu */
+    }
+    50% {
+        transform: translateY(-20px); /* Bay lên 20px */
+    }
+}
+@keyframes lightEffect {
+    0%, 100% {
+        opacity: 0.5; /* Độ mờ ban đầu */
+    }
+    50% {
+        opacity: 1; /* Độ mờ khi ánh sáng mạnh nhất */
+    }
+}
+@keyframes flyAway {
+    0% {
+        transform: translate(-50%, 0) rotate(0deg);
+      }
+      50% {
+        transform: translate(-50%, -20px) rotate(-5deg);
+      }
+      100% {
+        transform: translate(-50%, 0) rotate(5deg);
+      }
+}
+
+.spaceman.fly {
+    animation: flyAway 3s ease-in-out forwards;
+}
+.fly{
+    background-image: url("http://localhost:4200/phgbay.png"); /* Đường dẫn đến hình ảnh mặt trăng */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 15rem;
+    height: 15rem;
+    position: absolute;
+    top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.moon {
+    background-image: url("http://localhost:4200/moon.png"); /* Đường dẫn đến hình ảnh mặt trăng */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 10rem;
+    height: 10rem;
+    position: absolute;
+    top: 0;
+}
+.countdown {
+    position: fixed; /* Đặt vị trí cố định */
+    top: 40%; /* Căn giữa theo chiều dọc */
+    left: 50%; /* Căn giữa theo chiều ngang */
+    transform: translate(-50%, -50%); /* Dịch chuyển để căn giữa chính xác */
+    font-size: 5rem; /* Kích thước chữ lớn hơn */
+    color: white; /* Màu chữ */
+    padding: 10px 20px; /* Thêm khoảng cách bên trong */
+    border-radius: 10px; /* Bo góc */
+    z-index: 1000; /* Đảm bảo hiển thị trên cùng */
+    animation: countdown 5s steps(5) forwards; 
+}
+
+@keyframes countdown {
+    0% {
+        content: "Bắt đầu sau : 5";
+        opacity: 1;
+    }
+    20% {
+        content: "5";
+        opacity: 0;
+    }
+    20.1% {
+        content: "Bắt đầu sau : 4";
+        opacity: 1;
+    }
+    40% {
+        content: "4";
+        opacity: 0;
+    }
+    40.1% {
+        content: "Bắt đầu sau : 3";
+        opacity: 1;
+    }
+    60% {
+        content: "Bắt đầu sau : 3";
+        opacity: 0;
+    }
+    60.1% {
+        content: "Bắt đầu sau : 2";
+        opacity: 1;
+    }
+    80% {
+        content: "2";
+        opacity: 0;
+    }
+    80.1% {
+        content: "Bắt đầu sau : 1";
+        opacity: 1;
+    }
+    100% {
+        content: "1";
+        opacity: 0;
+    }
+}
+
+.footer {
+    flex: 0 1 auto; /* Chiếm không gian vừa đủ cho nội dung */
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    
+}
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.footer-left{
+    color: white;
+    background-color: #3b0060;
+    border-radius: 10px;
+    margin-bottom: 2%;
+}
+.footer-center{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2%;
+}
+.option1 , .option2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.1rem;
+    margin-top: 3%;
+}
+
+.toggle {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    background: #555;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.toggle .circle {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+.toggle.active {
+    background: #00ff7b;
+}
+
+.toggle.active .circle {
+    transform: translateX(20px);
+}
+
+.text {
+    flex: 1;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.arrow:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.value {
+    font-size: 16px;
+    font-weight: bold;
+}
+.bet-container {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(180deg, #5a0080, #300040);
+    padding: 15px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.bet-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 10px;
+}
+
+.bet-btn {
+    background: rgba(50, 0, 90, 0.8);
+    border: 2px solid #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    min-width: 60px;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+.bet-btn:hover {
+    background: rgb(27, 148, 3);
+}
+.bet-btn:active {
+    background: rgb(27, 148, 3);
+    transform: scale(0.95);
+    box-shadow: #00ff7b;
+}
+.bet-btn:focus {
+    background: rgb(27, 148, 3);
+}
+.btn-choice{
+    background: linear-gradient(180deg, #5a0080, #300040);
+    border: 2px solid #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    min-width: 60px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin: 0 auto;
+}
+.btn-choice:hover {
+    background: rgb(27, 148, 3);
+}
+.btn-choice:active {
+    background: rgb(27, 148, 3);
+    transform: scale(0.95);
+    box-shadow: #00ff7b;
+}
+.arrow {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.arrow:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.balance {
+    font-size: 18px;
+    color: white;
+    display: inline-block;
+    margin-left: 1%;
+  }
+
+.sumbet{
+    font-size: 18px;
+    color: white;
+    display: inline-block;
+    margin-left: 1%;
+}
+  
+
+.btn-withdraw, .btn-withdraw-50 {
+    background-color: #4CAF50; /* Màu nền */
+    color: white; /* Màu chữ */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px; /* Khoảng cách giữa các nút */
+}
+
+.btn-withdraw:hover, .btn-withdraw-50:hover {
+    background-color: #45a049; /* Màu nền khi hover */
+}
+
+.withdraw-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

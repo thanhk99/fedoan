@@ -6,6 +6,8 @@ import { FriendComponent } from './friend/friend.component';
 import { MessageComponent } from './message/message.component';
 import { ClComponent } from './game/cl/cl.component';
 import { RrComponent } from './game/rr/rr.component';
+import{ SpacemanComponent } from './game/spaceman/spaceman.component';
+
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
@@ -15,5 +17,5 @@ export const routes: Routes = [
   { path: 'message', component: MessageComponent },
   { path: 'game/cl', component: ClComponent },
   {path: 'game/rr', component: RrComponent},
-  
+  {path:'game/spaceman',component:SpacemanComponent},
 ];
