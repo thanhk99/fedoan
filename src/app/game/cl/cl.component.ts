@@ -60,8 +60,10 @@ export class ClComponent implements OnInit {
         this.isCountingDown = false;
         this.draggableElement.nativeElement.classList.remove('disabled');
         this.randomDice();
+        this.updateRandomNumbers();
         setTimeout(() => {
           this.startCountdown(duration, display);
+          // this.shiftAndAddNewNumber();
           this.resetPosition();
         }, 15000);
       }
@@ -168,12 +170,14 @@ export class ClComponent implements OnInit {
     });
   }
 
-  randomDice(): void {
+  randomDice(): number {
     const random = Math.floor(Math.random() * 6) + 1;
     console.log('Kết quả xúc xắc:', random);
     this.rollDice(random);
+    return random;
   }
   //Xử lý logic button cược
+
   private hiddenButton: ElementRef<HTMLButtonElement> | null = null;
   isOptions: boolean = false;
   toggleButton(button: ElementRef<HTMLButtonElement>) {
@@ -184,14 +188,14 @@ export class ClComponent implements OnInit {
 
     // Hiện lại button đang ẩn (nếu có)
     if (this.hiddenButton) {
-      this.hiddenButton.nativeElement.textContent="Đặt cược";
+      this.hiddenButton.nativeElement.classList.remove('hidden');
       console.log(
         `Button "${this.hiddenButton.nativeElement.id}" is now visible!`
       );
     }
 
     // Ẩn button được click
-    button.nativeElement.textContent="0"
+    button.nativeElement.classList.add('hidden');
     console.log(`Button "${button.nativeElement.id}" is now hidden!`);
 
     // Lưu trữ button đang ẩn
@@ -199,50 +203,68 @@ export class ClComponent implements OnInit {
     this.isOptions = true;
     let currentBet = 0;
     if (this.hiddenButton && this.hiddenButton.nativeElement.id === 'cuoc_le') {
-
+      function updateBetValue(amount: number): void {
+        const betValueElement = document.getElementById('betvalue_le');
+        if (betValueElement) {
+          currentBet += amount;
+          betValueElement.innerText = currentBet.toString();
+        }
+      }
     }
   }
   cancelCuoc() {
     if (this.hiddenButton) {
-      this.hiddenButton.nativeElement.textContent="Đặt cược"
+      this.hiddenButton.nativeElement.classList.remove('hidden');
       this.hiddenButton = null;
       this.isOptions = false;
     }
   }
+  updateRandomNumbers(): void {
+    const randomNumbers: number[] = [];
+    for (let i = 0; i < 10; i++) {
+      randomNumbers.push(this.randomDice());
+    }
 
-  updateBetValue(amount: number): void {
-    const doorBet =this.hiddenButton?.nativeElement
-    let tempBet:any
-    tempBet=doorBet?.textContent
-    let currentBet=parseInt(tempBet,10)
-    if (doorBet) {
-      currentBet += amount;
-      doorBet.innerHTML = currentBet.toString();
-    } else {
-      console.error("Element with ID 'bet-value' not found!");
+    for (let i = 10; i >= 1; i--) {
+      const circleElement: HTMLElement | null = document.getElementById(
+        `circle-${i}`
+      );
+      if (circleElement) {
+        const randomNumber: number = randomNumbers[10 - i];
+        circleElement.textContent = randomNumber.toString();
+        if (randomNumber % 2 === 0) {
+          circleElement.classList.add('black');
+          circleElement.classList.remove('white');
+        } else {
+          circleElement.classList.add('white');
+          circleElement.classList.remove('black');
+        }
+      }
     }
   }
+  shiftAndAddNewNumber(): void {
+    for (let i = 10; i > 1; i--) {
+      const currentCircle: HTMLElement | null = document.getElementById(
+        `circle-${i}`
+      );
+      const previousCircle: HTMLElement | null = document.getElementById(
+        `circle-${i - 1}`
+      );
+      if (currentCircle && previousCircle) {
+        currentCircle.textContent = previousCircle.textContent;
+        currentCircle.className = previousCircle.className;
+      }
+    }
 
-  // allIn(): void {
-  //   // Assuming all-in means setting the bet to a maximum value, e.g., 100M
-  //   let currentBet = 0;
-  //   currentBet = 100000000;
-  //   const betValueElement = document.getElementById('bet-value');
-  //   if (betValueElement) {
-  //     betValueElement.innerText = currentBet.toString();
-  //   } else {
-  //     console.error("Element with ID 'bet-value' not found!");
-  //   }
-  // }
-
-  // resetBet(): void {
-  //   let currentBet = 0;
-  //   currentBet = 0;
-  //   const betValueElement = document.getElementById('bet-value');
-  //   if (betValueElement) {
-  //     betValueElement.innerText = currentBet.toString();
-  //   } else {
-  //     console.error("Element with ID 'bet-value' not found!");
-  //   }
-  // }
+    const newCircle: HTMLElement | null = document.getElementById('circle-1');
+    if (newCircle) {
+      const newRandomNumber: number = this.randomDice();
+      newCircle.textContent = newRandomNumber.toString();
+      if (newRandomNumber % 2 === 0) {
+        newCircle.className = 'circle black';
+      } else {
+        newCircle.className = 'circle white';
+      }
+    }
+  }
 }
