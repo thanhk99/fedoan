@@ -6,7 +6,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { WebSocketService } from '../../service/socket.service';
+import { userService } from '../../service/users.service';
 @Component({
   selector: 'app-cl',
   imports: [CommonModule],
@@ -31,18 +34,70 @@ export class ClComponent implements OnInit {
   offsetX: number = 0;
   offsetY: number = 0;
   initialPosition: { x: number; y: number } = { x: 0, y: 0 };
-
-  constructor() {}
+  //be
+  urlSocket: string = 'ws://192.168.1.191:8082/game/cl';
+  totalMoneyL = 0;
+  totalMoneyC = 0;
+  result: any;
+  flagEnd = false;
+  messages: any[] = [];
+  messageInput: string = '';
+  isConnected = false;
+  private messageSubscription!: Subscription;
+  private connectionSubscription!: Subscription;
+  constructor(
+    private router: Router,
+    private socket: WebSocketService,
+    private userService: userService
+  ) {}
 
   ngOnInit(): void {
+    this.userService.getUser();
+    // Kết nối tới WebSocket
+    let username: any = this.userService.getNameCookies();
+    this.urlSocket += '?username=' + username;
+    this.socket.connect(this.urlSocket);
+    //Lắng nghe tin nhắn
+    this.messageSubscription = this.socket
+      .getMessages()
+      .subscribe((messageData) => {
+        if (messageData.url === this.urlSocket) {
+          if (!this.isConnected) {
+            this.isConnected = true;
+            this.startCountdown(
+              messageData.message,
+              this.countdownElement.nativeElement
+            );
+          }
+          if (messageData.message === 'start') {
+            this.startCountdown(14, this.countdownElement.nativeElement);
+          }
+          if (messageData.message === 'end') {
+            this.flagEnd = true;
+          } else if (this.flagEnd) {
+            this.result = messageData.message;
+            this.flagEnd = false;
+            this.rollDice(this.result);
+          }
+          console.log('Received message:', messageData.message);
+          this.messages.push(messageData.message);
+        }
+      });
+
+    // Theo dõi trạng thái kết nối
+    this.connectionSubscription = this.socket
+      .getConnectionStatus()
+      .subscribe((status) => {});
     this.initialPosition = {
       x: this.draggableElement.nativeElement.offsetLeft,
       y: this.draggableElement.nativeElement.offsetTop,
     };
-    this.startCountdown(15, this.countdownElement.nativeElement);
   }
 
   startCountdown(duration: number, display: HTMLElement): void {
+    this.resetPosition();
+    this.chanElement.nativeElement.classList.remove('blink-animation');
+    this.leElement.nativeElement.classList.remove('blink-animation');
     this.isCountingDown = true;
     this.draggableElement.nativeElement.classList.add('disabled');
 
@@ -59,13 +114,6 @@ export class ClComponent implements OnInit {
         clearInterval(interval);
         this.isCountingDown = false;
         this.draggableElement.nativeElement.classList.remove('disabled');
-        this.randomDice();
-        this.updateRandomNumbers();
-        setTimeout(() => {
-          this.startCountdown(duration, display);
-          // this.shiftAndAddNewNumber();
-          this.resetPosition();
-        }, 15000);
       }
     }, 1000);
   }
@@ -154,30 +202,14 @@ export class ClComponent implements OnInit {
       timing
     );
     diceAnimation.addEventListener('finish', () => {
-      console.log('Animation finished');
       if (random % 2 === 0) {
         this.chanElement.nativeElement.classList.add('blink-animation');
-        setTimeout(() => {
-          this.chanElement.nativeElement.classList.remove('blink-animation');
-        }, 10000);
       } else {
         this.leElement.nativeElement.classList.add('blink-animation');
-
-        setTimeout(() => {
-          this.leElement.nativeElement.classList.remove('blink-animation');
-        }, 10000);
       }
     });
   }
-
-  randomDice(): number {
-    const random = Math.floor(Math.random() * 6) + 1;
-    console.log('Kết quả xúc xắc:', random);
-    this.rollDice(random);
-    return random;
-  }
   //Xử lý logic button cược
-
   private hiddenButton: ElementRef<HTMLButtonElement> | null = null;
   isOptions: boolean = false;
   toggleButton(button: ElementRef<HTMLButtonElement>) {
@@ -188,14 +220,14 @@ export class ClComponent implements OnInit {
 
     // Hiện lại button đang ẩn (nếu có)
     if (this.hiddenButton) {
-      this.hiddenButton.nativeElement.classList.remove('hidden');
+      this.hiddenButton.nativeElement.textContent = 'Đặt cược';
       console.log(
         `Button "${this.hiddenButton.nativeElement.id}" is now visible!`
       );
     }
 
     // Ẩn button được click
-    button.nativeElement.classList.add('hidden');
+    button.nativeElement.textContent = '0';
     console.log(`Button "${button.nativeElement.id}" is now hidden!`);
 
     // Lưu trữ button đang ẩn
@@ -203,68 +235,49 @@ export class ClComponent implements OnInit {
     this.isOptions = true;
     let currentBet = 0;
     if (this.hiddenButton && this.hiddenButton.nativeElement.id === 'cuoc_le') {
-      function updateBetValue(amount: number): void {
-        const betValueElement = document.getElementById('betvalue_le');
-        if (betValueElement) {
-          currentBet += amount;
-          betValueElement.innerText = currentBet.toString();
-        }
-      }
     }
   }
   cancelCuoc() {
     if (this.hiddenButton) {
-      this.hiddenButton.nativeElement.classList.remove('hidden');
+      this.hiddenButton.nativeElement.textContent = 'Đặt cược';
       this.hiddenButton = null;
       this.isOptions = false;
     }
   }
-  updateRandomNumbers(): void {
-    const randomNumbers: number[] = [];
-    for (let i = 0; i < 10; i++) {
-      randomNumbers.push(this.randomDice());
-    }
 
-    for (let i = 10; i >= 1; i--) {
-      const circleElement: HTMLElement | null = document.getElementById(
-        `circle-${i}`
-      );
-      if (circleElement) {
-        const randomNumber: number = randomNumbers[10 - i];
-        circleElement.textContent = randomNumber.toString();
-        if (randomNumber % 2 === 0) {
-          circleElement.classList.add('black');
-          circleElement.classList.remove('white');
-        } else {
-          circleElement.classList.add('white');
-          circleElement.classList.remove('black');
-        }
-      }
+  updateBetValue(amount: number): void {
+    const doorBet = this.hiddenButton?.nativeElement;
+    let tempBet: any;
+    tempBet = doorBet?.textContent;
+    let currentBet = parseInt(tempBet, 10);
+    if (doorBet) {
+      currentBet += amount;
+      doorBet.innerHTML = currentBet.toString();
+    } else {
+      console.error("Element with ID 'bet-value' not found!");
     }
   }
-  shiftAndAddNewNumber(): void {
-    for (let i = 10; i > 1; i--) {
-      const currentCircle: HTMLElement | null = document.getElementById(
-        `circle-${i}`
-      );
-      const previousCircle: HTMLElement | null = document.getElementById(
-        `circle-${i - 1}`
-      );
-      if (currentCircle && previousCircle) {
-        currentCircle.textContent = previousCircle.textContent;
-        currentCircle.className = previousCircle.className;
-      }
-    }
 
-    const newCircle: HTMLElement | null = document.getElementById('circle-1');
-    if (newCircle) {
-      const newRandomNumber: number = this.randomDice();
-      newCircle.textContent = newRandomNumber.toString();
-      if (newRandomNumber % 2 === 0) {
-        newCircle.className = 'circle black';
-      } else {
-        newCircle.className = 'circle white';
-      }
-    }
-  }
+  // allIn(): void {
+  //   // Assuming all-in means setting the bet to a maximum value, e.g., 100M
+  //   let currentBet = 0;
+  //   currentBet = 100000000;
+  //   const betValueElement = document.getElementById('bet-value');
+  //   if (betValueElement) {
+  //     betValueElement.innerText = currentBet.toString();
+  //   } else {
+  //     console.error("Element with ID 'bet-value' not found!");
+  //   }
+  // }
+
+  // resetBet(): void {
+  //   let currentBet = 0;
+  //   currentBet = 0;
+  //   const betValueElement = document.getElementById('bet-value');
+  //   if (betValueElement) {
+  //     betValueElement.innerText = currentBet.toString();
+  //   } else {
+  //     console.error("Element with ID 'bet-value' not found!");
+  //   }
+  // }
 }

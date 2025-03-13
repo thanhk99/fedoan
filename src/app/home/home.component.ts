@@ -24,28 +24,6 @@ export class HomeComponent implements OnInit {
     private userService: userService
   ) { }
     ngOnInit() {
-      this.userService.getUser()
-      // Kết nối tới WebSocket
-      let username:any =this.userService.getNameCookies()
-      this.urlSocket +="?username="+username
-      this.socket.connect(this.urlSocket)
-      //Lắng nghe tin nhắn
-      this.messageSubscription = this.socket.getMessages().subscribe(
-        messageData => {
-          if (messageData.url === this.urlSocket) {
-            this.messages.push(messageData.message);
-          }
-        }
-      );
-  
-      // Theo dõi trạng thái kết nối
-      this.connectionSubscription = this.socket.getConnectionStatus().subscribe(
-        status => {
-          this.isConnected = status[this.urlSocket] || false;
-          if (this.isConnected) {
-            this.socket.sendMessage(this.urlSocket, "Hello");
-          }
-        }
-      );
+
     }
 }
