@@ -24,6 +24,8 @@ export class ClComponent implements OnInit {
   @ViewChild('le', { static: true }) leElement!: ElementRef;
   @ViewChild('cuoc_chan', { static: true }) cuoc_chanElement!: ElementRef;
   @ViewChild('cuoc_le', { static: true }) cuoc_leElement!: ElementRef;
+  @ViewChild('sum_le', { static: true }) sumBet_le!: ElementRef;
+  @ViewChild('sum_chan', { static: true }) sumBet_chan!: ElementRef;
   @ViewChild('betvalua_chan', { static: true })
   betvalua_chanElement!: ElementRef;
   @ViewChild('betvalua_le', { static: true })
@@ -35,7 +37,7 @@ export class ClComponent implements OnInit {
   offsetY: number = 0;
   initialPosition: { x: number; y: number } = { x: 0, y: 0 };
   //be
-  urlSocket: string = 'ws://192.168.1.191:8082/game/cl';
+  urlSocket: string = 'ws://localhost:8082/game/cl';
   totalMoneyL = 0;
   totalMoneyC = 0;
   result: any;
@@ -79,7 +81,14 @@ export class ClComponent implements OnInit {
             this.flagEnd = false;
             this.rollDice(this.result);
           }
-          console.log('Received message:', messageData.message);
+          if (messageData.message.starsWith('money')) {
+            const parts = messageData.message.substring(5).split(':');
+            if (parts.length === 2) {
+              const totalMoneyC = parseInt(parts[0], 10);
+              const totalMoneyL = parseInt(parts[1], 10);
+              console.log(totalMoneyL, totalMoneyC);
+            }
+          }
           this.messages.push(messageData.message);
         }
       });
@@ -98,6 +107,7 @@ export class ClComponent implements OnInit {
     this.resetPosition();
     this.chanElement.nativeElement.classList.remove('blink-animation');
     this.leElement.nativeElement.classList.remove('blink-animation');
+    this.resetBet();
     this.isCountingDown = true;
     this.draggableElement.nativeElement.classList.add('disabled');
 
@@ -211,31 +221,27 @@ export class ClComponent implements OnInit {
   }
   //Xử lý logic button cược
   private hiddenButton: ElementRef<HTMLButtonElement> | null = null;
+  private sumBetElement: ElementRef<HTMLSpanElement> | null = null;
   isOptions: boolean = false;
-  toggleButton(button: ElementRef<HTMLButtonElement>) {
+  toggleButton(
+    button: ElementRef<HTMLButtonElement>,
+    sum: ElementRef<HTMLSpanElement>
+  ) {
+    this.sumBetElement = sum;
     if (this.hiddenButton === button) {
-      // Nếu button đang được click đã ẩn, không làm gì cả
       return;
     }
 
     // Hiện lại button đang ẩn (nếu có)
     if (this.hiddenButton) {
       this.hiddenButton.nativeElement.textContent = 'Đặt cược';
-      console.log(
-        `Button "${this.hiddenButton.nativeElement.id}" is now visible!`
-      );
     }
 
     // Ẩn button được click
     button.nativeElement.textContent = '0';
-    console.log(`Button "${button.nativeElement.id}" is now hidden!`);
-
     // Lưu trữ button đang ẩn
     this.hiddenButton = button;
     this.isOptions = true;
-    let currentBet = 0;
-    if (this.hiddenButton && this.hiddenButton.nativeElement.id === 'cuoc_le') {
-    }
   }
   cancelCuoc() {
     if (this.hiddenButton) {
@@ -258,6 +264,21 @@ export class ClComponent implements OnInit {
     }
   }
 
+  bet() {
+    if (this.hiddenButton && this.sumBetElement) {
+      let tempSum: any;
+      let tempBet: any;
+      tempSum = this.sumBetElement.nativeElement.textContent;
+      tempBet = this.hiddenButton.nativeElement.textContent;
+      console.log(tempSum, tempBet);
+      let Bet = parseInt(tempBet, 10);
+      let Sum = parseInt(tempSum, 10);
+      Sum += Bet;
+      this.sumBetElement.nativeElement.textContent = Sum.toString();
+      this.sendBet(this.hiddenButton.nativeElement.id, Bet);
+      this.cancelCuoc();
+    }
+  }
   // allIn(): void {
   //   // Assuming all-in means setting the bet to a maximum value, e.g., 100M
   //   let currentBet = 0;
@@ -270,14 +291,23 @@ export class ClComponent implements OnInit {
   //   }
   // }
 
-  // resetBet(): void {
-  //   let currentBet = 0;
-  //   currentBet = 0;
-  //   const betValueElement = document.getElementById('bet-value');
-  //   if (betValueElement) {
-  //     betValueElement.innerText = currentBet.toString();
-  //   } else {
-  //     console.error("Element with ID 'bet-value' not found!");
-  //   }
-  // }
+  resetBet() {
+    let sumC = document.getElementById('sum_chan');
+    let sumL = document.getElementById('sum_le');
+    if (sumC && sumL) {
+      sumC.textContent = '0';
+      sumL.textContent = '0';
+    }
+    this.cancelCuoc();
+  }
+  // websocket
+  sendBet(choice: string, money: any) {
+    let data = {
+      type: 'bet',
+      choice: choice,
+      money: money,
+    };
+    let jsonData = JSON.stringify(data);
+    this.socket.sendMessage(this.urlSocket, jsonData);
+  }
 }

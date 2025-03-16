@@ -7,6 +7,8 @@
   position: relative;
   top: 4.5rem;
   user-select: none;
+  width: 60%;
+  left: 20%;
 }
 .circle-bg {
   background-image: url("http://localhost:4200/pngtree-brown-wooden-texture-polished-vector-background-image_306870.jpg");
