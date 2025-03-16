@@ -21,9 +21,12 @@
     </div>
 
     <div class="history-container">
-        <div class="history-item" *ngFor="let item of history">
-          ------
+      <div class="history-list">
+        <div *ngFor="let record of history" class="history-item">
+          {{ record.winnings === 0 ? 0 : (record.winnings | number) }}
         </div>
+      </div>
+      <span class="arrow">►</span>
     </div>
 
     <div class="game-container">

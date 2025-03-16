@@ -147,6 +147,11 @@ export class RrComponent {
             this.initializeGrid();
           }, 1000);
         }, 500);
+        // Thêm vào lịch sử chơi
+        this.history.unshift({ bet: this.betAmount, winnings: 0 });
+          if (this.history.length > 10) {
+          this.history.pop();
+        }
       }
     }
   }
@@ -220,4 +225,5 @@ export class RrComponent {
     return array.sort(() => Math.random() - 0.5);
   }
   
+
 }
