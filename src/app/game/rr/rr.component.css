@@ -6,8 +6,8 @@ body{
     top: 4.5rem;
     left: 15%;
     width: 70%;
-    height: 29rem;
-
+    height: 30rem;
+    
 }
 
 .rr-header {
@@ -201,7 +201,7 @@ body{
     border-radius: 5px;
     user-select: none;
     
-    /* Thêm hiệu ứng lật */
+    /*hiệu ứng lật */
     transform-style: preserve-3d;
     transition: transform 0.6s ease-in-out;
     position: relative;
@@ -229,12 +229,12 @@ body{
     justify-content: center;
 }
 
-/* Mặt sau của ô (hiển thị khi lật) */
+/* Mặt sau của ô */
 .grid-cell .back {
     transform: rotateY(180deg);
 }
 
-/* Khi ô được mở, đổi màu nền theo loại */
+/* Đổi màu nền theo loại */
 .grid-cell.revealed.diamond .back {
     background-color: rgba(32, 32, 28, 0.76) !important;
 }
@@ -242,3 +242,72 @@ body{
 .grid-cell.revealed.bomb .back {
     background-color: rgba(238, 54, 54, 0.712) !important;
 }
+
+.game-interface {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    width: 27rem;
+    margin: 0 auto;
+    margin-top: 1.5rem;
+  }
+  
+  /* Hệ số nhân */
+  .multipliers {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .multipliers button {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  
+  .multipliers button.active {
+    background: gold;
+  }
+  
+  /* Điều chỉnh tiền cược và số bom */
+  .bet-settings {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .bet-settings button {
+    background: #555;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  /* Nút chọn tự động và nhận tiền */
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .actions button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .actions button.cashout {
+    background: gold;
+    color: black;
+  }

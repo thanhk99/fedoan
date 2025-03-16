@@ -32,9 +32,6 @@
           <div class="progress-fill" [style.height.%]="diamondProgress"></div>
           <span class="progress-text">💎</span>
         </div>
-      
-        
-        
 
         <!-- Bảng chơi -->
         <div class="game-grid">
@@ -66,6 +63,42 @@
           <div class="progress-fill" [style.height.%]="bombProgress"></div>
           <span class="progress-text">💣</span>
         </div>
+    </div>
+
+    <div class="game-interface">
+      <!-- Hệ số nhân -->
+      <div class="multipliers">
+        <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex === 0"><</button>
+      
+        <div class="multiplier-list" [@slideAnimation]>
+          <button *ngFor="let multiplier of getVisibleMultipliers(); let i = index" 
+            [class.active]="multiplierIndex === i + currentMultiplierIndex">
+            {{ multiplier }}x
+          </button>
+        </div>
+      
+        <button (click)="nextMultipliers()" [disabled]="currentMultiplierIndex + 5 >= multipliers.length">></button>
       </div>
+    
+      <!-- Điều chỉnh tiền cược và số bom -->
+      <div class="bet-settings">
+        <button (click)="adjustBet('half')">1/2</button>
+        <span>Tổng số: {{ betAmount | number }}</span>
+        <button (click)="adjustBet('double')">X2</button>
+    
+        <span>Bom: {{ totalBombs }}</span>
+        <button (click)="changeBombs(-1)">-</button>
+        <button (click)="changeBombs(1)">+</button>
+      </div>
+    
+      <!-- Nút đặt cược -->
+      <div class="actions">
+        <button (click)="placeBet()">CƯỢC</button>
+        <button (click)="autoPick()">CHỌN TỰ ĐỘNG</button>
+        <button class="cashout" (click)="cashOut()">
+          Nhận Tiền <span>{{ lastWinning | number }}</span>
+        </button>
+      </div>
+    </div>
 
 </body>

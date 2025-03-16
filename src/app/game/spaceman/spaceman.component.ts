@@ -1,43 +1,37 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import{Router} from '@angular/router';
-import {Howl} from 'howler';
-
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-spaceman',
   imports: [CommonModule, FormsModule],
   templateUrl: './spaceman.component.html',
-  styleUrls: ['./spaceman.component.css']
-  
+  styleUrls: ['./spaceman.component.css'],
 })
 export class SpacemanComponent {
-
   @Input() label1: string = 'Tùy chọn rút tiền';
-  @Input() label2: string = 'Tùy chọn rút tiền 50%'
-  @Input() defaultValue1: number = 2.00;
-  @Input() defaultValue2: number = 1.50;
+  @Input() label2: string = 'Tùy chọn rút tiền 50%';
+  @Input() defaultValue1: number = 2.0;
+  @Input() defaultValue2: number = 1.5;
 
-  constructor() {
-  }
+  constructor() {}
 
   isActive: boolean = false;
-  isActive1:boolean = false;
-  isActive2:boolean = false;
-  bet:boolean = false;
+  isActive1: boolean = false;
+  isActive2: boolean = false;
+  bet: boolean = false;
   selectedBet: number | null = null;
   value1: number = this.defaultValue1;
   value2: number = this.defaultValue2;
   value: number = 10000000000000;
-  sumbet:number = 0;
+  sumbet: number = 0;
   router: any;
-  betButton:string = 'Đặt cược';
-  countdown : number = 0;
-  isMoon : boolean = false;
-  isFlying : boolean = false;
-  isMoving : boolean = false;
+  betButton: string = 'Đặt cược';
+  countdown: number = 0;
+  isMoon: boolean = false;
+  isFlying: boolean = false;
+  isMoving: boolean = false;
   showWithdrawButtons: boolean = false;
 
   toggleSwitch() {
@@ -48,15 +42,15 @@ export class SpacemanComponent {
   }
 
   changeValue(step: number) {
-    this.value1 = Math.max(1.00, parseFloat((this.value1 + step).toFixed(2))); // Giới hạn min 1.00
-    
+    this.value1 = Math.max(1.0, parseFloat((this.value1 + step).toFixed(2))); // Giới hạn min 1.00
   }
   changeValue1(step: number) {
-    this.value2 = Math.max(1.00, parseFloat((this.value2 + step).toFixed(2))); // Giới hạn min 1.00
-    
+    this.value2 = Math.max(1.0, parseFloat((this.value2 + step).toFixed(2))); // Giới hạn min 1.00
   }
 
-  betAmounts: number[] = [5000, 25000, 50000, 125000, 250000, 500000, 1000000, 2500000];
+  betAmounts: number[] = [
+    5000, 25000, 50000, 125000, 250000, 500000, 1000000, 2500000,
+  ];
   startIndex: number = 0; // Chỉ mục bắt đầu hiển thị
 
   // Lấy danh sách 3 số hiển thị hiện tại
@@ -78,12 +72,13 @@ export class SpacemanComponent {
   selectBet(bet: number) {
     this.isActive2 = !this.isActive2;
     this.selectedBet = bet;
-  }betchoice() {
+  }
+  betchoice() {
     // let sound = new Audio('http://localhost:4200/NhacXoSo-VA_4512353.mp3');
     // sound.play();
     let audio = new Audio('mucsic.mp3');
     audio.load();
-  
+
     if (this.betButton === 'Hủy đặt cược') {
       const result = confirm('Bạn có chắc chắn muốn hủy đặt cược?');
       if (result) {
@@ -95,7 +90,7 @@ export class SpacemanComponent {
         return;
       }
     }
-  
+
     if (this.selectedBet !== null) {
       if (this.value > this.selectedBet) {
         this.value -= this.selectedBet;
@@ -110,12 +105,12 @@ export class SpacemanComponent {
       alert('Vui lòng chọn số tiền cược');
       return;
     }
-  
-  if(this.betButton === 'Đặt cược'){
-    this.betButton = 'Hủy đặt cược';
-    this.countdown = 5;
-  }
-  
+
+    if (this.betButton === 'Đặt cược') {
+      this.betButton = 'Hủy đặt cược';
+      this.countdown = 5;
+    }
+
     const countdownInterval = setInterval(() => {
       this.countdown--;
       if (this.countdown === 0) {
@@ -146,14 +141,12 @@ export class SpacemanComponent {
     alert('Bạn đã rút 50% tiền thành công');
   }
 
-  exit(){
-    const result = confirm("Bạn có chắc chắn muốn tiếp tục?");
-  if (result) {
-    this.router.navigate(['/home']);
-  } else {
-    this.router.navigate(['/game/spaceman']);
+  exit() {
+    const result = confirm('Bạn có chắc chắn muốn tiếp tục?');
+    if (result) {
+      this.router.navigate(['/home']);
+    } else {
+      this.router.navigate(['/game/spaceman']);
+    }
   }
-  }
-
-  
 }

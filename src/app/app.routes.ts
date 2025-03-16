@@ -9,7 +9,6 @@ import { RrComponent } from './game/rr/rr.component';
 import{ SpacemanComponent } from './game/spaceman/spaceman.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'user', component: UserComponent },
