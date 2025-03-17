@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { WebSocketService } from '../../service/socket.service';
 import { userService } from '../../service/users.service';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-cl',
   imports: [CommonModule],
@@ -37,7 +38,7 @@ export class ClComponent implements OnInit {
   offsetY: number = 0;
   initialPosition: { x: number; y: number } = { x: 0, y: 0 };
   //be
-  urlSocket: string = 'ws://192.168.1.191:8082/game/cl';
+  urlSocketCl: string = environment.urlSocketCl
   totalMoneyL = 0;
   totalMoneyC = 0;
   result: any;
@@ -56,14 +57,14 @@ export class ClComponent implements OnInit {
     this.userService.getUser();
     // Kết nối tới WebSocket
     let username: any = this.userService.getNameCookies();
-    this.urlSocket += '?username=' + username;
-    this.socket.connect(this.urlSocket);
+    this.urlSocketCl += '?username=' + username;
+    this.socket.connect(this.urlSocketCl);
     //Lắng nghe tin nhắn
     this.messageSubscription = this.socket
       .getMessages()
       .subscribe((messageData) => {
         const parsedMessage = JSON.parse(messageData.message);
-        if (messageData.url === this.urlSocket) {
+        if (messageData.url === this.urlSocketCl) {
           if (!this.isConnected) {
             this.isConnected = true;
             this.startCountdown(
@@ -310,6 +311,6 @@ export class ClComponent implements OnInit {
       money: money,
     };
     let jsonData = JSON.stringify(data);
-    this.socket.sendMessage(this.urlSocket, jsonData);
+    this.socket.sendMessage(this.urlSocketCl, jsonData);
   }
 }

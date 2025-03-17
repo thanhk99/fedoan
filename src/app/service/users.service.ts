@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service'
 import * as CryptoJS from 'crypto-js';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class userService {
-  private apiLogin= 'http://192.168.1.191:8082/user/login'; // Thay đổi URL cho phù hợp
-  private apiGetInfo= "http://localhost:8082/user/info"
-  private apiGetAtm="http://localhost:8082/user/atm"
+  private apiLogin= environment.apiLogin; 
+  private apiGetInfo= environment.apiGetInfo;
+  private apiGetAtm=environment.apiGetAtm;
   private username:any =''
   private keySecret :string ='anhthanhdz'
   constructor(private http: HttpClient,
