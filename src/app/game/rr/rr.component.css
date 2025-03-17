@@ -292,6 +292,13 @@ main{
   .multipliers button.active {
     background: gold;
   }
+
+  /* Làm mờ và khóa thanh hệ số */
+  .multipliers.disabled {
+    opacity: 0.5;
+    pointer-events: none; 
+    cursor: not-allowed;
+  }
   
   /* Điều chỉnh tiền cược và số bom */
   .bet-settings {
@@ -311,7 +318,16 @@ main{
     border-radius: 5px;
   }
   
-  .change-bet, .change-bombs {
+  .change-bet {
+    display: flex;
+    gap: 1rem;
+    color: white;
+    align-items: center;
+    background: #354347be;
+ 
+  }
+
+  .change-bombs{
     display: flex;
     gap: 1rem;
     color: white;
@@ -340,3 +356,10 @@ main{
     background: #61b8c4;
     color: white;
   }
+
+  button.action-btn:disabled {
+    opacity: 0.5; /* Làm tối nút */
+    cursor: not-allowed; 
+  }
+  
+  

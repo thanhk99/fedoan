@@ -70,7 +70,8 @@
 
     <div class="game-interface">
       <!-- Hệ số nhân -->
-      <div class="multipliers">
+      <div class="multipliers"
+          [class.disabled]="!gameStarted">
         <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex === 0"><</button>
       
         <div class="multiplier-list" [@slideAnimation]>
@@ -101,8 +102,15 @@
       <!-- Nút đặt cược -->
       <div class="actions">
         <button (click)="placeBet()">CƯỢC</button>
-        <button (click)="autoPick()">CHỌN TỰ ĐỘNG</button>
-        <button class="cashout" (click)="cashOut()">
+
+        <button (click)="autoPick()"
+                [disabled]="!gameStarted" 
+                class="action-btn"
+        >CHỌN TỰ ĐỘNG</button>
+
+        <button class="cashout" (click)="cashOut()"
+                [disabled]="!gameStarted || lastWinning === 0" 
+                class="action-btn cashout">
           Nhận Tiền <span>{{ lastWinning | number }}</span>
         </button>
       </div>
