@@ -52,7 +52,7 @@ export class WebSocketService {
     socket.onmessage = (event) => {
       try {
         const message = JSON.parse(event.data);
-        this.messagesSubject.next({ url, message });
+        this.messagesSubject.next({ url, message:event.data });
       } catch (error) {
         this.messagesSubject.next({ url, message: event.data });
       }

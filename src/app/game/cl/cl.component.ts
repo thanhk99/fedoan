@@ -41,7 +41,6 @@ export class ClComponent implements OnInit {
   totalMoneyL = 0;
   totalMoneyC = 0;
   result: any;
-  flagEnd = false;
   messages: any[] = [];
   messageInput: string = '';
   isConnected = false;
@@ -63,35 +62,38 @@ export class ClComponent implements OnInit {
     this.messageSubscription = this.socket
       .getMessages()
       .subscribe((messageData) => {
+        const parsedMessage = JSON.parse(messageData.message);
         if (messageData.url === this.urlSocket) {
           if (!this.isConnected) {
             this.isConnected = true;
             this.startCountdown(
-              messageData.message,
+              parsedMessage,
               this.countdownElement.nativeElement
             );
           }
-          if (messageData.message === 'start') {
-            this.startCountdown(14, this.countdownElement.nativeElement);
-          }
-          if (messageData.message === 'end') {
-            this.flagEnd = true;
-          } else if (this.flagEnd) {
-            this.result = messageData.message;
-            this.flagEnd = false;
-            this.rollDice(this.result);
-          }
-          if (messageData.message.starsWith('money')) {
-            const parts = messageData.message.substring(5).split(':');
-            if (parts.length === 2) {
-              const totalMoneyC = parseInt(parts[0], 10);
-              const totalMoneyL = parseInt(parts[1], 10);
-              console.log(totalMoneyL, totalMoneyC);
-            }
+          switch (parsedMessage.type) {
+            case 'start':
+              this.startCountdown(14, this.countdownElement.nativeElement);
+              break;
+            case 'end':
+              this.rollDice(Number(parsedMessage.message));
+              break;
+            case 'money':
+              const input: string = parsedMessage.message;
+              const parts: string[] = input.split(':');
+              const firstNumber: number = Number(parts[0]);
+              const secondNumber: number = Number(parts[1]);
+              this.sumBet_chan.nativeElement.textContent=firstNumber
+              this.sumBet_le.nativeElement.textContent=secondNumber
+              break;
+            case 'reward':
+              const reward: number = Number(parsedMessage.message);
+              console.log(reward)
           }
           this.messages.push(messageData.message);
         }
       });
+      
 
     // Theo dõi trạng thái kết nối
     this.connectionSubscription = this.socket
