@@ -1,4 +1,4 @@
-<body>
+<main>
     <div class="rr-header">
         <h1>MINES</h1>
         <div class="right-header">
@@ -71,7 +71,7 @@
     <div class="game-interface">
       <!-- Hệ số nhân -->
       <div class="multipliers">
-        <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex === 0"><</button>
+        <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex === 0"></button>
       
         <div class="multiplier-list" [@slideAnimation]>
           <button *ngFor="let multiplier of getVisibleMultipliers(); let i = index" 
@@ -85,13 +85,17 @@
     
       <!-- Điều chỉnh tiền cược và số bom -->
       <div class="bet-settings">
-        <button (click)="adjustBet('half')">1/2</button>
-        <span>Tổng số: {{ betAmount | number }}</span>
-        <button (click)="adjustBet('double')">X2</button>
-    
-        <span>Bom: {{ totalBombs }}</span>
-        <button (click)="changeBombs(-1)">-</button>
-        <button (click)="changeBombs(1)">+</button>
+        <div class="change-bet">
+          <button (click)="adjustBet('half')">1/2</button>
+          <span>Tổng số: {{ betAmount | number }}</span>
+          <button (click)="adjustBet('double')">X2</button>
+        </div>
+        
+        <div class="change-bombs">
+          <button (click)="changeBombs(-1)">-</button>
+          <span>Bom: {{ totalBombs }}</span>
+          <button (click)="changeBombs(1)">+</button>
+        </div>   
       </div>
     
       <!-- Nút đặt cược -->
@@ -104,4 +108,4 @@
       </div>
     </div>
 
-</body>
+  </main>

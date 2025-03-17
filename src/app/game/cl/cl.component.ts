@@ -37,7 +37,7 @@ export class ClComponent implements OnInit {
   offsetY: number = 0;
   initialPosition: { x: number; y: number } = { x: 0, y: 0 };
   //be
-  urlSocket: string = 'ws://localhost:8082/game/cl';
+  urlSocket: string = 'ws://192.168.1.191:8082/game/cl';
   totalMoneyL = 0;
   totalMoneyC = 0;
   result: any;
