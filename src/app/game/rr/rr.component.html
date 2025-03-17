@@ -71,7 +71,7 @@
     <div class="game-interface">
       <!-- Hệ số nhân -->
       <div class="multipliers">
-        <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex === 0"><</button>
+        <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex === 0"></button>
       
         <div class="multiplier-list" [@slideAnimation]>
           <button *ngFor="let multiplier of getVisibleMultipliers(); let i = index" 

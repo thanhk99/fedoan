@@ -7,7 +7,7 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root'
 })
 export class userService {
-  private apiLogin= 'http://localhost:8082/user/login'; // Thay đổi URL cho phù hợp
+  private apiLogin= 'http://192.168.1.191:8082/user/login'; // Thay đổi URL cho phù hợp
   private apiGetInfo= "http://localhost:8082/user/info"
   private apiGetAtm="http://localhost:8082/user/atm"
   private username:any =''
