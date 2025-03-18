@@ -35,8 +35,6 @@ export class RrComponent {
   diamondProgress: number = 0;
   bombProgress: number = 0;
   
-  history: { bet: number; winnings: number }[] = [];
-  
   diamondSound = new Audio('diamond.mp3');
   bombSound = new Audio('bomb.mp3');
 
@@ -44,6 +42,8 @@ export class RrComponent {
   gameStarted: boolean = false;  // Đã bấm cược chưa
   firstReveal: boolean = false;  // Đã mở ô đầu tiên chưa
 
+  history: { bet: number; winnings: number }[] = [];
+  
   constructor() {
     this.initializeGrid();
   }
@@ -149,7 +149,7 @@ export class RrComponent {
         }, 500);
         // Thêm vào lịch sử chơi
         this.history.unshift({ bet: this.betAmount, winnings: 0 });
-          if (this.history.length > 10) {
+          if (this.history.length > 5) {
           this.history.pop();
         }
       }
@@ -172,7 +172,7 @@ export class RrComponent {
       this.money += this.lastWinning;
       this.history.unshift({ bet: this.betAmount, winnings: this.lastWinning });
   
-      if (this.history.length > 10) {
+      if (this.history.length > 5) {
         this.history.pop();
       }
   
