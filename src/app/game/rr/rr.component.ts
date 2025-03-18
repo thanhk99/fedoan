@@ -187,9 +187,8 @@ export class RrComponent {
 
   currentMultiplierIndex: number = 0;
 
-  getVisibleMultipliers() {
-    const start = this.calculateStartIndex(this.multiplierIndex);
-    return this.multipliers.slice(start, start + 5);
+  getVisibleMultipliers(): number[] {
+    return this.multipliers.slice(this.currentMultiplierIndex, this.currentMultiplierIndex + 5);
   }
 
   calculateStartIndex(index: number): number {
@@ -198,13 +197,13 @@ export class RrComponent {
 
   nextMultipliers() {
     if (this.currentMultiplierIndex + 5 < this.multipliers.length) {
-    this.currentMultiplierIndex += 5;
+      this.currentMultiplierIndex = Math.min(this.currentMultiplierIndex + 5, this.multipliers.length - 5);
     }
   }
-
+  
   prevMultipliers() {
-    if (this.currentMultiplierIndex >= 5) {
-    this.currentMultiplierIndex -= 5;
+    if (this.currentMultiplierIndex - 5 >= 0) {
+      this.currentMultiplierIndex = Math.max(this.currentMultiplierIndex - 5, 0);
     }
   }
 

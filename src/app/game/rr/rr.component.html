@@ -71,7 +71,7 @@
     <div class="game-interface">
       <!-- Hệ số nhân -->
       <div class="multipliers">
-        <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex === 0"></button>
+        <button (click)="prevMultipliers()" [disabled]="currentMultiplierIndex <= 0"><</button>
       
         <div class="multiplier-list" [@slideAnimation]>
           <button *ngFor="let multiplier of getVisibleMultipliers(); let i = index" 
@@ -80,7 +80,7 @@
           </button>
         </div>
       
-        <button (click)="nextMultipliers()" [disabled]="currentMultiplierIndex + 5 >= multipliers.length">></button>
+        <button (click)="nextMultipliers()" [disabled]="currentMultiplierIndex >= multipliers.length - 5">></button>
       </div>
     
       <!-- Điều chỉnh tiền cược và số bom -->
