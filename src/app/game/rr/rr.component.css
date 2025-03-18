@@ -113,6 +113,12 @@ main{
     border: 2px solid #555;
 }
 
+.new-history {
+    background-color: #ffcc00 !important;
+    color: black !important;
+    box-shadow: 0 0 10px #ffcc00;
+}
+
 .arrow {
     left: 10px;
     color: white;

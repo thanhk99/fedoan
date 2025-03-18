@@ -22,7 +22,10 @@
 
     <div class="history-container">
       <div class="history-list">
-        <div *ngFor="let record of history" class="history-item">
+        <div *ngFor="let record of history" 
+              class="history-item"
+              [ngClass]="{ 'new-history': record.isNew }"
+              >
           {{ record.winnings === 0 ? 0 : (record.winnings | number) }}
         </div>
       </div>

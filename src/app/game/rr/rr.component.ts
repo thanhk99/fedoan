@@ -42,8 +42,21 @@ export class RrComponent {
   gameStarted: boolean = false;  // Đã bấm cược chưa
   firstReveal: boolean = false;  // Đã mở ô đầu tiên chưa
 
-  history: { bet: number; winnings: number }[] = [];
-  
+  history: { bet: number; winnings: number; isNew: boolean }[] = [];
+
+  addHistory(bet: number, winnings: number) {
+    winnings = winnings > 0 ? winnings : 0;
+    // Đặt tất cả các mục hiện tại về trạng thái bình thường
+    this.history.forEach(record => record.isNew = false);
+
+    // Thêm lịch sử mới vào đầu danh sách và đánh dấu là mới nhất
+    this.history.unshift({ bet, winnings, isNew: true });
+
+    // Giữ tối đa 5 mục, xóa mục cũ nhất nếu cần
+    if (this.history.length > 5) {
+        this.history.pop();
+    }
+}
   constructor() {
     this.initializeGrid();
   }
@@ -148,10 +161,7 @@ export class RrComponent {
           }, 1000);
         }, 500);
         // Thêm vào lịch sử chơi
-        this.history.unshift({ bet: this.betAmount, winnings: 0 });
-          if (this.history.length > 5) {
-          this.history.pop();
-        }
+        this.addHistory(this.betAmount, 0);
       }
     }
   }
@@ -170,11 +180,9 @@ export class RrComponent {
   cashOut() {
     if (!this.gameOver && this.lastWinning > 0 && this.firstReveal) {
       this.money += this.lastWinning;
-      this.history.unshift({ bet: this.betAmount, winnings: this.lastWinning });
-  
-      if (this.history.length > 5) {
-        this.history.pop();
-      }
+
+      // Thêm vào lịch sử chơi
+      this.addHistory(this.betAmount, this.lastWinning);
   
       this.revealAllCells(); // Mở tất cả các ô khi nhấn nút nhận tiền
   
