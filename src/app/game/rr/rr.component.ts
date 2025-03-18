@@ -100,16 +100,26 @@ export class RrComponent {
       }
     }
   }
+  defaultMultipliers: number[] = [1.13, 1.38, 1.64, 2.01, 2.48, 3.1, 3.93, 5.05, 6.6, 8.8, 12.5, 14.5, 18.7, 22.9, 25.2];
 
   changeBombs(change: number) {
     if (!this.gameStarted) {  // Chỉ chỉnh khi chưa cược
-      const newTotal = this.totalBombs + change;
-      if (newTotal >= 1 && newTotal <= 10) {
-        this.totalBombs = newTotal;
-        this.initializeGrid();
-      }
+        const newTotal = this.totalBombs + change;
+        if (newTotal >= 1 && newTotal <= 10) {
+            // Tính phần trăm thay đổi hệ số nhân (mỗi bom thay đổi 10%)
+            const scaleFactor = Math.pow(1.1, newTotal - 4); // 1.1^(newTotal - 4)
+
+            // Cập nhật số bom
+            this.totalBombs = newTotal;
+
+            // Cập nhật dãy hệ số nhân
+            this.multipliers = this.defaultMultipliers.map(value => parseFloat((value * scaleFactor).toFixed(2)));
+
+            // Cập nhật lại bàn chơi
+            this.initializeGrid();
+        }
     }
-  }
+}
 
   placeBet() {
     if (this.gameStarted) return; // Không cho phép cược lại khi chưa kết thúc ván trước
