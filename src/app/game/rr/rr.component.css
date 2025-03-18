@@ -88,12 +88,14 @@ main{
     align-items: center;
     gap: 10px;
     padding: 0 10px;
-    margin-top: 0.7rem;
     border: 2px solid white;
     border-radius: 15px;
     height: 30px;
     overflow: hidden;
     direction: rtl;
+    width: 85%;
+    position: relative;
+    margin: 0.2rem auto;
 }
 
 .history-list {
@@ -377,4 +379,23 @@ main{
     cursor: not-allowed; 
   }
   
-  
+  @media (min-width: 1400px) {
+    main {
+        height: 35rem; 
+    }
+    .history-container {
+        width: 60%; 
+        margin: 1.2rem auto;
+        position: relative;
+    }
+    .diamond-bar {
+        left: 1rem; 
+    }
+
+    .bomb-bar {
+        right: 1rem; 
+    }
+    .game-interface{
+        margin-top: 3rem;
+    }
+}
