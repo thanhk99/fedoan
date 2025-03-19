@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { endWith, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service'
 import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
@@ -42,6 +42,10 @@ export class userService {
     this.username = fullname;
   }
 
+  saveBetHis(namegame:any,playerId:any,time:any,rs:any,bet:any,reward:any,choice:any){
+    const body ={"nameGame":namegame,"playerId":playerId,"timeoccurs":time,"result":rs,"bet":bet,"reward":reward,"choice":choice}
+    return this.http.post(environment.apiSaveHisPlayer,body)
+  }
 
   encryptData(dataEncrypt:any) {
     if (typeof dataEncrypt !== 'string' || dataEncrypt.trim() === '') {

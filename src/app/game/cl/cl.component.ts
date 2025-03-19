@@ -10,7 +10,9 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { WebSocketService } from '../../service/socket.service';
 import { userService } from '../../service/users.service';
+import { GameService } from '../../service/game.service';
 import { environment } from '../../../environments/environment';
+import { format } from 'date-fns';
 @Component({
   selector: 'app-cl',
   imports: [CommonModule],
@@ -41,7 +43,9 @@ export class ClComponent implements OnInit {
   urlSocketCl: string = environment.urlSocketCl
   totalMoneyL = 0;
   totalMoneyC = 0;
-  result: any;
+  moneyBet :any;
+  choiceBet:any
+  result:any
   messages: any[] = [];
   messageInput: string = '';
   isConnected = false;
@@ -50,7 +54,8 @@ export class ClComponent implements OnInit {
   constructor(
     private router: Router,
     private socket: WebSocketService,
-    private userService: userService
+    private userService: userService,
+    private gameService : GameService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +82,7 @@ export class ClComponent implements OnInit {
               this.startCountdown(14, this.countdownElement.nativeElement);
               break;
             case 'end':
+              this.result=parsedMessage.message
               this.rollDice(Number(parsedMessage.message));
               break;
             case 'money':
@@ -89,7 +95,18 @@ export class ClComponent implements OnInit {
               break;
             case 'reward':
               const reward: number = Number(parsedMessage.message);
-              console.log(reward)
+              let playerId= this.userService.getCookies();
+              let time = new Date().getTime();
+              const formattedDate = format(time, 'yyyy-MM-dd HH:mm:ss');
+              this.userService.saveBetHis("Chẵn lẻ",playerId,formattedDate,this.result,this.moneyBet,reward,this.choiceBet).subscribe(
+                (data) => {
+                  console.log(data);
+                },
+                (error) => {
+                  console.log(error);
+                }
+              )
+              break;
           }
           this.messages.push(messageData.message);
         }
@@ -104,6 +121,7 @@ export class ClComponent implements OnInit {
       x: this.draggableElement.nativeElement.offsetLeft,
       y: this.draggableElement.nativeElement.offsetTop,
     };
+    this.getHistory()
   }
 
   startCountdown(duration: number, display: HTMLElement): void {
@@ -220,6 +238,7 @@ export class ClComponent implements OnInit {
       } else {
         this.leElement.nativeElement.classList.add('blink-animation');
       }
+      this.getHistory()
     });
   }
   //Xử lý logic button cược
@@ -273,7 +292,6 @@ export class ClComponent implements OnInit {
       let tempBet: any;
       tempSum = this.sumBetElement.nativeElement.textContent;
       tempBet = this.hiddenButton.nativeElement.textContent;
-      console.log(tempSum, tempBet);
       let Bet = parseInt(tempBet, 10);
       let Sum = parseInt(tempSum, 10);
       Sum += Bet;
@@ -303,8 +321,47 @@ export class ClComponent implements OnInit {
     }
     this.cancelCuoc();
   }
+
+  //get lịch sử kết quả
+  getHistory() {  
+    const his_rs = document.querySelector('.his-rs');
+      if (his_rs) {
+        his_rs.innerHTML=""
+        this.gameService.getHistory("Chẵn lẻ").subscribe(
+          (data: any) => {
+            for (let i=0 ; i < data.length; i++) {
+              const cricleHis = document.createElement('div');
+              if(data[i].result %2==0){
+                cricleHis.style.background = 'rgb(3, 74, 100)';
+              }
+              else{
+                cricleHis.style.background = 'rgb(85, 3, 3)';
+              }
+              cricleHis.className = 'circle-rs'; 
+              cricleHis.textContent = data[i].result; 
+              cricleHis.style.width = '1rem';
+              cricleHis.style.height = '1rem';
+              cricleHis.style.borderRadius = '9999px';
+              cricleHis.style.border = '2px solid #d69e2e';
+              cricleHis.style.margin = '0 0.125rem';
+              cricleHis.style.display = 'flex';
+              cricleHis.style.justifyContent = 'center';
+              cricleHis.style.alignItems = 'center';
+              cricleHis.style.fontSize = '.85rem';
+              cricleHis.style.color = '#fff';
+              his_rs.appendChild(cricleHis);
+            }
+          },
+        (error: any) => {
+          console.error(error);
+        }
+      );  
+    }
+  }
   // websocket
   sendBet(choice: string, money: any) {
+    this.moneyBet=money
+    this.choiceBet=choice
     let data = {
       type: 'bet',
       choice: choice,
