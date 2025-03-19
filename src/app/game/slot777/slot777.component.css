@@ -1,0 +1,10 @@
+main{
+    position: relative;
+    background-image: url(https://media.istockphoto.com/id/846134496/vi/anh/m%C6%B0a-r%C3%A0o-v%C3%A0-d%C3%B4ng-tr%C3%AAn-b%E1%BA%A7u-tr%E1%BB%9Di-%E1%BA%A5n-t%C6%B0%E1%BB%A3ng.jpg?b=1&s=612x612&w=0&k=20&c=GmB_01J_uB4OOTTwdqHVfM46G8s2YBPZzBJZwo4C9xk=);
+    background-size: cover;
+    background-repeat: no-repeat;
+    top: 4.5rem;
+    left: 15%;
+    width: 70%;
+    height: 30rem;
+}

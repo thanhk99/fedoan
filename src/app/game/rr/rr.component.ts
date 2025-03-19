@@ -24,7 +24,8 @@ export class RrComponent {
   money: number = 10000000000;
   betAmount: number = 50000;
   totalBombs: number = 4;
-  isHidden: boolean = false;
+  totalDiamonds: number = 25 - this.totalBombs;
+  // isHidden: boolean = false;
   multipliers: number[] = [1.13, 1.38, 1.64, 2.01, 2.48, 3.1, 3.93, 5.05, 6.6, 8.8, 12.5, 14.5, 18.7, 22.9, 25.2];
   multiplierIndex: number = -1;
   lastWinning: number = 0;
@@ -61,9 +62,9 @@ export class RrComponent {
     this.initializeGrid();
   }
 
-  toggleMoney() {
-    this.isHidden = !this.isHidden;
-  }
+  // toggleMoney() {
+  //   this.isHidden = !this.isHidden;
+  // }
 
   initializeGrid() {
     this.gameOver = false;
@@ -111,6 +112,7 @@ export class RrComponent {
 
             // Cập nhật số bom
             this.totalBombs = newTotal;
+            this.totalDiamonds = 25 - this.totalBombs;// Cập nhật tổng kim cương
 
             // Cập nhật dãy hệ số nhân
             this.multipliers = this.defaultMultipliers.map(value => parseFloat((value * scaleFactor).toFixed(2)));
@@ -162,6 +164,7 @@ export class RrComponent {
         this.gameOver = true;
         this.gameStarted = false;
         this.playSound(this.bombSound);
+        this.bombProgress = 100;
   
         setTimeout(() => {
           this.revealAllCells();
