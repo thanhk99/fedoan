@@ -7,6 +7,7 @@ import { MessageComponent } from './message/message.component';
 import { ClComponent } from './game/cl/cl.component';
 import { RrComponent } from './game/rr/rr.component';
 import{ SpacemanComponent } from './game/spaceman/spaceman.component';
+import { Slot777Component } from './game/slot777/slot777.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -17,4 +18,5 @@ export const routes: Routes = [
   { path: 'game/cl', component: ClComponent },
   {path: 'game/rr', component: RrComponent},
   {path:'game/spaceman',component:SpacemanComponent},
+  {path:'game/slot777',component:Slot777Component},
 ];

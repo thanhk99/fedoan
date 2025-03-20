@@ -26,46 +26,6 @@ main{
     gap: 3rem; 
 }
 
-.money-container {
-    display: flex;
-    align-items: center;
-}
-
-.money {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 5px 10px;
-    border: 2px solid white;
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    width: 10rem; 
-}
-
-.money-text {
-    flex-grow: 1;
-    text-align: center;
-    white-space: nowrap; 
-}
-
-.eye-icon {
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-.eye-icon:hover {
-    transform: scale(1.1);
-}
-
-.eye-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: white;
-}
-
 .settings-icon {
     display: flex;
     align-items: center;
@@ -88,12 +48,14 @@ main{
     align-items: center;
     gap: 10px;
     padding: 0 10px;
-    margin-top: 0.7rem;
     border: 2px solid white;
     border-radius: 15px;
     height: 30px;
     overflow: hidden;
     direction: rtl;
+    width: 85%;
+    position: relative;
+    margin: 0.2rem auto;
 }
 
 .history-list {
@@ -111,6 +73,12 @@ main{
     font-weight: bold;
     background-color: #333;
     border: 2px solid #555;
+}
+
+.new-history {
+    background-color: #ffcc00 !important;
+    color: black !important;
+    box-shadow: 0 0 10px #ffcc00;
 }
 
 .arrow {
@@ -157,6 +125,7 @@ main{
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
     background-color: rgba(255, 255, 255, 0.1);
 }
@@ -166,7 +135,6 @@ main{
     left: -1.5rem; 
 }
 
-
 .bomb-bar {
     right: -1.5rem; 
 }
@@ -174,6 +142,8 @@ main{
 .progress-fill {
     width: 100%;
     transition: height 0.3s ease-in-out;
+    position: absolute;
+    bottom: 0;
 }
 
 .diamond-bar .progress-fill {
@@ -181,14 +151,19 @@ main{
 }
 
 .bomb-bar .progress-fill {
-    background-color: red;
+    background-color: rgba(238, 54, 54, 0.712);
 }
 
 .progress-text {
     position: absolute;
-    top: -25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     color: white;
     font-size: 20px;
+    text-align: center;
+    z-index: 2;
 }
 
 /* Bảng chơi */
@@ -266,7 +241,7 @@ main{
     flex-direction: column;
     align-items: center;
     color: white;
-    width: 27rem;
+    width: 29rem;
     margin: 0 auto;
     margin-top: 1.5rem;
   }
@@ -313,7 +288,7 @@ main{
     background: #61b8c4;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 10px;
     cursor: pointer;
     border-radius: 5px;
   }
@@ -324,7 +299,14 @@ main{
     color: white;
     align-items: center;
     background: #354347be;
- 
+    min-width: 15rem;
+    justify-content: center;    
+}
+
+  .change-bet span {
+    flex-grow: 1; 
+    text-align: center; 
+    
   }
 
   .change-bombs{
@@ -336,6 +318,9 @@ main{
     
   }
 
+  .change-bombs span {
+    white-space: nowrap;
+  }
 
   /* Nút chọn tự động và nhận tiền */
   .actions {
@@ -362,4 +347,23 @@ main{
     cursor: not-allowed; 
   }
   
-  
+  @media (min-width: 1400px) {
+    main {
+        height: 35rem; 
+    }
+    .history-container {
+        width: 60%; 
+        margin: 1.2rem auto;
+        position: relative;
+    }
+    .diamond-bar {
+        left: 1rem; 
+    }
+
+    .bomb-bar {
+        right: 1rem; 
+    }
+    .game-interface{
+        margin-top: 3rem;
+    }
+}

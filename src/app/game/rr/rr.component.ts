@@ -24,7 +24,8 @@ export class RrComponent {
   money: number = 10000000000;
   betAmount: number = 50000;
   totalBombs: number = 4;
-  isHidden: boolean = false;
+  totalDiamonds: number = 25 - this.totalBombs;
+  // isHidden: boolean = false;
   multipliers: number[] = [1.13, 1.38, 1.64, 2.01, 2.48, 3.1, 3.93, 5.05, 6.6, 8.8, 12.5, 14.5, 18.7, 22.9, 25.2];
   multiplierIndex: number = -1;
   lastWinning: number = 0;
@@ -35,8 +36,6 @@ export class RrComponent {
   diamondProgress: number = 0;
   bombProgress: number = 0;
   
-  history: { bet: number; winnings: number }[] = [];
-  
   diamondSound = new Audio('diamond.mp3');
   bombSound = new Audio('bomb.mp3');
 
@@ -44,13 +43,28 @@ export class RrComponent {
   gameStarted: boolean = false;  // Đã bấm cược chưa
   firstReveal: boolean = false;  // Đã mở ô đầu tiên chưa
 
+  history: { bet: number; winnings: number; isNew: boolean }[] = [];
+
+  addHistory(bet: number, winnings: number) {
+    winnings = winnings > 0 ? winnings : 0;
+    // Đặt tất cả các mục hiện tại về trạng thái bình thường
+    this.history.forEach(record => record.isNew = false);
+
+    // Thêm lịch sử mới vào đầu danh sách và đánh dấu là mới nhất
+    this.history.unshift({ bet, winnings, isNew: true });
+
+    // Giữ tối đa 5 mục, xóa mục cũ nhất nếu cần
+    if (this.history.length > 5) {
+        this.history.pop();
+    }
+}
   constructor() {
     this.initializeGrid();
   }
 
-  toggleMoney() {
-    this.isHidden = !this.isHidden;
-  }
+  // toggleMoney() {
+  //   this.isHidden = !this.isHidden;
+  // }
 
   initializeGrid() {
     this.gameOver = false;
@@ -87,16 +101,27 @@ export class RrComponent {
       }
     }
   }
+  defaultMultipliers: number[] = [1.13, 1.38, 1.64, 2.01, 2.48, 3.1, 3.93, 5.05, 6.6, 8.8, 12.5, 14.5, 18.7, 22.9, 25.2];
 
   changeBombs(change: number) {
     if (!this.gameStarted) {  // Chỉ chỉnh khi chưa cược
-      const newTotal = this.totalBombs + change;
-      if (newTotal >= 1 && newTotal <= 10) {
-        this.totalBombs = newTotal;
-        this.initializeGrid();
-      }
+        const newTotal = this.totalBombs + change;
+        if (newTotal >= 1 && newTotal <= 10) {
+            // Tính phần trăm thay đổi hệ số nhân (mỗi bom thay đổi 10%)
+            const scaleFactor = Math.pow(1.1, newTotal - 4); // 1.1^(newTotal - 4)
+
+            // Cập nhật số bom
+            this.totalBombs = newTotal;
+            this.totalDiamonds = 25 - this.totalBombs;// Cập nhật tổng kim cương
+
+            // Cập nhật dãy hệ số nhân
+            this.multipliers = this.defaultMultipliers.map(value => parseFloat((value * scaleFactor).toFixed(2)));
+
+            // Cập nhật lại bàn chơi
+            this.initializeGrid();
+        }
     }
-  }
+}
 
   placeBet() {
     if (this.gameStarted) return; // Không cho phép cược lại khi chưa kết thúc ván trước
@@ -139,6 +164,7 @@ export class RrComponent {
         this.gameOver = true;
         this.gameStarted = false;
         this.playSound(this.bombSound);
+        this.bombProgress = 100;
   
         setTimeout(() => {
           this.revealAllCells();
@@ -148,10 +174,7 @@ export class RrComponent {
           }, 1000);
         }, 500);
         // Thêm vào lịch sử chơi
-        this.history.unshift({ bet: this.betAmount, winnings: 0 });
-          if (this.history.length > 10) {
-          this.history.pop();
-        }
+        this.addHistory(this.betAmount, 0);
       }
     }
   }
@@ -170,11 +193,9 @@ export class RrComponent {
   cashOut() {
     if (!this.gameOver && this.lastWinning > 0 && this.firstReveal) {
       this.money += this.lastWinning;
-      this.history.unshift({ bet: this.betAmount, winnings: this.lastWinning });
-  
-      if (this.history.length > 10) {
-        this.history.pop();
-      }
+
+      // Thêm vào lịch sử chơi
+      this.addHistory(this.betAmount, this.lastWinning);
   
       this.revealAllCells(); // Mở tất cả các ô khi nhấn nút nhận tiền
   
@@ -187,9 +208,8 @@ export class RrComponent {
 
   currentMultiplierIndex: number = 0;
 
-  getVisibleMultipliers() {
-    const start = this.calculateStartIndex(this.multiplierIndex);
-    return this.multipliers.slice(start, start + 5);
+  getVisibleMultipliers(): number[] {
+    return this.multipliers.slice(this.currentMultiplierIndex, this.currentMultiplierIndex + 5);
   }
 
   calculateStartIndex(index: number): number {
@@ -198,13 +218,13 @@ export class RrComponent {
 
   nextMultipliers() {
     if (this.currentMultiplierIndex + 5 < this.multipliers.length) {
-    this.currentMultiplierIndex += 5;
+      this.currentMultiplierIndex = Math.min(this.currentMultiplierIndex + 5, this.multipliers.length - 5);
     }
   }
-
+  
   prevMultipliers() {
-    if (this.currentMultiplierIndex >= 5) {
-    this.currentMultiplierIndex -= 5;
+    if (this.currentMultiplierIndex - 5 >= 0) {
+      this.currentMultiplierIndex = Math.max(this.currentMultiplierIndex - 5, 0);
     }
   }
 
