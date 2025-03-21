@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostListener ,OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { trigger, transition, style, animate } from '@angular/animations';
+import { userService } from '../../service/users.service';
+// import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-rr',
@@ -20,9 +22,15 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ])
   ]
 })
-export class RrComponent {
-  money: number = 10000000000;
-  betAmount: number = 50000;
+export class RrComponent implements OnInit  {
+  constructor(
+    private userService: userService,
+    // private header: HeaderComponent
+  ) { 
+    this.initializeGrid()
+  }
+  money: number=0;
+  betAmount: number = 100;
   totalBombs: number = 4;
   totalDiamonds: number = 25 - this.totalBombs;
   // isHidden: boolean = false;
@@ -58,14 +66,14 @@ export class RrComponent {
         this.history.pop();
     }
 }
-  constructor() {
-    this.initializeGrid();
-  }
 
   // toggleMoney() {
   //   this.isHidden = !this.isHidden;
   // }
 
+  ngOnInit(): void {
+    this.money = parseInt(this.userService.getBalanceCookies())
+  }
   initializeGrid() {
     this.gameOver = false;
     this.diamondsCollected = 0;
@@ -125,10 +133,14 @@ export class RrComponent {
 
   placeBet() {
     if (this.gameStarted) return; // Không cho phép cược lại khi chưa kết thúc ván trước
-
-    if (this.money >= this.betAmount) {
+    if (parseInt(this.userService.getBalanceCookies()) >= this.betAmount) {
       this.money -= this.betAmount;
+      const goldElement = document.querySelector('.gold');
+      if (goldElement) {
+          goldElement.innerHTML = this.money.toString();
+      }
       this.gameStarted = true;
+      console.log(this.gameStarted)
       this.initializeGrid();
     } else {
       alert("Không đủ tiền để đặt cược!");
@@ -193,7 +205,10 @@ export class RrComponent {
   cashOut() {
     if (!this.gameOver && this.lastWinning > 0 && this.firstReveal) {
       this.money += this.lastWinning;
-
+      const goldElement = document.querySelector('.gold');
+      if (goldElement) {
+          goldElement.innerHTML = this.money.toString();
+      }
       // Thêm vào lịch sử chơi
       this.addHistory(this.betAmount, this.lastWinning);
   
@@ -244,6 +259,13 @@ export class RrComponent {
   private shuffleArray(array: string[]) {
     return array.sort(() => Math.random() - 0.5);
   }
-  
+  @HostListener('window:beforeunload', ['$event'])
+  handleBeforeUnload(event: BeforeUnloadEvent) {
+    if (this.gameStarted) {
+      // Hiển thị thông báo cảnh báo
+      event.preventDefault(); // Ngăn chặn hành động mặc định
+      event.returnValue = 'Tải lại sẽ mất tiền'; // Trả về một chuỗi rỗng để hiển thị thông báo mặc định
+    }
+  }
 
 }

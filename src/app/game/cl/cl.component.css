@@ -5,7 +5,7 @@
   justify-content: center;
   flex-direction: column;
   position: relative;
-  top: 4.5rem;
+  margin-top: 5%;
   user-select: none;
   width: 60%;
   left: 20%;
@@ -17,7 +17,7 @@
   background-repeat: no-repeat;
   width: 45rem;
   height: 25rem;
-  border-radius: 99px;
+  border-radius: 130px;
   position: relative;
 }
 /* bàn trong */
@@ -69,8 +69,8 @@
   align-items: center;
   justify-content: center;
 }
-.yellow-circle.disabled {
-  cursor: not-allowed; /* Thay đổi con trỏ chuột */
+.disabled {
+  cursor: not-allowed !important; /* Thay đổi con trỏ chuột */
 }
 .countdown {
   color: white;

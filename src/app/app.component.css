@@ -4,6 +4,7 @@
 }
 body {
   background-attachment: fixed;
+  overflow: hidden;
 }
 main {
   position: relative;
@@ -17,6 +18,7 @@ main {
   background: linear-gradient(45deg, #8d0000, #44006b, #270164, #010433);
   animation: backgroundAnimation 4s infinite ease;
   background-size: 500%;
+  overflow-y: scroll;
 }
 @keyframes backgroundAnimation {
   0%,

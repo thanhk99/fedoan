@@ -43,12 +43,10 @@ export class ClComponent implements OnInit {
   urlSocketCl: string = environment.urlSocketCl
   totalMoneyL = 0;
   totalMoneyC = 0;
-  moneyBet :any;
-  choiceBet:any
-  result:any
   messages: any[] = [];
   messageInput: string = '';
   isConnected = false;
+  isClieckToggle:boolean=false
   private messageSubscription!: Subscription;
   private connectionSubscription!: Subscription;
   constructor(
@@ -82,7 +80,6 @@ export class ClComponent implements OnInit {
               this.startCountdown(14, this.countdownElement.nativeElement);
               break;
             case 'end':
-              this.result=parsedMessage.message
               this.rollDice(Number(parsedMessage.message));
               break;
             case 'money':
@@ -94,11 +91,14 @@ export class ClComponent implements OnInit {
               this.sumBet_le.nativeElement.textContent=secondNumber
               break;
             case 'reward':
-              const reward: number = Number(parsedMessage.message);
+              const reward: number = Number(parsedMessage.reward);
               let playerId= this.userService.getCookies();
               let time = new Date().getTime();
               const formattedDate = format(time, 'yyyy-MM-dd HH:mm:ss');
-              this.userService.saveBetHis("Chẵn lẻ",playerId,formattedDate,this.result,this.moneyBet,reward,this.choiceBet).subscribe(
+              const rs=parsedMessage.result
+              const moneyBet=parsedMessage.bet
+              const choiceBet=parsedMessage.choice
+              this.userService.saveBetHis("Chẵn lẻ",playerId,formattedDate,rs,moneyBet,reward,choiceBet).subscribe(
                 (data) => {
                   console.log(data);
                 },
@@ -131,7 +131,6 @@ export class ClComponent implements OnInit {
     this.resetBet();
     this.isCountingDown = true;
     this.draggableElement.nativeElement.classList.add('disabled');
-
     let timer = duration;
     const interval = setInterval(() => {
       const minutes = Math.floor(timer / 60);
@@ -145,6 +144,7 @@ export class ClComponent implements OnInit {
         clearInterval(interval);
         this.isCountingDown = false;
         this.draggableElement.nativeElement.classList.remove('disabled');
+        this.isClieckToggle=false
       }
     }, 1000);
   }
@@ -249,6 +249,8 @@ export class ClComponent implements OnInit {
     button: ElementRef<HTMLButtonElement>,
     sum: ElementRef<HTMLSpanElement>
   ) {
+    if(this.userService.getCookies() !=='') return
+    if(!this.isClieckToggle) return;
     this.sumBetElement = sum;
     if (this.hiddenButton === button) {
       return;
@@ -315,6 +317,7 @@ export class ClComponent implements OnInit {
   resetBet() {
     let sumC = document.getElementById('sum_chan');
     let sumL = document.getElementById('sum_le');
+    this.isClieckToggle=true
     if (sumC && sumL) {
       sumC.textContent = '0';
       sumL.textContent = '0';
@@ -360,8 +363,6 @@ export class ClComponent implements OnInit {
   }
   // websocket
   sendBet(choice: string, money: any) {
-    this.moneyBet=money
-    this.choiceBet=choice
     let data = {
       type: 'bet',
       choice: choice,
