@@ -23,6 +23,22 @@
     gap: 100px;
 }
 
+/* Chào */
+.header-group h2 {
+    font-size: 24px;
+    font-family: monospace;
+    overflow: hidden;
+    width: 30ch;
+    text-wrap: nowrap;
+    animation: typing 2s steps(20) infinite alternate;
+}
+
+@keyframes typing {
+    from {
+        width: 0ch;
+    }
+}
+
 .login-btn {
     background-color: #f8afbc; 
     color: white;

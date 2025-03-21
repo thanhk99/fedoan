@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { endWith, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service'
 import * as CryptoJS from 'crypto-js';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class userService {
-  private apiLogin= 'http://localhost:8082/user/login'; // Thay đổi URL cho phù hợp
-  private apiGetInfo= "http://localhost:8082/user/info"
-  private apiGetAtm="http://localhost:8082/user/atm"
+  private apiLogin= environment.apiLogin; 
+  private apiGetInfo= environment.apiGetInfo;
+  private apiGetAtm=environment.apiGetAtm;
   private username:any =''
   private keySecret :string ='anhthanhdz'
   constructor(private http: HttpClient,
@@ -41,6 +42,10 @@ export class userService {
     this.username = fullname;
   }
 
+  saveBetHis(namegame:any,playerId:any,time:any,rs:any,bet:any,reward:any,choice:any){
+    const body ={"nameGame":namegame,"playerId":playerId,"timeoccurs":time,"result":rs,"bet":bet,"reward":reward,"choice":choice}
+    return this.http.post(environment.apiSaveHisPlayer,body)
+  }
 
   encryptData(dataEncrypt:any) {
     if (typeof dataEncrypt !== 'string' || dataEncrypt.trim() === '') {

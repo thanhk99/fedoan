@@ -28,8 +28,17 @@
                 >29899</span
               >
             </div>
-            <span id="sum_chan" class="number" #sum_chan>{{totalMoneyC}}</span>
-            <div class="betValue" id="cuoc_chan" #cuoc_chan (click)="toggleButton(cuoc_chanElement)">Đặt cược</div>
+            <span id="sum_chan" class="number" #sum_chan>{{
+              totalMoneyC
+            }}</span>
+            <div
+              class="betValue"
+              id="cuoc_chan"
+              #cuoc_chan
+              (click)="toggleButton(cuoc_chanElement, sumBet_chan)"
+            >
+              Đặt cược
+            </div>
           </div>
           <!-- Lẻ -->
           <div class="bet_le">
@@ -41,10 +50,19 @@
               <span class="text" id="sum_people_le" #sum_people_le>298</span>
               <i class="fas fa-users icon icon-left"></i>
             </div>
-            <span id="sum_le" #sum_le class="number">{{totalMoneyL}}</span>
-            <div class="betValue" id="cuoc_le" #cuoc_le  (click)="toggleButton(cuoc_leElement)">Đặt cược</div>
+            <span id="sum_le" #sum_le class="number">{{ totalMoneyL }}</span>
+            <div
+              class="betValue"
+              id="cuoc_le"
+              #cuoc_le
+              (click)="toggleButton(cuoc_leElement, sumBet_le)"
+            >
+              Đặt cược
+            </div>
           </div>
         </div>
+      </div>
+      <div class="his-rs">
       </div>
     </div>
   </div>
@@ -61,7 +79,7 @@
     </div>
     <div class="action">
       <button class="all-in">ALL-IN</button>
-      <button class="dat-cuoc">ĐẶT CƯỢC</button>
+      <button class="dat-cuoc" (click)="bet()">ĐẶT CƯỢC</button>
       <button class="huy" (click)="cancelCuoc()">HỦY</button>
     </div>
   </div>
