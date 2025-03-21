@@ -102,7 +102,7 @@ export class RrComponent implements OnInit  {
 
   adjustBet(action: string) {
     if (!this.gameStarted) {  // Chỉ chỉnh khi chưa cược
-      if (action === 'half' && this.betAmount > 50000) {
+      if (action === 'half' && this.betAmount > 50) {
         this.betAmount = Math.floor(this.betAmount / 2);
       } else if (action === 'double' && this.betAmount * 2 <= this.money) {
         this.betAmount *= 2;

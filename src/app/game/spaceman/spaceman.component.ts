@@ -2,35 +2,20 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-<<<<<<< HEAD
-import { Howl } from 'howler';
-=======
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
 
 @Component({
   selector: 'app-spaceman',
   imports: [CommonModule, FormsModule],
   templateUrl: './spaceman.component.html',
-<<<<<<< HEAD
-  styleUrls: ['./spaceman.component.css']
-=======
   styleUrls: ['./spaceman.component.css'],
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
 })
 export class SpacemanComponent {
   @Input() label1: string = 'Tùy chọn rút tiền';
   @Input() label2: string = 'Tùy chọn rút tiền 50%';
-<<<<<<< HEAD
-  @Input() defaultValue1: number = 2.00;
-  @Input() defaultValue2: number = 1.50;
-
-  constructor(private router: Router) {}
-=======
   @Input() defaultValue1: number = 2.0;
   @Input() defaultValue2: number = 1.5;
 
   constructor() {}
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
 
   isActive: boolean = false;
   isActive1: boolean = false;
@@ -41,10 +26,7 @@ export class SpacemanComponent {
   value2: number = this.defaultValue2;
   value: number = 10000000000000;
   sumbet: number = 0;
-<<<<<<< HEAD
-=======
   router: any;
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
   betButton: string = 'Đặt cược';
   countdown: number = 0;
   isMoon: boolean = false;
@@ -76,19 +58,11 @@ export class SpacemanComponent {
   }
 
   changeValue(step: number) {
-<<<<<<< HEAD
-    this.value1 = Math.max(1.00, parseFloat((this.value1 + step).toFixed(2))); // Giới hạn min 1.00
-=======
     this.value1 = Math.max(1.0, parseFloat((this.value1 + step).toFixed(2))); // Giới hạn min 1.00
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
   }
 
   changeValue1(step: number) {
-<<<<<<< HEAD
-    this.value2 = Math.max(1.00, parseFloat((this.value2 + step).toFixed(2))); // Giới hạn min 1.00
-=======
     this.value2 = Math.max(1.0, parseFloat((this.value2 + step).toFixed(2))); // Giới hạn min 1.00
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
   }
 
   betAmounts: number[] = [
@@ -117,7 +91,6 @@ export class SpacemanComponent {
     this.isActive2 = !this.isActive2;
     this.selectedBet = bet;
   }
-<<<<<<< HEAD
 
 
   startMultiplier() {
@@ -162,13 +135,6 @@ export class SpacemanComponent {
   }
 
   betchoice() {
-=======
-  betchoice() {
-    // let sound = new Audio('http://localhost:4200/NhacXoSo-VA_4512353.mp3');
-    // sound.play();
-    let audio = new Audio('mucsic.mp3');
-    audio.load();
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
 
     if (this.betButton === 'Hủy đặt cược') {
       const result = confirm('Bạn có chắc chắn muốn hủy đặt cược?');
@@ -256,19 +222,11 @@ export class SpacemanComponent {
   }
 
   exit() {
-<<<<<<< HEAD
     const result = confirm("Bạn có chắc chắn muốn tiếp tục?");
-=======
-    const result = confirm('Bạn có chắc chắn muốn tiếp tục?');
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268
     if (result) {
       this.router.navigate(['/home']);
     } else {
       this.router.navigate(['/game/spaceman']);
     }
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9b7508b7bcf70698d21ea8316aea3fb236fa2268

@@ -367,3 +367,76 @@ main{
         margin-top: 3rem;
     }
 }
+
+    @media (max-width: 1200px) and (max-height: 600px) {
+        main {
+            width: 80%;
+            height: 80%;
+            left: 10%;
+            margin-top: 7%;
+        }
+        .rr-header {
+            height: 30px;
+            padding: 0 10px;
+        }
+        .game-container {
+            width: 50%;
+            height: auto;
+            flex-direction: column;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 5%;
+            gap: 10px;
+        }
+    
+        .progress-bar {
+            width: 30px;
+            height: 150px;
+        }
+    
+        .game-grid {
+            grid-template-columns: repeat(5, 30px);
+            grid-template-rows: repeat(5, 30px);
+            gap: 3px;
+            width: calc(30px * 5 + 3px * 4);
+            height: calc(30px * 5 + 3px * 4);
+        }
+    
+        .grid-cell {
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+        }
+    
+        .progress-text {
+            font-size: 16px;
+        }
+    
+        .game-interface {
+            width: 75%;
+            padding: 10px;
+            margin-top: 2%;
+            font-size: 14px;
+        }
+    
+        .bet-settings {
+            gap: 2rem;
+        }
+    
+        .actions button {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+    
+        .multipliers button {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+    
+        .change-bet{
+            min-width: 50%;
+        }
+        .change-bombs{
+            min-width: 20%;
+        }
+    }
