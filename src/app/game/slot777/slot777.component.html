@@ -1,14 +1,11 @@
 <main>
-    <div class="reels">
-      <div class="reel" *ngFor="let reel of reels">
-        <div *ngFor="let symbol of reel" class="symbol">
-          <img [src]="symbol" alt="symbol">
-        </div>
-      </div>
-    </div>
-  
+  <div class="slot-machine">
+    <!-- Hiển thị máy quay bằng canvas -->
+    <canvas #slotCanvas></canvas>
+    
+    <!-- Khu vực điều khiển -->
     <div class="controls">
-      <button (click)="spinReels()">Quay</button>
-      <p>Chơi 5 dòng. Chúc may mắn!</p>
+      <button (click)="spin()">SPIN</button>
     </div>
+  </div>
 </main>
