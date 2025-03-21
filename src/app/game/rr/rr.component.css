@@ -347,7 +347,7 @@ main{
     cursor: not-allowed; 
   }
   
-  @media (min-width: 1400px) {
+  @media (min-width: 1300px) {
     main {
         height: 35rem; 
     }
@@ -368,10 +368,10 @@ main{
     }
 }
 
-    @media (max-width: 1200px) and (max-height: 600px) {
+    @media (max-width: 1300px) and (max-height: 600px) {
         main {
             width: 80%;
-            height: 80%;
+            height: 80vh;
             left: 10%;
             margin-top: 7%;
         }
@@ -385,7 +385,7 @@ main{
             flex-direction: column;
             left: 50%;
             transform: translateX(-50%);
-            top: 5%;
+            /* top: 5%; */
             gap: 10px;
         }
     
@@ -412,6 +412,13 @@ main{
             font-size: 16px;
         }
     
+        .diamond-bar {
+            left: 1rem; 
+        }
+    
+        .bomb-bar {
+            right: 1rem; 
+        }
         .game-interface {
             width: 75%;
             padding: 10px;
