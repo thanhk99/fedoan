@@ -12,8 +12,11 @@ import { WebSocketService } from '../../service/socket.service';
 import { userService } from '../../service/users.service';
 import { GameService } from '../../service/game.service';
 import { environment } from '../../../environments/environment';
+<<<<<<< HEAD
 import { format } from 'date-fns';
 import { Howl } from 'howler';
+=======
+>>>>>>> 6c589af7944245133cba8581e226a818d2701ee7
 @Component({
   selector: 'app-cl',
   imports: [CommonModule],
@@ -93,6 +96,7 @@ export class ClComponent implements OnInit {
               break;
             case 'reward':
               const reward: number = Number(parsedMessage.reward);
+<<<<<<< HEAD
               let playerId = this.userService.getCookies();
               let time = new Date().getTime();
               const formattedDate = format(time, 'yyyy-MM-dd HH:mm:ss');
@@ -117,6 +121,20 @@ export class ClComponent implements OnInit {
                     console.log(error);
                   }
                 );
+=======
+              let playerId= this.userService.getCookies();
+              const rs=parsedMessage.result
+              const moneyBet=parsedMessage.bet
+              const choiceBet=parsedMessage.choice
+              this.userService.saveBetHis("Chẵn lẻ",playerId,rs,moneyBet,reward,choiceBet).subscribe(
+                (data) => {
+                  console.log(data);
+                },
+                (error) => {
+                  console.log(error);
+                }
+              )
+>>>>>>> 6c589af7944245133cba8581e226a818d2701ee7
               break;
           }
           this.messages.push(messageData.message);

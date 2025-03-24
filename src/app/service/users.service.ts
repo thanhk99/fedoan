@@ -4,6 +4,7 @@ import { endWith, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service'
 import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
+import { format } from 'date-fns';
 @Injectable({
   providedIn: 'root'
 })
@@ -42,11 +43,12 @@ export class userService {
     this.username = fullname;
   }
 
-  saveBetHis(namegame:any,playerId:any,time:any,rs:any,bet:any,reward:any,choice:any){
-    const body ={"nameGame":namegame,"playerId":playerId,"timeoccurs":time,"result":rs,"bet":bet,"reward":reward,"choice":choice}
+  saveBetHis(namegame:any,playerId:any,rs:any,bet:any,reward:any,choice:any){
+    let time = new Date().getTime();
+    const formattedDate = format(time, 'yyyy-MM-dd HH:mm:ss');
+    const body ={"nameGame":namegame,"playerId":playerId,"timeoccurs":formattedDate,"result":rs,"bet":bet,"reward":reward,"choice":choice}
     return this.http.post(environment.apiSaveHisPlayer,body)
   }
-
   encryptData(dataEncrypt:any) {
     if (typeof dataEncrypt !== 'string' || dataEncrypt.trim() === '') {
       console.error('Dữ liệu đầu vào không hợp lệ');
