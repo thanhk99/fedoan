@@ -59,6 +59,7 @@ export class ClComponent implements OnInit {
     this.userService.getUser();
     // Kết nối tới WebSocket
     let username: any = this.userService.getNameCookies();
+    console.log(username)
     this.urlSocketCl += '?username=' + username;
     this.socket.connect(this.urlSocketCl);
     //Lắng nghe tin nhắn
@@ -246,7 +247,7 @@ export class ClComponent implements OnInit {
     button: ElementRef<HTMLButtonElement>,
     sum: ElementRef<HTMLSpanElement>
   ) {
-    if(this.userService.getCookies() !=='') return
+    if(this.userService.getCookies() ==='') return
     if(!this.isClieckToggle) return;
     this.sumBetElement = sum;
     if (this.hiddenButton === button) {

@@ -175,6 +175,8 @@ export class LoginComponent implements OnInit {
           secure:true,
           sameSite: 'Strict'
         });
+        console.log(data)
+        this.userService.setToken(data.token)
         this.router.navigate(['']);
       },
       (error) => {
