@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { trigger, transition, style, animate } from '@angular/animations';
 import { userService } from '../../service/users.service';
-// import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-rr',
@@ -25,7 +24,6 @@ import { userService } from '../../service/users.service';
 export class RrComponent implements OnInit  {
   constructor(
     private userService: userService,
-    // private header: HeaderComponent
   ) { 
     this.initializeGrid()
   }
@@ -211,9 +209,9 @@ export class RrComponent implements OnInit  {
       }
       // Thêm vào lịch sử chơi
       this.addHistory(this.betAmount, this.lastWinning);
-  
+      this.userService.saveBetHis("Reng Reng",this.userService.getCookies(),'',this.betAmount,this.lastWinning,'')
       this.revealAllCells(); // Mở tất cả các ô khi nhấn nút nhận tiền
-  
+      
       this.gameStarted = false; // Kết thúc ván cược
       setTimeout(() => {
         this.initializeGrid(); // Khởi tạo lại bảng sau khi mở hết các ô

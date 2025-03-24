@@ -1,10 +1,13 @@
-export const environment = {
-    production:true,
-    apiLogin:'http://192.168.0.101:8082/user/login',
-    apiGetInfo: "http://localhost:8082/user/info",
-    apiGetAtm:"http://localhost:8082/user/atm",
-    urlSocketCl: 'ws://192.168.0.101:8082/game/cl',
-    apiGetHistoryGame: "http://192.168.1.191:8082/game/getHistoryCl",
-    apiSaveHisPlayer:"http://192.168.1.191:8082/game/savePlayerHis",
+const SERVER_IP = '192.168.0.101'; 
 
+export const environment = {
+    production: true,
+    apiLogin: `http://${SERVER_IP}:8082/user/login`,
+    apiGetInfo: `http://${SERVER_IP}:8082/user/info`,
+    apiGetAtm: `http://${SERVER_IP}:8082/user/atm`,
+    urlSocketCl: `ws://${SERVER_IP}:8082/game/cl`,
+    apiGetHistoryGame: `http://${SERVER_IP}:8082/game/getHistoryCl`,
+    apiSaveHisPlayer: `http://${SERVER_IP}:8082/game/savePlayerHis`,
+    apiSaveHisBalan:`http://${SERVER_IP}:8082/Atm/saveHis`,
+    apiupdateBalan:`http://${SERVER_IP}:8082/Atm/updateBalan`,
 };

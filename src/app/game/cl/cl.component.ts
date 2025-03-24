@@ -12,7 +12,6 @@ import { WebSocketService } from '../../service/socket.service';
 import { userService } from '../../service/users.service';
 import { GameService } from '../../service/game.service';
 import { environment } from '../../../environments/environment';
-import { format } from 'date-fns';
 @Component({
   selector: 'app-cl',
   imports: [CommonModule],
@@ -93,12 +92,10 @@ export class ClComponent implements OnInit {
             case 'reward':
               const reward: number = Number(parsedMessage.reward);
               let playerId= this.userService.getCookies();
-              let time = new Date().getTime();
-              const formattedDate = format(time, 'yyyy-MM-dd HH:mm:ss');
               const rs=parsedMessage.result
               const moneyBet=parsedMessage.bet
               const choiceBet=parsedMessage.choice
-              this.userService.saveBetHis("Chẵn lẻ",playerId,formattedDate,rs,moneyBet,reward,choiceBet).subscribe(
+              this.userService.saveBetHis("Chẵn lẻ",playerId,rs,moneyBet,reward,choiceBet).subscribe(
                 (data) => {
                   console.log(data);
                 },
