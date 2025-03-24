@@ -75,7 +75,6 @@
     display: flex;
     align-items: center;
     gap: 30px;
-    
 }
 
 /* Hiển thị tiền tệ */
@@ -90,6 +89,7 @@
 /* Vàng */
 .gold {
     color: gold;
+    white-space: nowrap;
 }
 
 /* Nút nạp vàng */

@@ -26,8 +26,8 @@ export class Slot777Component {
     '7red.png',
     '7blue.png',
     '7green.png',
-    '7yellow.png',
-    'bar.jpg',
+    '7purple.jpg',
+    'bar.png'
   ];
   images: HTMLImageElement[] = [];
 
@@ -78,27 +78,51 @@ export class Slot777Component {
   // Hàm vẽ slot machine
   draw() {
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-  
+
     const reelWidth = this.canvasWidth / this.numReels;
     const symbolHeight = this.canvasHeight / this.numRows;
-  
+
+    // console.log("🖌️ Drawing slot machine...");
+
     for (let i = 0; i < this.numReels; i++) {
-      const reel = this.reels[i];
-  
-      for (let j = 0; j < this.numRows + 1; j++) {
-        const symbolIndex = Math.floor(Math.abs(reel.y / symbolHeight) + j) % this.images.length;
-        const img = this.images[symbolIndex] || this.images[0]; // Tránh lỗi undefined
-        
-  
-        this.ctx.drawImage(img, i * reelWidth, reel.y + j * symbolHeight, reelWidth, symbolHeight);
-      }
-  
-      // Di chuyển cuộn
-      reel.y += reel.speed;
-      if (reel.y >= symbolHeight) reel.y = -symbolHeight * this.images.length;
+        const reel = this.reels[i];
+        // console.log(`🎰 Reel ${i} - Y: ${reel.y}, Speed: ${reel.speed}`);
+
+        for (let j = 0; j < this.numRows + 1; j++) {
+            // Cập nhật cách chọn ảnh: chọn ngẫu nhiên thay vì dựa vào vị trí `y`
+            let symbolIndex = (Math.floor(reel.y / symbolHeight) + j) % this.images.length;
+
+            // Nếu reel đang quay, random ảnh
+            if (reel.speed > 0) {
+                symbolIndex = Math.floor(Math.random() * this.images.length);
+            }
+
+            if (symbolIndex < 0 || symbolIndex >= this.images.length) {
+                // console.warn(`⚠️ Invalid symbolIndex (${symbolIndex}), setting to 0`);
+                symbolIndex = 0;
+            }
+
+            const img = this.images[symbolIndex];
+            // console.log(`🖼️ Reel ${i}, Row ${j}: Drawing image index ${symbolIndex}`);
+
+            const aspectRatio = img.width / img.height;
+            let drawWidth = reelWidth;
+            let drawHeight = drawWidth / aspectRatio;
+
+            this.ctx.drawImage(img, i * reelWidth, reel.y + j * symbolHeight, drawWidth, drawHeight);
+        }
+
+        // Cập nhật vị trí quay
+        if (reel.speed > 0) {
+            reel.y += reel.speed;
+            if (reel.y >= symbolHeight) {
+                // console.log(`🔄 Resetting reel ${i}`);
+                reel.y = -symbolHeight * (this.numRows - 1);
+            }
+        }
     }
-  
-    requestAnimationFrame(() => this.draw());
+
+    requestAnimationFrame(() => this.draw()); // Vẽ liên tục
   }
 
   // Khi nhấn "SPIN"
@@ -113,12 +137,18 @@ export class Slot777Component {
   // Khi dừng từng cuộn
   stopReel(index: number) {
     let stopInterval = setInterval(() => {
-      this.reels[index].speed *= 0.9; // Giảm tốc độ dần dần
-      if (this.reels[index].speed < 0.5) {
-        this.reels[index].speed = 0;
-        clearInterval(stopInterval);
-      }
+        this.reels[index].speed *= 0.9; // Giảm tốc độ từ từ
+
+        if (this.reels[index].speed < 0.5) {
+            this.reels[index].speed = 0; // Dừng hẳn
+
+            // 🎲 Căn chỉnh ảnh một cách ngẫu nhiên để đảm bảo kết quả khác nhau
+            const symbolHeight = this.canvasHeight / this.numRows;
+            this.reels[index].y = -Math.floor(Math.random() * this.images.length) * symbolHeight;
+
+            clearInterval(stopInterval);
+        }
     }, 50);
-  }
-  
+}
+
 }
