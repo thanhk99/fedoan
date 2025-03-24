@@ -29,13 +29,46 @@
     color: white;
     margin-bottom: 20px;
     text-align: center;
-    /* width: 50px;  */
+    width: 1ch;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    transition: width 0.3s ease-in-out;
 }
 
-/* Đảm bảo logo vẫn nằm giữa khi mở rộng */
+/* Đảm bảo logo vẫn nằm giữa khi mở rộng
 .sidebar.left:hover .logo {
     width: 100%;
     text-align: left;
+} */
+.sidebar.left .logo::before {
+    content: "S";
+}
+
+.sidebar.left:hover .logo::before {
+    content: "SBCB";
+}
+
+/* Tạo hiệu ứng typing */
+.sidebar.left .logo {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 1ch;
+}
+
+.sidebar.left:hover .logo {
+    width: 5.5ch; /* Đủ chỗ cho SBCB */
+    animation: typing 1.5s steps(20) infinite alternate;
+}
+
+@keyframes typing {
+    from {
+        width: 1ch;
+    }
+    to {
+        width: 5.5ch;
+    }
 }
 
 /* Định dạng danh sách */

@@ -70,7 +70,8 @@ export class RrComponent implements OnInit  {
   // }
 
   ngOnInit(): void {
-    this.money = parseInt(this.userService.getBalanceCookies())
+    this.money = parseInt(this.userService.getBalanceCookies());
+    this.setForcedBomb(20);
   }
   initializeGrid() {
     this.gameOver = false;
@@ -80,6 +81,10 @@ export class RrComponent implements OnInit  {
     this.diamondProgress = 0;
     this.bombProgress = 0;
     this.firstReveal = false;
+
+    this.consecutiveDiamonds = 0;
+    this.forceBombTriggered = false;
+    this.bombSwapIndex = -1;
 
     this.grid = Array.from({ length: 5 }, () =>
       Array.from({ length: 5 }, () => ({ revealed: false, type: 'unknown' }))
@@ -145,16 +150,53 @@ export class RrComponent implements OnInit  {
     }
   }
 
+  forcedBombAt: number = 0; 
+  forceBombTriggered: boolean = false; // ép bom
+  bombSwapIndex: number = -1;
+  consecutiveDiamonds: number = 0; // Số kim cương liên tiếp trong một ván
+
+  setForcedBomb(n: number) {
+    this.forcedBombAt = n;
+    this.forceBombTriggered = false;
+    this.bombSwapIndex = -1;
+  }
+
+  forceBomb() {
+  if (this.consecutiveDiamonds === this.forcedBombAt) { // Sử dụng consecutiveDiamonds thay vì diamondsCollected
+    this.forceBombTriggered = true;
+
+    let hiddenBombIndex = this.flatGrid.findIndex(c => !c.revealed && c.type === 'bomb');
+
+    if (hiddenBombIndex !== -1) {
+      this.bombSwapIndex = hiddenBombIndex;
+    }
+  }
+}
+
   revealCell(index: number) {
     if (this.gameOver || !this.gameStarted) return;
+
+    this.forceBomb(); // Kiểm tra nếu đã đạt số kim cương cần ép bom
   
     const cell = this.flatGrid[index];
     if (!cell.revealed) {
       cell.revealed = true;
       this.firstReveal = true;
   
+      // Nếu ép bom, hoán đổi ô đang mở với một ô bom chưa mở
+      if (this.forceBombTriggered && this.bombSwapIndex !== -1) {
+        let bombCell = this.flatGrid[this.bombSwapIndex];
+  
+        // Đổi vị trí bom với ô hiện tại
+        [cell.type, bombCell.type] = [bombCell.type, cell.type];
+  
+        this.forceBombTriggered = false; // Reset ép bom sau khi thực hiện
+        this.bombSwapIndex = -1;
+      }
+
       if (cell.type === 'diamond') {
         this.diamondsCollected++;
+        this.consecutiveDiamonds++; // Tăng số kim cương liên tiếp
         this.playSound(this.diamondSound);
   
         this.multiplierIndex++;
@@ -176,8 +218,10 @@ export class RrComponent implements OnInit  {
         this.playSound(this.bombSound);
         this.bombProgress = 100;
   
+        this.consecutiveDiamonds = 0; // Reset chuỗi kim cương liên tiếp
+
         setTimeout(() => {
-          this.revealAllCells();
+          this.revealAllCells(); // lật hết các ô còn lại
           setTimeout(() => {
             alert("Bạn thua! Trò chơi sẽ bắt đầu lại.");
             this.initializeGrid();

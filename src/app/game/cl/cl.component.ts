@@ -39,20 +39,20 @@ export class ClComponent implements OnInit {
   offsetY: number = 0;
   initialPosition: { x: number; y: number } = { x: 0, y: 0 };
   //be
-  urlSocketCl: string = environment.urlSocketCl
+  urlSocketCl: string = environment.urlSocketCl;
   totalMoneyL = 0;
   totalMoneyC = 0;
   messages: any[] = [];
   messageInput: string = '';
   isConnected = false;
-  isClieckToggle:boolean=false
+  isClieckToggle: boolean = false;
   private messageSubscription!: Subscription;
   private connectionSubscription!: Subscription;
   constructor(
     private router: Router,
     private socket: WebSocketService,
     private userService: userService,
-    private gameService : GameService
+    private gameService: GameService
   ) {}
 
   ngOnInit(): void {
@@ -87,8 +87,8 @@ export class ClComponent implements OnInit {
               const parts: string[] = input.split(':');
               const firstNumber: number = Number(parts[0]);
               const secondNumber: number = Number(parts[1]);
-              this.sumBet_chan.nativeElement.textContent=firstNumber
-              this.sumBet_le.nativeElement.textContent=secondNumber
+              this.sumBet_chan.nativeElement.textContent = firstNumber;
+              this.sumBet_le.nativeElement.textContent = secondNumber;
               break;
             case 'reward':
               const reward: number = Number(parsedMessage.reward);
@@ -109,7 +109,6 @@ export class ClComponent implements OnInit {
           this.messages.push(messageData.message);
         }
       });
-      
 
     // Theo dõi trạng thái kết nối
     this.connectionSubscription = this.socket
@@ -119,7 +118,7 @@ export class ClComponent implements OnInit {
       x: this.draggableElement.nativeElement.offsetLeft,
       y: this.draggableElement.nativeElement.offsetTop,
     };
-    this.getHistory()
+    this.getHistory();
   }
 
   startCountdown(duration: number, display: HTMLElement): void {
@@ -142,7 +141,7 @@ export class ClComponent implements OnInit {
         clearInterval(interval);
         this.isCountingDown = false;
         this.draggableElement.nativeElement.classList.remove('disabled');
-        this.isClieckToggle=false
+        this.isClieckToggle = false;
       }
     }, 1000);
   }
@@ -236,9 +235,13 @@ export class ClComponent implements OnInit {
       } else {
         this.leElement.nativeElement.classList.add('blink-animation');
       }
-      this.getHistory()
+      this.getHistory();
     });
+    // const sound = new Howl({
+    //   src: ['sounds/dice.mp3'],
+    // });
   }
+
   //Xử lý logic button cược
   private hiddenButton: ElementRef<HTMLButtonElement> | null = null;
   private sumBetElement: ElementRef<HTMLSpanElement> | null = null;
@@ -247,7 +250,7 @@ export class ClComponent implements OnInit {
     button: ElementRef<HTMLButtonElement>,
     sum: ElementRef<HTMLSpanElement>
   ) {
-    if(this.userService.getCookies() ==='') return
+    if(this.userService.getCookies() !== '') return
     if(!this.isClieckToggle) return;
     this.sumBetElement = sum;
     if (this.hiddenButton === button) {
@@ -315,7 +318,7 @@ export class ClComponent implements OnInit {
   resetBet() {
     let sumC = document.getElementById('sum_chan');
     let sumL = document.getElementById('sum_le');
-    this.isClieckToggle=true
+    this.isClieckToggle = true;
     if (sumC && sumL) {
       sumC.textContent = '0';
       sumL.textContent = '0';
@@ -324,39 +327,38 @@ export class ClComponent implements OnInit {
   }
 
   //get lịch sử kết quả
-  getHistory() {  
+  getHistory() {
     const his_rs = document.querySelector('.his-rs');
-      if (his_rs) {
-        his_rs.innerHTML=""
-        this.gameService.getHistory("Chẵn lẻ").subscribe(
-          (data: any) => {
-            for (let i=0 ; i < data.length; i++) {
-              const cricleHis = document.createElement('div');
-              if(data[i].result %2==0){
-                cricleHis.style.background = 'rgb(3, 74, 100)';
-              }
-              else{
-                cricleHis.style.background = 'rgb(85, 3, 3)';
-              }
-              cricleHis.className = 'circle-rs'; 
-              cricleHis.textContent = data[i].result; 
-              cricleHis.style.width = '1rem';
-              cricleHis.style.height = '1rem';
-              cricleHis.style.borderRadius = '9999px';
-              cricleHis.style.border = '2px solid #d69e2e';
-              cricleHis.style.margin = '0 0.125rem';
-              cricleHis.style.display = 'flex';
-              cricleHis.style.justifyContent = 'center';
-              cricleHis.style.alignItems = 'center';
-              cricleHis.style.fontSize = '.85rem';
-              cricleHis.style.color = '#fff';
-              his_rs.appendChild(cricleHis);
+    if (his_rs) {
+      his_rs.innerHTML = '';
+      this.gameService.getHistory('Chẵn lẻ').subscribe(
+        (data: any) => {
+          for (let i = 0; i < data.length; i++) {
+            const cricleHis = document.createElement('div');
+            if (data[i].result % 2 == 0) {
+              cricleHis.style.background = 'rgb(3, 74, 100)';
+            } else {
+              cricleHis.style.background = 'rgb(85, 3, 3)';
             }
-          },
+            cricleHis.className = 'circle-rs';
+            cricleHis.textContent = data[i].result;
+            cricleHis.style.width = '1rem';
+            cricleHis.style.height = '1rem';
+            cricleHis.style.borderRadius = '9999px';
+            cricleHis.style.border = '2px solid #d69e2e';
+            cricleHis.style.margin = '0 0.125rem';
+            cricleHis.style.display = 'flex';
+            cricleHis.style.justifyContent = 'center';
+            cricleHis.style.alignItems = 'center';
+            cricleHis.style.fontSize = '.85rem';
+            cricleHis.style.color = '#fff';
+            his_rs.appendChild(cricleHis);
+          }
+        },
         (error: any) => {
           console.error(error);
         }
-      );  
+      );
     }
   }
   // websocket

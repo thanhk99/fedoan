@@ -12,7 +12,7 @@ main{
 
 canvas {
     border: 2px solid white;
-    background: black;
+    background: rgb(75, 66, 66);
     width: 500px;
     height: 300px;
   }
@@ -24,12 +24,13 @@ canvas {
   button {
     padding: 10px 20px;
     font-size: 20px;
-    background-color: green;
+    background-color: rgb(86, 187, 194);
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 20px;
   }
   
   button:hover {
-    background-color: darkgreen;
+    background-color: rgb(86, 219, 213);
   }
