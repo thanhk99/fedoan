@@ -59,6 +59,7 @@ export class ClComponent implements OnInit {
     this.userService.getUser();
     // Kết nối tới WebSocket
     let username: any = this.userService.getNameCookies();
+    console.log(username)
     this.urlSocketCl += '?username=' + username;
     this.socket.connect(this.urlSocketCl);
     //Lắng nghe tin nhắn
@@ -91,6 +92,7 @@ export class ClComponent implements OnInit {
               break;
             case 'reward':
               const reward: number = Number(parsedMessage.reward);
+<<<<<<< HEAD
               let playerId = this.userService.getCookies();
               const rs = parsedMessage.result;
               const moneyBet = parsedMessage.bet;
@@ -112,6 +114,20 @@ export class ClComponent implements OnInit {
                     console.log(error);
                   }
                 );
+=======
+              let playerId= this.userService.getCookies();
+              const rs=parsedMessage.result
+              const moneyBet=parsedMessage.bet
+              const choiceBet=parsedMessage.choice
+              this.userService.saveBetHis("Chẵn lẻ",playerId,rs,moneyBet,reward,choiceBet).subscribe(
+                (data) => {
+                  console.log(data);
+                },
+                (error) => {
+                  console.log(error);
+                }
+              )
+>>>>>>> b62c7fca07bfa981f80dbb5bcec3954d31b92cb5
               break;
           }
           this.messages.push(messageData.message);
@@ -245,6 +261,12 @@ export class ClComponent implements OnInit {
       }
       this.getHistory();
     });
+<<<<<<< HEAD
+=======
+    // const sound = new Howl({
+    //   src: ['sounds/dice.mp3'],
+    // });
+>>>>>>> b62c7fca07bfa981f80dbb5bcec3954d31b92cb5
   }
 
   //Xử lý logic button cược
@@ -255,8 +277,8 @@ export class ClComponent implements OnInit {
     button: ElementRef<HTMLButtonElement>,
     sum: ElementRef<HTMLSpanElement>
   ) {
-    if (this.userService.getCookies() !== '') return;
-    if (!this.isClieckToggle) return;
+    if(this.userService.getCookies() !== '') return
+    if(!this.isClieckToggle) return;
     this.sumBetElement = sum;
     if (this.hiddenButton === button) {
       return;

@@ -13,7 +13,7 @@ export class userService {
   private apiGetInfo= environment.apiGetInfo;
   private apiGetAtm=environment.apiGetAtm;
   private username:any =''
-  private keySecret :string ='anhthanhdz'
+  private keySecret :string =environment.keysecret
   constructor(private http: HttpClient,
               private cookieService: CookieService
   ) {}
@@ -21,8 +21,10 @@ export class userService {
     const body={"tk":account,"mk":password}
     return this.http.post(this.apiLogin,body);
   }
-  getUser(){
-    return this.http.get(this.apiGetInfo,{ withCredentials: true });
+  getUser():Observable<any>{
+    const id =this.getCookies()
+    const body={id:id}
+    return this.http.post(this.apiGetInfo,body);
   }
   getAtmUser(id:any) : Observable<any>{
     const body ={"idPlayer":id}
@@ -58,5 +60,11 @@ export class userService {
   decryptData(dataEncrypt:any) {
     const bytes = CryptoJS.AES.decrypt(dataEncrypt, this.keySecret);
     return bytes.toString(CryptoJS.enc.Utf8);
+  }
+  setToken(token:string){
+    localStorage.setItem("token",token)
+  }
+  getToken(){
+    return localStorage.getItem("token")
   }
 }
