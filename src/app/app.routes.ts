@@ -8,7 +8,7 @@ import { ClComponent } from './game/cl/cl.component';
 import { RrComponent } from './game/rr/rr.component';
 import { SpacemanComponent } from './game/spaceman/spaceman.component';
 import { Slot777Component } from './game/slot777/slot777.component';
-import { TransMoneyComponent } from './trans-money/trans-money.component';
+import { TransMoneyComponent } from './atm/trans-money/trans-money.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
