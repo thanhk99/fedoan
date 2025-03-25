@@ -83,6 +83,65 @@
     margin-bottom: 20%;
 }
 
+.friends-list li, .group-list li {
+    list-style: none;
+    margin: 7px 0;
+  }
+  
+  .friend-item, .group-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .icon-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+  }
+  
+  .status {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0; /* Đặt trạng thái ở dưới */
+    right: 0; /* Đặt trạng thái ở bên phải */
+    border: 1px solid white; 
+  }
+  
+  .online {
+    background-color: green;
+  }
+  
+  .offline {
+    background-color: gray;
+  }
+
+  .tooltip {
+    position: absolute;
+    left: -110%; /* Hiện sang bên trái */
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  /* Hover vào icon thì hiện tooltip */
+  .friend-item:hover .tooltip,
+  .group-item:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+
 /* Icon trong sidebar */
 .sidebar-right svg, .bottom-bar svg {
     width: 30px;

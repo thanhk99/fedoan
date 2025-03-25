@@ -51,13 +51,52 @@ export class Slot777Component {
 
   // Tải ảnh vào bộ nhớ trước khi hiển thị
   async loadImages() {
-    const promises = this.symbols.map(src => this.loadImage(`${src}`));
+    const targetWidth = 100; // Độ rộng cố định
+    const targetHeight = 100; // Độ cao cố định
+
+    const promises = this.symbols.map(src => this.resizeImage(src, targetWidth, targetHeight));
     this.images = await Promise.all(promises);
-    console.log("✅ Ảnh đã tải xong!", this.images);
-    
+
+    console.log("✅ Ảnh đã tải và resize xong!", this.images);
+
     this.initReels();
-    this.draw(); //  Gọi lại hàm vẽ
+    this.draw(); // Bắt đầu vẽ khi ảnh đã chuẩn bị xong
   }
+
+  resizeImage(src: string, targetWidth: number, targetHeight: number): Promise<HTMLImageElement> {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext("2d")!;
+
+            // Đảm bảo ảnh được resize theo đúng tỉ lệ
+            const aspectRatio = img.width / img.height;
+            let drawWidth = targetWidth;
+            let drawHeight = targetHeight;
+
+            if (aspectRatio > 1) {
+                drawHeight = targetWidth / aspectRatio;
+            } else {
+                drawWidth = targetHeight * aspectRatio;
+            }
+
+            const offsetX = (targetWidth - drawWidth) / 2;
+            const offsetY = (targetHeight - drawHeight) / 2;
+
+            ctx.clearRect(0, 0, targetWidth, targetHeight);
+            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+            // Chuyển canvas thành ảnh mới
+            const resizedImg = new Image();
+            resizedImg.src = canvas.toDataURL(); // Base64
+            resizedImg.onload = () => resolve(resizedImg);
+        };
+    });
+}
 
   // Tạo cuộn với vị trí và tốc độ ngẫu nhiên
   initReels() {
@@ -82,48 +121,25 @@ export class Slot777Component {
     const reelWidth = this.canvasWidth / this.numReels;
     const symbolHeight = this.canvasHeight / this.numRows;
 
-    // console.log("🖌️ Drawing slot machine...");
-
     for (let i = 0; i < this.numReels; i++) {
         const reel = this.reels[i];
-        // console.log(`🎰 Reel ${i} - Y: ${reel.y}, Speed: ${reel.speed}`);
 
         for (let j = 0; j < this.numRows + 1; j++) {
-            // Cập nhật cách chọn ảnh: chọn ngẫu nhiên thay vì dựa vào vị trí `y`
-            let symbolIndex = (Math.floor(reel.y / symbolHeight) + j) % this.images.length;
-
-            // Nếu reel đang quay, random ảnh
-            if (reel.speed > 0) {
-                symbolIndex = Math.floor(Math.random() * this.images.length);
-            }
-
-            if (symbolIndex < 0 || symbolIndex >= this.images.length) {
-                // console.warn(`⚠️ Invalid symbolIndex (${symbolIndex}), setting to 0`);
-                symbolIndex = 0;
-            }
-
+            let symbolIndex = Math.abs(Math.floor((reel.y / symbolHeight) + j)) % this.images.length;
             const img = this.images[symbolIndex];
-            // console.log(`🖼️ Reel ${i}, Row ${j}: Drawing image index ${symbolIndex}`);
 
-            const aspectRatio = img.width / img.height;
-            let drawWidth = reelWidth;
-            let drawHeight = drawWidth / aspectRatio;
-
-            this.ctx.drawImage(img, i * reelWidth, reel.y + j * symbolHeight, drawWidth, drawHeight);
+            this.ctx.drawImage(img, i * reelWidth, reel.y + j * symbolHeight, reelWidth, symbolHeight);
         }
 
-        // Cập nhật vị trí quay
+        // Xử lý chuyển động của cuộn
         if (reel.speed > 0) {
             reel.y += reel.speed;
-            if (reel.y >= symbolHeight) {
-                // console.log(`🔄 Resetting reel ${i}`);
-                reel.y = -symbolHeight * (this.numRows - 1);
-            }
+            if (reel.y >= symbolHeight) reel.y = -symbolHeight * this.images.length;
         }
     }
 
     requestAnimationFrame(() => this.draw()); // Vẽ liên tục
-  }
+}
 
   // Khi nhấn "SPIN"
   spin() {
