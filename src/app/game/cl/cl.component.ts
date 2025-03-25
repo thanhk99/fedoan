@@ -109,11 +109,6 @@ export class ClComponent implements OnInit {
           this.messages.push(messageData.message);
         }
       });
-
-    // Theo dõi trạng thái kết nối
-    this.connectionSubscription = this.socket
-      .getConnectionStatus()
-      .subscribe((status) => {});
     this.initialPosition = {
       x: this.draggableElement.nativeElement.offsetLeft,
       y: this.draggableElement.nativeElement.offsetTop,
