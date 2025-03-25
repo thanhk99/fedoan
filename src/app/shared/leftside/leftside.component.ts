@@ -1,14 +1,18 @@
 import { Component } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-leftside',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './leftside.component.html',
-  styleUrl: './leftside.component.css'
+  styleUrls: ['./leftside.component.css']
 })
 export class LeftsideComponent {
   constructor(
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private route: Router
   ){}
   logout(){
     const allCookies = this.cookieService.getAll();
@@ -18,5 +22,8 @@ export class LeftsideComponent {
       }
     }
     location.reload()
+  }
+  MessagePage() {
+    this.route.navigate(["/message"]);
   }
 }
