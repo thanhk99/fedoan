@@ -109,10 +109,10 @@
 /* Icon */
 .sidebar nav ul li a { 
     font-size: 20px;
-    /* margin-right: 10px; */
     width: 50%;
     text-align: center;
     flex-shrink: 0;
+    display: flex;
 }
 
 .sidebar.left:hover nav ul li a {

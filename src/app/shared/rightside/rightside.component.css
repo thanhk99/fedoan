@@ -21,7 +21,7 @@
     height: 50%;
     width: 80%;
     border-radius: 30px;
-    overflow: hidden;
+    overflow : hidden;
 }
 
 /* Logo bạn bè */
@@ -92,6 +92,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    position: relative;
   }
   
   .icon-wrapper {
@@ -99,6 +100,7 @@
     display: inline-block;
     width: 30px;
     height: 30px;
+    cursor: pointer;
   }
   
   .status {
@@ -119,28 +121,88 @@
     background-color: gray;
   }
 
-  .tooltip {
-    position: absolute;
-    left: -110%; /* Hiện sang bên trái */
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.8);
+  /* Tooltip (sẽ được đặt ngoài sidebar) */
+/* .friend-info {
+    position: fixed; 
+    background: rgba(61, 25, 4, 0.9);
     color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+.friend-info.ng-star-inserted {
+  opacity: 1;
+} */
+
+.friend-info{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -160px; 
+  background: rgba(61, 25, 4, 0.9);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  z-index: 1000; 
+}
+
+.friend-item:hover .friend-info {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+  /* .tooltip {
+    position: fixed;
+    top: 40%;
+    right: 110%; 
+    transform: translateY(-50%); 
+    background: rgba(61, 25, 4, 0.9); 
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
     font-size: 12px;
+    max-width: 150px; 
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 100;
   }
+
+  .icon-wrapper:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+} */ 
+
   
-  /* Hover vào icon thì hiện tooltip */
+  /* Hover vào icon thì hiện tooltip*/
   .friend-item:hover .tooltip,
   .group-item:hover .tooltip {
     opacity: 1;
     visibility: visible;
   }
+
+  .tooltip-name {
+    font-weight: bold;
+    display: block;
+    text-overflow: ellipsis;
+}
+
+.tooltip-status {
+    font-size: 12px;
+    opacity: 0.8;
+    display: block;
+}
 
 /* Icon trong sidebar */
 .sidebar-right svg, .bottom-bar svg {

@@ -5,17 +5,32 @@
         </div>
         <ul class="friends-list">
           <li *ngFor="let friend of friends">
-            <div class="friend-item">
-              <div class="icon-wrapper">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="30" height="30" fill="#ada9a9">
-                  <path [attr.d]="friend.iconPath"></path>
-                </svg>
-                <span class="status" [ngClass]="friend.status"></span>
+              <div class="friend-item">
+                  <div class="icon-wrapper">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="30" height="30" fill="#ada9a9">
+                          <path [attr.d]="friend.iconPath"></path>
+                      </svg>
+                      <span class="status" [ngClass]="friend.status"></span>
+
+                      <!-- <div class="tooltip">
+                        <div class="tooltip-name">{{ friend.name }}</div>
+                        <div class="tooltip-status">{{ friend.status }}</div>
+                      </div> -->
+                    <!-- <span class="status" [ngClass]="friend.status"></span>
+                    <span class="friend-info">{{ friend.name }} - {{ friend.status }}</span> -->
+                  </div>
+                  <span class="friend-info">{{ friend.name }} - {{ friend.status }}</span>
               </div>
-            </div>
-            <!-- <div class="tooltip">{{ friend.name }} - {{ friend.status }}</div> -->
           </li>
         </ul>
+        <!-- <div 
+            class="tooltip" 
+            *ngIf="tooltipVisible" 
+            [ngStyle]="{'top.px': tooltipY, 'left.px': tooltipX}"
+          >
+            <div class="tooltip-name">{{ tooltipData?.name }}</div>
+            <div class="tooltip-status">{{ tooltipData?.status }}</div>
+        </div> -->
     </div>
     <div class="bottom-bar">
         <div class="logo-group">
@@ -30,7 +45,10 @@
                 </svg>
                 <span class="status" [ngClass]="group.status"></span>
               </div>
-              <!-- <div class="tooltip">{{ group.name }} - {{ group.membersOnline }} online</div> -->
+              <!-- <div class="tooltip">
+                  <div class="tooltip-name">{{ group.name }}</div>
+                  <div class="tooltip-status">{{ group.membersOnline }}</div>
+              </div> -->
             </div>
           </li>
         </ul>

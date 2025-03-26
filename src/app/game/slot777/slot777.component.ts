@@ -26,7 +26,7 @@ export class Slot777Component {
     '7red.png',
     '7blue.png',
     '7green.png',
-    '7purple.jpg',
+    '7purple.png',
     'bar.png'
   ];
   images: HTMLImageElement[] = [];
@@ -51,51 +51,80 @@ export class Slot777Component {
 
   // Tải ảnh vào bộ nhớ trước khi hiển thị
   async loadImages() {
-    const targetWidth = 100; // Độ rộng cố định
-    const targetHeight = 100; // Độ cao cố định
+    const reelWidth = this.canvasWidth / this.numReels;
+    const symbolHeight = this.canvasHeight / this.numRows;
 
-    const promises = this.symbols.map(src => this.resizeImage(src, targetWidth, targetHeight));
-    this.images = await Promise.all(promises);
+    try {
+        const promises = this.symbols.map(src => this.resizeImage(src, reelWidth, symbolHeight));
+        this.images = (await Promise.all(promises)).filter(img => img !== null);
 
-    console.log("✅ Ảnh đã tải và resize xong!", this.images);
+        console.log("✅ Ảnh đã tải và resize xong:", this.images);
 
-    this.initReels();
-    this.draw(); // Bắt đầu vẽ khi ảnh đã chuẩn bị xong
+        this.initReels();
+        this.draw();
+    } catch (error) {
+        console.error("❌ Lỗi khi load ảnh:", error);
+    }
   }
 
-  resizeImage(src: string, targetWidth: number, targetHeight: number): Promise<HTMLImageElement> {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = () => {
-            const canvas = document.createElement("canvas");
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
-            const ctx = canvas.getContext("2d")!;
+  resizeImage(src: string, targetWidth: number, targetHeight: number): Promise<HTMLImageElement | null> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.crossOrigin = "anonymous"; 
 
-            // Đảm bảo ảnh được resize theo đúng tỉ lệ
-            const aspectRatio = img.width / img.height;
-            let drawWidth = targetWidth;
-            let drawHeight = targetHeight;
+      img.onload = () => {
+          console.log(`🖼️ Đã tải xong ảnh: ${src}, Kích thước gốc: ${img.width}x${img.height}`);
 
-            if (aspectRatio > 1) {
-                drawHeight = targetWidth / aspectRatio;
-            } else {
-                drawWidth = targetHeight * aspectRatio;
-            }
+          const canvas = document.createElement("canvas");
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
+          const ctx = canvas.getContext("2d");
 
-            const offsetX = (targetWidth - drawWidth) / 2;
-            const offsetY = (targetHeight - drawHeight) / 2;
+          if (!ctx) {
+              console.error("⚠️ Không thể lấy context từ canvas!");
+              return resolve(null);
+          }
 
-            ctx.clearRect(0, 0, targetWidth, targetHeight);
-            ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+          // Đảm bảo ảnh được resize theo đúng tỉ lệ
+          const aspectRatio = img.width / img.height;
+          let drawWidth = targetWidth;
+          let drawHeight = targetHeight;
 
-            // Chuyển canvas thành ảnh mới
-            const resizedImg = new Image();
-            resizedImg.src = canvas.toDataURL(); // Base64
-            resizedImg.onload = () => resolve(resizedImg);
-        };
-    });
+          if (aspectRatio > 1) {
+              drawHeight = targetWidth / aspectRatio;
+          } else {
+              drawWidth = targetHeight * aspectRatio;
+          }
+
+          const offsetX = (targetWidth - drawWidth) / 2;
+          const offsetY = (targetHeight - drawHeight) / 2;
+
+          ctx.clearRect(0, 0, targetWidth, targetHeight);
+          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+          // Chuyển canvas thành ảnh mới
+          const resizedImg = new Image();
+          resizedImg.src = canvas.toDataURL("image/png");
+
+          resizedImg.onload = () => {
+              console.log(`✅ Ảnh resize xong: ${resizedImg.src}`);
+              console.log(`🖼️ Ảnh sau resize (${resizedImg.src}): ${resizedImg.width}x${resizedImg.height}`); // ⬅️ Dòng log này
+
+              resolve(resizedImg);
+          };
+
+          resizedImg.onerror = (err) => {
+              console.error(`⚠️ Lỗi khi tạo ảnh từ canvas: ${src}`, err);
+              resolve(null);
+          };
+      };
+
+      img.onerror = (err) => {
+          console.error(`❌ Không thể tải ảnh: ${src}`, err);
+          resolve(null);
+      };
+  });
 }
 
   // Tạo cuộn với vị trí và tốc độ ngẫu nhiên
@@ -117,21 +146,36 @@ export class Slot777Component {
   // Hàm vẽ slot machine
   draw() {
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-
+  
     const reelWidth = this.canvasWidth / this.numReels;
     const symbolHeight = this.canvasHeight / this.numRows;
-
+  
     for (let i = 0; i < this.numReels; i++) {
         const reel = this.reels[i];
 
         for (let j = 0; j < this.numRows + 1; j++) {
             let symbolIndex = Math.abs(Math.floor((reel.y / symbolHeight) + j)) % this.images.length;
+
+            if (symbolIndex < 0 || symbolIndex >= this.images.length) {
+                symbolIndex = 0; // Đảm bảo luôn có ảnh hợp lệ
+            }
+
             const img = this.images[symbolIndex];
 
-            this.ctx.drawImage(img, i * reelWidth, reel.y + j * symbolHeight, reelWidth, symbolHeight);
+            if (!img) {
+                console.warn(`⚠️ Không tìm thấy ảnh cho index ${symbolIndex}`);
+                continue;
+            }
+
+            // console.log(`🖼️ Đang vẽ ảnh: ${img.src} tại vị trí (${i * reelWidth}, ${reel.y + j * symbolHeight})`);
+
+            const aspectRatio = img.width / img.height;
+            let drawWidth = reelWidth;
+            let drawHeight = drawWidth / aspectRatio;
+
+            this.ctx.drawImage(img, i * reelWidth, reel.y + j * symbolHeight, drawWidth, drawHeight);
         }
 
-        // Xử lý chuyển động của cuộn
         if (reel.speed > 0) {
             reel.y += reel.speed;
             if (reel.y >= symbolHeight) reel.y = -symbolHeight * this.images.length;

@@ -16,6 +16,8 @@ export class FriendComponent {
   showSearchResults = false; // Biến kiểm soát hiển thị kết quả tìm kiếm người kết bạn
   searchResults: string[] = []; // Danh sách kết quả tìm kiếm người kết bạn
 
+  constructor() {}  
+
   friends = [
     'Nguyễn Chí Thành',
     'Nguyễn Đức Trí',
