@@ -109,11 +109,6 @@ export class ClComponent implements OnInit {
           this.messages.push(messageData.message);
         }
       });
-
-    // Theo dõi trạng thái kết nối
-    this.connectionSubscription = this.socket
-      .getConnectionStatus()
-      .subscribe((status) => {});
     this.initialPosition = {
       x: this.draggableElement.nativeElement.offsetLeft,
       y: this.draggableElement.nativeElement.offsetTop,
@@ -237,9 +232,6 @@ export class ClComponent implements OnInit {
       }
       this.getHistory();
     });
-    // const sound = new Howl({
-    //   src: ['sounds/dice.mp3'],
-    // });
   }
 
   //Xử lý logic button cược
@@ -250,7 +242,7 @@ export class ClComponent implements OnInit {
     button: ElementRef<HTMLButtonElement>,
     sum: ElementRef<HTMLSpanElement>
   ) {
-    if(this.userService.getCookies() !== '') return
+    if(this.userService.getCookies() === '') return
     if(!this.isClieckToggle) return;
     this.sumBetElement = sum;
     if (this.hiddenButton === button) {

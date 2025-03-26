@@ -14,6 +14,7 @@
     transition: width 0.3s ease-in-out;
     overflow: hidden;
     white-space: nowrap;
+    z-index: 999;
 }
 
 .sidebar.left:hover {
@@ -109,10 +110,10 @@
 /* Icon */
 .sidebar nav ul li a { 
     font-size: 20px;
-    /* margin-right: 10px; */
     width: 50%;
     text-align: center;
     flex-shrink: 0;
+    display: flex;
 }
 
 .sidebar.left:hover nav ul li a {

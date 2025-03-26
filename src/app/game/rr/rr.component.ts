@@ -71,7 +71,7 @@ export class RrComponent implements OnInit  {
 
   ngOnInit(): void {
     this.money = parseInt(this.userService.getBalanceCookies());
-    this.setForcedBomb(20);
+    this.setForcedBomb(3);
   }
   initializeGrid() {
     this.gameOver = false;

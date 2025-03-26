@@ -2,20 +2,21 @@
     <div class="sidebar">
         <h2>Chats</h2>
         <ul class="chat-list">
-            <li class="chat-item">User 1</li>
-            <li class="chat-item">User 2</li>
-            <li class="chat-item">User 3</li>
+            <li *ngFor="let user of users" class="chat-item" (click)="selectUser(user)">{{ user.name }}</li>
         </ul>
     </div>
-    <div class="chat-window">
-        <div class="chat-header">User 1</div>
+    <div class="chat-window" *ngIf="selectedUser">
+        <div class="chat-header">{{ selectedUser.name }}</div>
+
         <div class="chat-messages">
-            <div class="message received">Hello!</div>
-            <div class="message sent">Hi, how are you?</div>
+            <div *ngFor="let msg of messages" [ngClass]="msg.type" class="message">
+                {{ msg.text }}
+            </div>
         </div>
+
         <div class="chat-input">
-            <input type="text" placeholder="Type a message...">
-            <button>Send</button>
+            <input [(ngModel)]="newMessage" type="text" placeholder="Type a message..." (keyup.enter)="sendMessage()">
+            <button (click)="sendMessage()">Send</button>
         </div>
     </div>
 </div>

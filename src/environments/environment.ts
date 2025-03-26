@@ -1,4 +1,7 @@
+
 const SERVER_IP = '192.168.1.83'; 
+
+
 
 export const environment = {
     production: true,
@@ -18,4 +21,7 @@ export const environment = {
     apiSearch :`http://${SERVER_IP}:8082/user/searchFullname`,
     apiGetrequets:`http://${SERVER_IP}:8082/friend/getFriendRequests`,
     keysecret:"anhthanhdz",
+    apiSearchAtm: `http://${SERVER_IP}:8082/Atm/search`,
+    apiSaveHisBalance: `http://${SERVER_IP}:8082/Atm/saveHis`,
+    apiSearchFullname: `http://${SERVER_IP}:8082/user/searchFullname`,
 };

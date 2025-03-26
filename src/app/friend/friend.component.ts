@@ -19,6 +19,7 @@ export class FriendComponent {
   showSearchResults = false; // Biến kiểm soát hiển thị kết quả tìm kiếm người kết bạn
   searchResults: string[] = []; // Danh sách kết quả tìm kiếm người kết bạn
 
+
   friends: string[] = []; // Danh sách bạn bè
   friendRequests : {name : string }[] = []; // Danh sách lời mời kết bạn
   btn_add = 'Thêm bạn bè';
@@ -39,6 +40,9 @@ export class FriendComponent {
       }
     );
   }
+
+
+
 
   showListFriend() {
     this.showFriendsList = true;
