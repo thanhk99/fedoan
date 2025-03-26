@@ -16,7 +16,6 @@ import { MessageComponent } from "./message/message.component";
     RightsideComponent,
     LoginComponent,
     NgIf,
-    MessageComponent
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -29,8 +28,5 @@ export class AppComponent {
   }
   isLoginPage(): boolean {
     return this.route.url === '/login';
-  }
-  isMessagePage(): boolean {
-    return this.route.url === '/message';
   }
 }

@@ -21,6 +21,7 @@ export class LeftsideComponent {
         this.cookieService.delete(cookie);
       }
     }
+    localStorage.clear();
     location.reload()
   }
   MessagePage() {
