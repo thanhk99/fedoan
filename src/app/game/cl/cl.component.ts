@@ -92,7 +92,6 @@ export class ClComponent implements OnInit {
               break;
             case 'reward':
               const reward: number = Number(parsedMessage.reward);
-<<<<<<< HEAD
               let playerId = this.userService.getCookies();
               const rs = parsedMessage.result;
               const moneyBet = parsedMessage.bet;
@@ -114,20 +113,6 @@ export class ClComponent implements OnInit {
                     console.log(error);
                   }
                 );
-=======
-              let playerId= this.userService.getCookies();
-              const rs=parsedMessage.result
-              const moneyBet=parsedMessage.bet
-              const choiceBet=parsedMessage.choice
-              this.userService.saveBetHis("Chẵn lẻ",playerId,rs,moneyBet,reward,choiceBet).subscribe(
-                (data) => {
-                  console.log(data);
-                },
-                (error) => {
-                  console.log(error);
-                }
-              )
->>>>>>> b62c7fca07bfa981f80dbb5bcec3954d31b92cb5
               break;
           }
           this.messages.push(messageData.message);
@@ -256,12 +241,6 @@ export class ClComponent implements OnInit {
       }
       this.getHistory();
     });
-<<<<<<< HEAD
-=======
-    // const sound = new Howl({
-    //   src: ['sounds/dice.mp3'],
-    // });
->>>>>>> b62c7fca07bfa981f80dbb5bcec3954d31b92cb5
   }
 
   //Xử lý logic button cược
