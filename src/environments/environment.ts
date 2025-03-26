@@ -11,4 +11,7 @@ export const environment = {
     apiSaveHisBalan:`http://${SERVER_IP}:8082/Atm/saveHis`,
     apiupdateBalan:`http://${SERVER_IP}:8082/Atm/updateBalan`,
     keysecret:"anhthanhdz",
+    apiSearchAtm: `http://${SERVER_IP}:8082/Atm/search`,
+    apiSaveHisBalance: `http://${SERVER_IP}:8082/Atm/saveHis`,
+    apiSearchFullname: `http://${SERVER_IP}:8082/user/searchFullname`,
 };

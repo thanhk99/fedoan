@@ -20,5 +20,5 @@ export const routes: Routes = [
   { path: 'game/rr', component: RrComponent },
   { path: 'game/spaceman', component: SpacemanComponent },
   { path: 'game/slot777', component: Slot777Component },
-  { path: 'trans-money', component: TransMoneyComponent },
+  { path: 'atm/transfer', component: TransMoneyComponent },
 ];
