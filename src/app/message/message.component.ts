@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { WebSocketService } from '../service/socket.service';
 import { userService } from '../service/users.service';
 import { environment } from '../../environments/environment';
+import { FriendService } from '../service/friend.service';
 @Component({
   selector: 'app-message',
   imports: [CommonModule, FormsModule],
@@ -14,37 +15,34 @@ export class MessageComponent implements OnInit {
   constructor(
     private socketService: WebSocketService,
     private userService: userService,
+    private friendService: FriendService,
   ){}
   urlSocketMess=environment.urlSocketMess
-  users = [
-    { name: 'User 1',id: 1 },
-    { name: 'User 2',id: 2 },
-    { name: 'nhóm kéo',id: 3 }
-  ];
-
+  users :any
   selectedUser: { id: number; name: string } | null = null;
   newMessage: string = '';
 
-  chatHistory: { [key: number]: { text: string; type: string }[] } = {
-    1: [
-      { text: 'Hello!', type: 'received' },
-      { text: 'Hi?', type: 'sent' }
-    ],
-    2: [
-      { text: 'Hey there!', type: 'received' },
-      { text: 'What?', type: 'sent' }
-    ],
-    3: [
-      { text: 'Yo!', type: 'received' },
-      { text: 'loo', type: 'sent' }
-    ]
-  };
+  // chatHistory: { [key: number]: { text: string; type: string }[] } = {
+  //   1: [
+  //     { text: 'Hello!', type: 'received' },
+  //     { text: 'Hi?', type: 'sent' }
+  //   ],
+  //   2: [
+  //     { text: 'Hey there!', type: 'received' },
+  //     { text: 'What?', type: 'sent' }
+  //   ],
+  //   3: [
+  //     { text: 'Yo!', type: 'received' },
+  //     { text: 'loo', type: 'sent' }
+  //   ]
+  // };
 
   messages: { text: string; type: string }[] = [];
 
   selectUser(user: { id: number; name: string }) {
     this.selectedUser = user;
-    this.messages = this.chatHistory[user.id] || [];
+    // this.messages = this.chatHistory[user.id] || [];
+    console.log(this.selectedUser.id)
   }
 
   sendMessage() {
@@ -52,15 +50,15 @@ export class MessageComponent implements OnInit {
       const newMsg = { text: this.newMessage, type: 'sent' };
   
       // Đảm bảo đã khởi tạo danh sách tin nhắn cho user này
-      if (!this.chatHistory[this.selectedUser.id]) {
-        this.chatHistory[this.selectedUser.id] = [];
-      }
+      // if (!this.chatHistory[this.selectedUser.id]) {
+      //   this.chatHistory[this.selectedUser.id] = [];
+      // }
   
       // Cập nhật tin nhắn vào lịch sử
-      this.chatHistory[this.selectedUser.id].push(newMsg);
+      // this.chatHistory[this.selectedUser.id].push(newMsg);
   
       // Cập nhật danh sách tin nhắn đang hiển thị
-      this.messages = [...this.chatHistory[this.selectedUser.id]];
+      // this.messages = [...this.chatHistory[this.selectedUser.id]];
   
       let data={
         "type":"message",
@@ -75,6 +73,14 @@ export class MessageComponent implements OnInit {
 
   //be
   ngOnInit(): void {
+    this.friendService.getListFriends().subscribe(
+      (data:any)=>{
+        this.users=data
+      },
+      (error:any)=>{
+        console.log(error)
+      }
+    )
     this.urlSocketMess +='?id=' +this.userService.getCookies()
     this.socketService.connect(this.urlSocketMess);
     console.log(this.urlSocketMess)

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { endWith, Observable } from 'rxjs';
+import { endWith, Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service'
 import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
@@ -12,6 +13,7 @@ export class userService {
   private apiLogin= environment.apiLogin; 
   private apiGetInfo= environment.apiGetInfo;
   private apiGetAtm=environment.apiGetAtm;
+  private apiSearchFullname = environment.apiSearchFullname;
   private username:any =''
   private keySecret :string =environment.keysecret
   constructor(private http: HttpClient,
@@ -21,10 +23,16 @@ export class userService {
     const body={"tk":account,"mk":password}
     return this.http.post(this.apiLogin,body);
   }
+  getFullname(fullname: string): Observable<string[]> {
+    const body = { "fullname": fullname };
+    return this.http.post<any[]>(this.apiSearchFullname, body).pipe(
+        map(users => users.map(user => user.fullname)) // Chỉ lấy fullname
+    );
+}
   getUser():Observable<any>{
     const id =this.getCookies()
     const body={id:id}
-    return this.http.post(this.apiGetInfo,body);
+    return this.http.post(this.apiGetInfo, { params: body });
   }
   getAtmUser(id:any) : Observable<any>{
     const body ={"idPlayer":id}

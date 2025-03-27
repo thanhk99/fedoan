@@ -2,7 +2,7 @@
     <div class="sidebar">
         <h2>Chats</h2>
         <ul class="chat-list">
-            <li *ngFor="let user of users" class="chat-item" (click)="selectUser(user)">{{ user.name }}</li>
+            <li *ngFor="let user of users" class="chat-item" (click)="selectUser(user)">{{ user.fullname }}</li>
         </ul>
     </div>
     <div class="chat-window" *ngIf="selectedUser">
