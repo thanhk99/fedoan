@@ -32,9 +32,14 @@ export class MessageComponent implements OnInit {
   selectUser(user: { id: number; fullname: string }) {
     this.selectedUser = user;
     // this.messages = this.chatHistory[user.id] || [];
+    const id = parseInt(this.userService.getCookies());
     this.messageService.getChatHis(parseInt(this.userService.getCookies()),this.selectedUser.id).subscribe(
       (data:any)=>{
-        this.messages=data
+        const idMy = id;
+        this.messages = data.map((msg: { id: number; content: string }) => ({
+          content: msg.content,
+          type: msg.id === idMy ? "sent" : "received" 
+        }));
       },
       (error:any)=>{
         console.log(error)
