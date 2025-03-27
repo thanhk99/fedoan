@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { WebSocketService } from '../service/socket.service';
+import { userService } from '../service/users.service';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-message',
   imports: [CommonModule, FormsModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.css'
 })
-export class MessageComponent {
+export class MessageComponent implements OnInit {
+  constructor(
+    private socketService: WebSocketService,
+    private userService: userService,
+  ){}
+  urlSocketMess=environment.urlSocketMess
   users = [
     { name: 'User 1',id: 1 },
     { name: 'User 2',id: 2 },
@@ -55,9 +62,21 @@ export class MessageComponent {
       // Cập nhật danh sách tin nhắn đang hiển thị
       this.messages = [...this.chatHistory[this.selectedUser.id]];
   
-      // Xóa nội dung input
+      let data={
+        "type":"message",
+        "idReceiver":this.selectedUser.id,
+        "content":this.newMessage
+      }
+      let jsonData=JSON.stringify(data)
+      this.socketService.sendMessage(this.urlSocketMess,jsonData)
       this.newMessage = '';
     }
   }
 
+  //be
+  ngOnInit(): void {
+    this.urlSocketMess +='?id=' +this.userService.getCookies()
+    this.socketService.connect(this.urlSocketMess);
+    console.log(this.urlSocketMess)
+  }
 }

@@ -1,4 +1,4 @@
-const SERVER_IP = '192.168.0.100'; 
+const SERVER_IP = '192.168.1.155'; 
 
 export const environment = {
     production: false,
@@ -14,4 +14,5 @@ export const environment = {
     apiSearchAtm: `http://${SERVER_IP}:8082/Atm/search`,
     apiSaveHisBalance: `http://${SERVER_IP}:8082/Atm/saveHis`,
     apiSearchFullname: `http://${SERVER_IP}:8082/user/searchFullname`,
+    urlSocketMess: `ws://${SERVER_IP}:8082/mess`,
 };
