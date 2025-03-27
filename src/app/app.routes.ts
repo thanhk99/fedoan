@@ -9,6 +9,7 @@ import { RrComponent } from './game/rr/rr.component';
 import { SpacemanComponent } from './game/spaceman/spaceman.component';
 import { Slot777Component } from './game/slot777/slot777.component';
 import { TransMoneyComponent } from './atm/trans-money/trans-money.component';
+import { RechargeComponent } from './recharge/recharge.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -21,4 +22,5 @@ export const routes: Routes = [
   { path: 'game/spaceman', component: SpacemanComponent },
   { path: 'game/slot777', component: Slot777Component },
   { path: 'atm/transfer', component: TransMoneyComponent },
+  {path: 'recharge', component: RechargeComponent},
 ];
