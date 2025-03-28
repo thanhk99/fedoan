@@ -1,39 +1,51 @@
 <div class="trans-money">
   <h2>Chuyển Tiền</h2>
+  <div #note class="note">{{ notifical1 }}</div>
   <form>
     <div class="form-group">
-      <label for="id">ID người nhận</label>
-      <input type="text" id="id" name="id" placeholder="Nhập tên người nhận" />
+      <label for="id">Số tài khoản người nhận</label>
+      <input type="text" #id name="id" placeholder="Nhập tên người nhận" />
     </div>
     <div class="form-group">
       <label for="username">Tên người nhận</label>
       <input
         type="text"
-        id="username"
+        #username
         name="username"
         placeholder="Nhập tên người nhận"
+        readonly
       />
     </div>
     <div class="form-group">
       <label for="amount">Số tiền chuyển</label>
       <input
         type="number"
+        #amount
         id="amount"
         name="amount"
         inputmode="numeric"
         pattern="[0-9]*"
         placeholder="Nhập số tiền chuyển"
+        (input)="onInputChange($event)"
       />
+      <div #msg class="msg">{{ notifical2 }}</div>
     </div>
-    <div class="message"></div>
+
     <div class="form-group">
       <label for="message">Nội dung chuyển tiền</label>
       <textarea
-        id="message"
+        #message
         name="message"
         placeholder="Nhập nội dung chuyển tiền"
       ></textarea>
     </div>
-    <button type="submit" class="submit-btn">Chuyển Tiền</button>
+    <button
+      #submit
+      type="submit"
+      class="submit-btn"
+      [disabled]="submitIsDisabled"
+    >
+      Chuyển Tiền
+    </button>
   </form>
 </div>

@@ -13,8 +13,17 @@
 .trans-money h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
   text-align: center;
+  margin-bottom: 1rem;
+}
+.note {
+  font-size: 1rem;
+  color: #ff0000;
+  text-align: center;
+}
+.msg {
+  font-size: 1rem;
+  color: #ff0000;
 }
 .form-group {
   margin-bottom: 1rem;
@@ -60,9 +69,12 @@
   transition: background-color 0.3s;
 }
 .submit-btn:hover {
-  background-color: #2b6cb0;
+  background-color: #1f7046;
 }
 .submit-btn:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.6);
+}
+.submit-btn:disabled {
+  background-color: #d1d1d1;
 }
