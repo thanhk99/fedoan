@@ -37,6 +37,7 @@ export class SpacemanComponent {
   multiplierInterval: any;
   hasWithdrawn: boolean = false;
   betTimeout: any;
+  acceleration: number = 1.0;
 
   audio = new Audio('mucsic.mp3');
   loadAudio() {
@@ -92,29 +93,51 @@ export class SpacemanComponent {
     this.selectedBet = bet;
   }
 
+  updateAcceleration() {
+   
+      if (this.multiplier < 3.0) {
+          this.acceleration = 3.0;
+      } else if (this.multiplier < 6.0) {
+          this.acceleration = 4.5;
+      } else if (this.multiplier < 9.0) {
+          this.acceleration = 5.0;
+      } else if (this.multiplier < 12.0) {
+          this.acceleration = 3.5;
+      } else if (this.multiplier < 15.0) {
+          this.acceleration = 6.0;
+      } else if (this.multiplier < 18.0) {
+          this.acceleration = 7.5;
+      } else {
+          this.acceleration = 8.0; // Cực nhanh khi gần 20.0
+      }
 
-  startMultiplier() {
+  
+}
+
+startMultiplier() {
     this.multiplier = 1.0;
     this.hasWithdrawn = false;
-    const stopAt = parseFloat((Math.random() * 19 + 1).toFixed(1)); // Dừng ngẫu nhiên từ 1.0 đến 20.0
+    const stopAt = parseFloat((Math.random() * 19 + 1).toFixed(1)); // Random từ 1.0 đến 20.0
+    
     this.multiplierInterval = setInterval(() => {
-      this.multiplier = parseFloat((this.multiplier + 0.1).toFixed(1));
-      if (this.multiplier >= stopAt) {
-        this.stopMultiplier();
-        clearTimeout(this.betTimeout); // Dừng setTimeout khi hệ số nhân dừng lại
-      }
-    }, 100); // Tăng số nhân mỗi 100ms
+        this.updateAcceleration(); // Cập nhật tốc độ
+        this.multiplier = parseFloat((this.multiplier + 0.1 * this.acceleration).toFixed(1)); 
+        
+        if (this.multiplier >= stopAt) {
+            this.stopMultiplier();
+            clearTimeout(this.betTimeout);
+        }
+    }, 100); // Mỗi 100ms tăng hệ số nhân
 
-    // Tính toán thời gian dừng dựa trên hệ số nhân ngẫu nhiên
-    const stopTime = stopAt * 1000; // Chuyển đổi hệ số nhân thành thời gian dừng (ms)
+    const stopTime = stopAt * 1000; // Thời gian dừng (ms)
     this.betTimeout = setTimeout(() => {
-      this.betButton = 'Đặt cược';
-      this.isFlying = false; // Tắt trạng thái bay của phi hành gia sau khi hoàn thành
-      this.isMoon = false; // Đặt lại hình ảnh của phi thuyền
-      this.isMoving = false;
-      // this.multiplier = 1.0;
+        this.betButton = 'Đặt cược';
+        this.isFlying = false;
+        this.isMoon = false;
+        this.isMoving = false;
     }, stopTime);
-  }
+}
+
   stopMultiplier() {
     clearInterval(this.multiplierInterval);
     clearTimeout(this.betTimeout); // Dừng setTimeout khi hệ số nhân dừng lại

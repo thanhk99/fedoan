@@ -9,23 +9,38 @@ import { userService } from '../service/users.service';
 //import { Router } from '@angular/router';
 // import { environment } from '../../../environments/environment';
 //import { WebSocketService } from '../../service/socket.service';
-//import { AtmService } from '../../service/atm.service';
-
+import { AtmService } from '../service/atm.service';
 @Component({
   selector: 'app-transfer',
   imports: [],
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.css',
 })
-export class TransferComponent {
+export class TransferComponent implements OnInit {
   constructor(
     // private router: Router,
     //private socket: WebSocketService,
-    private userService: userService //private atmService: AtmService
+    private userService: userService,
+    private atmService: AtmService
   ) {}
   idPlayer: any = '';
   ngOnInit(): void {
-    this.userService.getUser();
+    this.atmService.searchAtm('0787107821').subscribe(
+      (data: any) => {
+        console.log(data);
+        if (this.userService.getCookies() === data.id) {
+          console.log('sai');
+        } else {
+          this.userService.getInfoUser(data.id).subscribe((data) => {
+            console.log(data);
+          });
+          console.log('dung');
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   @ViewChild('note') note!: ElementRef<HTMLDivElement>;
   @ViewChild('msg') msg!: ElementRef<HTMLDivElement>;

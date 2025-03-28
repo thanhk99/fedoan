@@ -1,0 +1,85 @@
+.recharge {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: transparent;
+    width: 63.5vw;
+    height: 60vh;
+    top: 5rem;
+    left: 10%;
+    position: relative;
+    border-radius: 30px;
+    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
+    padding: 10px;
+}
+
+.left-button {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-right: 20px;
+}
+
+.recharge-money, .level-recharge {
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    border: 2px solid black;
+}
+
+.content {
+    flex-grow: 1;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    width: 70%;
+    height: 90%;
+}
+
+.header-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
+    /* border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5); */
+}
+
+.bank, .wallet {
+    height: 40px;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 5px 15px rgba(212, 97, 97, 0.5);
+    border-radius: 20px;
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+}
+
+.main-content {
+    width: 85%;
+    height: 80%;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: black;
+}

@@ -1,5 +1,5 @@
-const SERVER_IP = '192.168.0.101'; 
 
+const SERVER_IP = '192.168.1.155'; 
 export const environment = {
     production: true,
     apiLogin: `http://${SERVER_IP}:8082/user/login`,
@@ -10,5 +10,16 @@ export const environment = {
     apiSaveHisPlayer: `http://${SERVER_IP}:8082/game/savePlayerHis`,
     apiSaveHisBalan:`http://${SERVER_IP}:8082/Atm/saveHis`,
     apiupdateBalan:`http://${SERVER_IP}:8082/Atm/updateBalan`,
+    apigetListFriend :`http://${SERVER_IP}:8082/friend/getListFriend`,
+    apiaddFriend :`http://${SERVER_IP}:8082/friend/addFriend`,
+    apiacceptFriend :`http://${SERVER_IP}:8082/friend/acceptFriend`,
+    apideleFriend :`http://${SERVER_IP}:8082/friend/deleteFriend`,
+    apideleFriendRequets :`http://${SERVER_IP}:8082/friend/deleteFriendRequest`,
+    apiGetrequets:`http://${SERVER_IP}:8082/friend/getFriendRequests`,
     keysecret:"anhthanhdz",
+    apiSearchAtm: `http://${SERVER_IP}:8082/Atm/search`,
+    apiSaveHisBalance: `http://${SERVER_IP}:8082/Atm/saveHis`,
+    apiSearchFullname: `http://${SERVER_IP}:8082/user/searchFullname`,
+    urlSocketMess: `ws://${SERVER_IP}:8082/mess`,
+    apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
 };
