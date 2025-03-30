@@ -23,12 +23,12 @@ export class userService {
     const body={"tk":account,"mk":password}
     return this.http.post(this.apiLogin,body);
   }
-  getFullname(fullname: string): Observable<string[]> {
-    const body = { "fullname": fullname };
-    return this.http.post<any[]>(this.apiSearch, body).pipe(
-        map(users => users.map(user => user.fullname)) // Chỉ lấy fullname
-    );
+  getFullname(fullname: string): Observable<{ id: number; fullname: string }[]> {
+    const body = { fullname };
+    return this.http.post<{ id: number; fullname: string }[]>(this.apiSearch, body);
 }
+
+
   getUser():Observable<any>{
     const id =this.getCookies()
     const body={id:id}
