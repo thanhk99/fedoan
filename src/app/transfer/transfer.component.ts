@@ -24,18 +24,16 @@ export class TransferComponent implements OnInit {
     private atmService: AtmService
   ) {}
   idPlayer: any = '';
+  nameplayer: any = '';
+  moneyplay: any = '';
+  fullname: any = '';
+  money: any = '';
   ngOnInit(): void {
-    this.atmService.searchAtm('0787107821').subscribe(
-      (data: any) => {
-        console.log(data);
-        if (this.userService.getCookies() === data.id) {
-          console.log('sai');
-        } else {
-          this.userService.getInfoUser(data.id).subscribe((data) => {
-            console.log(data);
-          });
-          console.log('dung');
-        }
+    this.fullname = this.userService.getNameCookies();
+    this.money = this.userService.getBalanceCookies();
+    this.userService.getInfoUser(2).subscribe(
+      (rs: any) => {
+        console.log(rs);
       },
       (error) => {
         console.log(error);
@@ -51,8 +49,10 @@ export class TransferComponent implements OnInit {
   @ViewChild('submit') submit!: ElementRef<HTMLInputElement>;
   notifical1 = '';
   notifical2 = '';
+  notifical3 = '';
   submitIsDisabled = false;
   value = 0;
+
   showNote() {
     const isEmpty =
       this.id.nativeElement.value === '' ||
@@ -70,10 +70,37 @@ export class TransferComponent implements OnInit {
     if (this.value <= 0) {
       this.notifical2 = 'Số tiền nhập không hợp lệ !';
       this.submitIsDisabled = true;
+    }
+    if (this.value > Number(this.money)) {
+      this.notifical2 = 'Số tiền bạn có không đủ!';
+      this.submitIsDisabled = true;
     } else {
       this.notifical2 = '';
       this.submitIsDisabled = false;
     }
+  }
+  onInputId(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const IdPlayer = target.value;
+    this.atmService.searchAtm(IdPlayer).subscribe(
+      (data: any) => {
+        console.log(data);
+        console.log(data.idPlayer);
+        if (this.userService.getCookies() === String(data.id)) {
+          this.notifical3 = 'Số tài khoản không hợp lệ';
+          this.submitIsDisabled = true;
+        } else {
+          this.userService.getInfoUser(data.id).subscribe((rs: any) => {
+            console.log(rs);
+            this.money = rs.money;
+            this.nameplayer = rs.fullname;
+          });
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
   @HostListener('mouseover', ['$event.target'])
   onMouseOver(target: HTMLElement) {
