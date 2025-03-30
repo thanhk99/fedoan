@@ -1,4 +1,4 @@
-const SERVER_IP = '192.168.0.101'; 
+const SERVER_IP = '127.0.0.1'; 
 
 export const environment = {
     production: false,

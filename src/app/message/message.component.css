@@ -40,6 +40,12 @@
     background: #9e627f;
 }
 
+.chat-item.active {
+    background: #9e627f; 
+    color: white;
+    font-weight: bold;
+}
+
 .chat-window {
     flex-grow: 1;
     display: flex;
@@ -53,6 +59,7 @@
     padding: 15px;
     font-weight: bold;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .chat-messages {
