@@ -19,7 +19,7 @@
 
 .sidebar {
     width: 25%;
-    background: #2c3e50; /* Đổi màu tối hơn để dễ phân biệt */
+    background: #cf99b3; /* Đổi màu tối hơn để dễ phân biệt */
     color: white;
     padding: 20px;
 }
@@ -37,7 +37,13 @@
 }
 
 .chat-item:hover {
-    background: #4c70ba;
+    background: #9e627f;
+}
+
+.chat-item.active {
+    background: #9e627f; 
+    color: white;
+    font-weight: bold;
 }
 
 .chat-window {
@@ -53,6 +59,7 @@
     padding: 15px;
     font-weight: bold;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .chat-messages {
@@ -81,7 +88,7 @@
 }
 
 .sent {
-    background: #0084ff;
+    background: #cf99b3;
     color: white;
     align-self: flex-end;
 }
@@ -105,7 +112,7 @@
 .chat-input button {
     padding: 10px 15px;
     border: none;
-    background: #0084ff;
+    background: #cf99b3;
     color: white;
     border-radius: 5px;
     cursor: pointer;
@@ -113,5 +120,5 @@
 }
 
 .chat-input button:hover {
-    background: #0066cc;
+    background: #9e627f;
 }
