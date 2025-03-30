@@ -4,7 +4,6 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
-  viewChild,
 } from '@angular/core';
 import { userService } from '../service/users.service';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +22,7 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private userService: userService,
     private cookieService: CookieService,
-    private router: Router,
+    private router: Router
   ) {}
   @ViewChild('btn1') btn1!: ElementRef<HTMLButtonElement>;
   @ViewChild('btnContainer1') btnContainer1!: ElementRef<HTMLDivElement>;
@@ -112,7 +111,7 @@ export class LoginComponent implements OnInit {
       this.email.nativeElement.value === '' ||
       this.pass.nativeElement.value === '' ||
       this.pass_check.nativeElement.value === '';
-      this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
+    this.btn1.nativeElement.classList.toggle('no-shift', !isNull);
     if (isNull) {
       this.isRegisterDisabled = true;
       this.note.nativeElement.style.color = 'rgb(218 49 49)';
@@ -160,23 +159,35 @@ export class LoginComponent implements OnInit {
   ngLogin() {
     this.userService.login(this.signInAccount, this.signInPassword).subscribe(
       (data) => {
-        this.cookieService.set('fullname',this.userService.encryptData(data.fullname),{
-          expires:1,
-          secure:true,
-          sameSite: 'Strict'
-        });
-        this.cookieService.set('id',this.userService.encryptData(data.id.toString()),{
-          expires:1,
-          secure:true,
-          sameSite: 'Strict'
-        });
-        this.cookieService.set('balance',this.userService.encryptData(data.balance.toString()),{
-          expires:1,
-          secure:true,
-          sameSite: 'Strict'
-        });
-        console.log(data)
-        this.userService.setToken(data.token)
+        this.cookieService.set(
+          'fullname',
+          this.userService.encryptData(data.fullname),
+          {
+            expires: 1,
+            secure: true,
+            sameSite: 'Strict',
+          }
+        );
+        this.cookieService.set(
+          'id',
+          this.userService.encryptData(data.id.toString()),
+          {
+            expires: 1,
+            secure: true,
+            sameSite: 'Strict',
+          }
+        );
+        this.cookieService.set(
+          'balance',
+          this.userService.encryptData(data.balance.toString()),
+          {
+            expires: 1,
+            secure: true,
+            sameSite: 'Strict',
+          }
+        );
+        console.log(data);
+        this.userService.setToken(data.token);
         this.router.navigate(['']);
       },
       (error) => {
@@ -184,5 +195,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
 }
