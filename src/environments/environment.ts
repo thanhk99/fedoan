@@ -22,4 +22,6 @@ export const environment = {
     apiSearchFullname: `http://${SERVER_IP}:8082/user/searchFullname`,
     urlSocketMess: `ws://${SERVER_IP}:8082/mess`,
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
+    apiFootball:  '/api/competitions/PL/matches',
+    keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
 };

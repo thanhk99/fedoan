@@ -8,9 +8,9 @@
               <div class="friend-item">
                   <div class="icon-wrapper">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="30" height="30" fill="#ada9a9">
-                          <path [attr.d]="friend.iconPath"></path>
+                          <path [attr.d]="iconPath"></path>
                       </svg>
-                      <span class="status" [ngClass]="friend.status"></span>
+                      <span class="status" [ngClass]="status"></span>
 
                       <!-- <div class="tooltip">
                         <div class="tooltip-name">{{ friend.name }}</div>
@@ -19,7 +19,7 @@
                     <!-- <span class="status" [ngClass]="friend.status"></span>
                     <span class="friend-info">{{ friend.name }} - {{ friend.status }}</span> -->
                   </div>
-                  <span class="friend-info">{{ friend.name }} - {{ friend.status }}</span>
+                  <span class="friend-info">{{ friend.fullname }} - {{ status }}</span>
               </div>
           </li>
         </ul>

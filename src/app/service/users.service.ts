@@ -92,4 +92,8 @@ export class userService {
   getToken() {
     return localStorage.getItem('token');
   }
+  testAdmin(){
+    const body={tk:"admin"}
+    return this.http.post('http://localhost:8082/admin/hello',body)
+  }
 }
