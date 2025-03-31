@@ -10,7 +10,8 @@ import { SpacemanComponent } from './game/spaceman/spaceman.component';
 import { Slot777Component } from './game/slot777/slot777.component';
 import { RechargeComponent } from './recharge/recharge.component';
 import { TransferComponent } from './transfer/transfer.component';
-
+import { PaymentComponent } from './payment/payment.component';
+import { PaymentResultComponent } from './payment-result/payment-result.component';
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
@@ -23,4 +24,6 @@ export const routes: Routes = [
   { path: 'game/slot777', component: Slot777Component },
   { path: 'recharge', component: RechargeComponent },
   { path: 'atm/transfer', component: TransferComponent },
+  { path: 'payment', component: PaymentComponent },
+  { path: 'payment-result', component: PaymentResultComponent },
 ];

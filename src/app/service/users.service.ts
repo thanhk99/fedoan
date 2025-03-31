@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
 import { format } from 'date-fns';
+import path from 'path';
 @Injectable({
   providedIn: 'root',
 })
@@ -48,6 +49,9 @@ export class userService {
   getBalanceCookies() {
     let tempBalance = this.cookieService.get('balance');
     return this.decryptData(tempBalance);
+  }
+  setBalanceCookies(balance:any){
+    this.cookieService.set("balance",this.encryptData(balance.toString()),1,'/')
   }
   setUserName(fullname: any) {
     this.username = fullname;
