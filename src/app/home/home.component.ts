@@ -35,13 +35,5 @@ export class HomeComponent implements OnInit {
       //     console.log(error)
       //   }
       // )
-      this.userService.testAdmin().subscribe(
-        (data:any)=>{
-          console.log(data)
-        },
-        (error:any)=>{
-          console.log(error)
-        }
-      )
     }
 }

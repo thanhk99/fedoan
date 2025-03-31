@@ -1,0 +1,52 @@
+<!-- src/app/components/payment/payment.component.html -->
+<div class="payment-container">
+    <h2>Thanh toán qua VnPay</h2>
+  
+    <div *ngIf="paymentStatus === ''" class="payment-form">
+      <form (ngSubmit)="processPayment()">
+        <div class="form-group">
+          <label for="amount">Số tiền (VND):</label>
+          <input 
+            type="number" 
+            id="amount" 
+            name="amount" 
+            [(ngModel)]="paymentRequest.amount" 
+            required
+            min="1000"
+            class="form-control">
+        </div>
+  
+        <div class="form-group">
+          <label for="orderInfo">Thông tin đơn hàng:</label>
+          <input 
+            type="text" 
+            id="orderInfo" 
+            name="orderInfo" 
+            [(ngModel)]="paymentRequest.orderInfo" 
+            required
+            class="form-control">
+        </div>
+  
+        <div class="form-group">
+          <button 
+            type="submit" 
+            [disabled]="isProcessing" 
+            class="btn btn-primary">
+            {{ isProcessing ? 'Đang xử lý...' : 'Thanh toán ngay' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  
+    <!-- Hiển thị thông báo thanh toán -->
+    <div *ngIf="paymentMessage" 
+         [class]="'payment-message ' + (paymentStatus === 'success' ? 'success' : paymentStatus === 'failed' ? 'error' : 'processing')">
+      <p>{{ paymentMessage }}</p>
+      
+      <div *ngIf="paymentStatus !== ''">
+        <button (click)="paymentStatus = ''" class="btn btn-secondary">
+          Tạo thanh toán mới
+        </button>
+      </div>
+    </div>
+  </div>

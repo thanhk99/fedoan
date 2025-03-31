@@ -10,9 +10,10 @@ import { userService } from '../service/users.service';
 // import { environment } from '../../../environments/environment';
 //import { WebSocketService } from '../../service/socket.service';
 import { AtmService } from '../service/atm.service';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-transfer',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.css',
 })
@@ -23,24 +24,14 @@ export class TransferComponent implements OnInit {
     private userService: userService,
     private atmService: AtmService
   ) {}
-  idPlayer: any = '';
+  idPlayer: any 
+  nameplayer: any = '';
+  moneyplay: any = '';
+  fullname: any = '';
+  money: any 
   ngOnInit(): void {
-    this.atmService.searchAtm('0787107821').subscribe(
-      (data: any) => {
-        console.log(data);
-        if (this.userService.getCookies() === data.id) {
-          console.log('sai');
-        } else {
-          this.userService.getInfoUser(data.id).subscribe((data) => {
-            console.log(data);
-          });
-          console.log('dung');
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.fullname = this.userService.getNameCookies();
+    this.money = this.userService.getBalanceCookies();
   }
   @ViewChild('note') note!: ElementRef<HTMLDivElement>;
   @ViewChild('msg') msg!: ElementRef<HTMLDivElement>;
@@ -51,8 +42,10 @@ export class TransferComponent implements OnInit {
   @ViewChild('submit') submit!: ElementRef<HTMLInputElement>;
   notifical1 = '';
   notifical2 = '';
+  notifical3 = '';
   submitIsDisabled = false;
   value = 0;
+
   showNote() {
     const isEmpty =
       this.id.nativeElement.value === '' ||
@@ -67,18 +60,53 @@ export class TransferComponent implements OnInit {
   onInputChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.value = Number(target.value);
-    if (this.value <= 0) {
-      this.notifical2 = 'Số tiền nhập không hợp lệ !';
+    if (this.value > Number(this.money)) {
+      this.notifical2 = 'Số tiền bạn có không đủ!';
       this.submitIsDisabled = true;
     } else {
       this.notifical2 = '';
       this.submitIsDisabled = false;
     }
   }
+  onInputId(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const stk = target.value;
+    this.atmService.searchAtm(stk).subscribe(
+      (data: any) => {
+        if(data ===null){
+          this.notifical3 = 'Số tài khoản không tồn tại!';
+          return;
+        }
+        if (this.userService.getCookies() === String(data.idPlayer)) {
+          this.notifical3 = 'Số tài khoản không hợp lệ';
+          this.submitIsDisabled = true;
+        } else {
+          this.notifical3 =""
+          this.idPlayer=data.idPlayer
+          this.money = data.balance;
+          this.userService.getInfoUser(data.idPlayer).subscribe((rs: any) => {
+            this.nameplayer = rs.fullname;
+          });
+        
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
   @HostListener('mouseover', ['$event.target'])
   onMouseOver(target: HTMLElement) {
     if (target === this.submit.nativeElement) {
       this.showNote();
     }
+  }
+  banking(){
+    console.log(this.message.nativeElement.value)
+    this.atmService.updateBalan(this.value*-1,this.userService.getCookies()).subscribe()
+    this.atmService.updateBalan(this.value,this.idPlayer).subscribe()
+    this.atmService.saveHisBalance(this.userService.getCookies(),this.message.nativeElement.value,this.value*-1,parseInt(this.userService.getBalanceCookies())-this.value).subscribe()
+    this.atmService.saveHisBalance(this.idPlayer,this.message.nativeElement.value,this.value,this.money+this.value).subscribe()
+    this.userService.setBalanceCookies(parseInt(this.userService.getBalanceCookies())-this.value)
   }
 }

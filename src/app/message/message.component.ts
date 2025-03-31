@@ -32,36 +32,39 @@ export class MessageComponent implements OnInit {
   selectUser(user: { id: number; fullname: string }) {
     this.selectedUser = user;
     // this.messages = this.chatHistory[user.id] || [];
-    const id = parseInt(this.userService.getCookies());
+    const idMy = parseInt(this.userService.getCookies());
     this.messageService.getChatHis(parseInt(this.userService.getCookies()),this.selectedUser.id).subscribe(
       (data:any)=>{
-        const idMy = id;
-        this.messages = data.map((msg: { id: number; content: string }) => ({
+        this.messages = data.map((msg: { idFriend: number; content: string; type: string }) => ({
           content: msg.content,
-          type: msg.id === idMy ? "sent" : "received" 
+          type: msg.idFriend === idMy ? "received" : "sent" ,
+          id:msg.idFriend
         }));
+        console.log(this.messages)
       },
       (error:any)=>{
         console.log(error)
       }
     )
   }
+  displayMsg(msg:any,type:any){
+    console.log(msg,msg.content)
+    if (type === 'sent' || type === 'received') {
+      this.messages.unshift({
+        content: msg,
+        type: type,
+      });
+      
+    }
+  }
+  get reversedmessages() {
+    return this.messages.slice().reverse();
+  }
 
   sendMessage() {
     if (this.newMessage.trim() && this.selectedUser) {
       const newMsg = { text: this.newMessage, type: 'sent' };
       
-      // Đảm bảo đã khởi tạo danh sách tin nhắn cho user này
-      // if (!this.chatHistory[this.selectedUser.id]) {
-      //   this.chatHistory[this.selectedUser.id] = [];
-      // }
-  
-      // Cập nhật tin nhắn vào lịch sử
-      // this.chatHistory[this.selectedUser.id].push(newMsg);
-  
-      // Cập nhật danh sách tin nhắn đang hiển thị
-      // this.messages = [...this.chatHistory[this.selectedUser.id]];
-  
       let data={
         "type":"message",
         "idReceiver":this.selectedUser.id,
@@ -69,6 +72,7 @@ export class MessageComponent implements OnInit {
       }
       let jsonData=JSON.stringify(data)
       this.socketService.sendMessage(this.urlSocketMess,jsonData)
+      this.displayMsg(newMsg.text,'sent')
       this.newMessage = '';
     }
   }
@@ -85,6 +89,10 @@ export class MessageComponent implements OnInit {
     )
     this.urlSocketMess +='?id=' +this.userService.getCookies()
     this.socketService.connect(this.urlSocketMess);
-    console.log(this.urlSocketMess)
+    this.socketService.getMessages().subscribe((message: any) => {
+      console.log(message.message)
+      this.displayMsg(message.message,'received')
+    }
+    );
   }
 }

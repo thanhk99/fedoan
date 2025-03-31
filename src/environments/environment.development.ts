@@ -1,4 +1,4 @@
-const SERVER_IP = '127.0.0.1';
+const SERVER_IP="127.0.0.1"
 
 export const environment = {
   production: false,
@@ -9,7 +9,7 @@ export const environment = {
   apiGetHistoryGame: `http://${SERVER_IP}:8082/game/getHistoryCl`,
   apiSaveHisPlayer: `http://${SERVER_IP}:8082/game/savePlayerHis`,
   apiSaveHisBalan: `http://${SERVER_IP}:8082/Atm/saveHis`,
-  apiupdateBalan: `http://${SERVER_IP}:8082/Atm/updateBalan`,
+  apiupdateBalan: `http://${SERVER_IP}:8082/Atm/updateBalance`,
   apigetListFriend: `http://${SERVER_IP}:8082/friend/getListFriend`,
   apiaddFriend: `http://${SERVER_IP}:8082/friend/addFriend`,
   apiacceptFriend: `http://${SERVER_IP}:8082/friend/acceptFriend`,
