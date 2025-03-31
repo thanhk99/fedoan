@@ -1,6 +1,6 @@
 .recharge {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     background-color: transparent;
     width: 63vw;
@@ -20,14 +20,19 @@ button:hover {
 
 .left-button {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 15px;
-    margin-right: 20px;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 1%;
 }
 
 .recharge-money, .level-recharge {
-    width: 100px;
-    height: 50px;
+    width: 15%;
+    height: 80%;
     border-radius: 20px;
     box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
     display: flex;
@@ -47,15 +52,15 @@ button:hover {
 }
 
 .recharge-content {
-    flex-grow: 1;
+    flex-grow: 2;
     border-radius: 25px;
-    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
+    /* box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5); */
     background-color: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    width: 70%;
+    width: 90%;
     height: 90%;
 }
 
@@ -249,13 +254,13 @@ button:hover {
 .level-content{
     flex-grow: 1;
     border-radius: 25px;
-    box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5);
+    /* box-shadow: 0px 5px 15px rgba(201, 140, 140, 0.5); */
     background-color: transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    width: 70%;
+    width: 90%;
     height: 90%;
 }
 

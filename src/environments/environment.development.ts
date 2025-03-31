@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const SERVER_IP = '127.0.0.1'; 
-=======
-const SERVER_IP = '127.0.0.1';
->>>>>>> 3b68033daa2bf63780b86562bb39da5335ec0039
 
 export const environment = {
   production: false,
