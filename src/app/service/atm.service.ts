@@ -14,9 +14,10 @@ export class AtmService {
     const body = { stk: stk };
     return this.httpClient.post(environment.apiSearchAtm, body);
   }
-  updateBalan(number: number) {
+  updateBalan(number: number,id:any) {
     // cập nhật số dư : Nhập số tiền thay đổi , vd: -1000;
-    return this.httpClient.post(environment.apiupdateBalan, number);
+    const body = { balance: number ,idPlayer:id};
+    return this.httpClient.post(environment.apiupdateBalan, body);
   }
   saveHisBalance(idPlayer: any, content: any, trans: any, balance: any) {
     // lưu lịch sử
@@ -29,6 +30,6 @@ export class AtmService {
       trans: trans,
       balance: balance,
     };
-    return this.httpClient.post(environment.apiSaveHisBalance, body);
+    return this.httpClient.post(environment.apiSaveHisBalance, body); 
   }
 }

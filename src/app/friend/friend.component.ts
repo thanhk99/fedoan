@@ -2,26 +2,30 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FriendService } from '../service/friend.service';
-import { map, forkJoin } from 'rxjs';
+import { map, forkJoin, lastValueFrom } from 'rxjs';
 import { userService } from '../service/users.service';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-friend',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule ],
   templateUrl: './friend.component.html',
   styleUrl: './friend.component.css',
 })
+
 export class FriendComponent {
   [x: string]: any;
   showFriendsList = false; // Biến kiểm soát hiển thị danh sách bạn bè
   showFriendRequest = false; // Biến kiểm soát hiển thị danh sách lời mời kết bạn
   searchQuery = ''; // Biến lưu trữ từ khóa tìm kiếm
   showSearchResults = false; // Biến kiểm soát hiển thị kết quả tìm kiếm người kết bạn
-  searchResults: string[] = []; // Danh sách kết quả tìm kiếm người kết bạn
+  searchResults: { id: number; fullname: string }[] = []; // Danh sách kết quả tìm kiếm người kết bạn
 
   friends: string[] = []; // Danh sách bạn bè
   friendRequests: { name: string }[] = []; // Danh sách lời mời kết bạn
   btn_add = 'Thêm bạn bè';
+  apiAddFriend = environment.apiaddFriend;
 
   constructor(
     private friendService: FriendService,
@@ -31,6 +35,8 @@ export class FriendComponent {
   ngOnInit() {
     this['loadFriends']();
   }
+
+
 
   loadFriends() {
     this.friendService.getListFriends().subscribe(
@@ -48,7 +54,7 @@ export class FriendComponent {
     this.showFriendRequest = false; // Ẩn danh sách lời mời kết bạn
   }
 
-  showFriendRequests(): void {
+  displayFriendRequests(): void {
     this.showFriendsList = false;
     this.showFriendRequest = true;
 
@@ -100,9 +106,36 @@ export class FriendComponent {
     alert(`Nhắn tin với ${friend}`);
   }
 
-  removeFriend(friend: string) {
-    this.friends = this.friends.filter((f) => f !== friend);
-    alert(`${friend} đã bị xóa khỏi danh sách bạn bè`);
+
+  async removeFriend(friend: { id: number; name: string }) {
+    try {
+      // Lấy ID bạn bè từ dịch vụ hoặc từ tham số
+      const friendId = friend.id;
+  
+      // Lấy ID của người dùng hiện tại từ cookie
+      const idMy = Number(this.userService.getCookies());
+    
+      console.log(`🛠 Debug: ID người dùng: ${idMy}, ID bạn bè: ${friendId}`);
+      
+  
+      // Xác nhận trước khi xóa
+      const confirmDelete = confirm(`Bạn có chắc chắn muốn xóa ${friend.name}?`);
+      if (!confirmDelete) return;
+  
+      // Gọi API xóa bạn bè
+      const result = await lastValueFrom(this.friendService.deleteFriend(idMy, friendId));
+  
+      if (result.status === 'success') {
+        // Xóa khỏi danh sách hiển thị
+        this.friends = this.friends.filter(f => f.idFriend !== friendId);
+        alert(`✅ ${result.message}`);
+      } else {
+        alert(`❌ Lỗi: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Lỗi khi xóa bạn bè:', error);
+      alert('❌ Xóa bạn bè thất bại, vui lòng thử lại');
+    }
   }
 
   addFriend(friend: string) {

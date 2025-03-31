@@ -1,7 +1,7 @@
 <div class="trans-money">
   <h2>Chuyển Tiền</h2>
   <div #note class="note">{{ notifical1 }}</div>
-  <form>
+  <form (ngSubmit)="banking()">
     <div class="form-group">
       <label for="id">Số tài khoản người nhận</label>
       <input
@@ -39,7 +39,7 @@
       <textarea
         #message
         name="message"
-        value="{{ fullname }} chuyển khoản"
+        value="{{ fullname }} chuyển khoản  {{ nameplayer }}"
       ></textarea>
     </div>
     <button

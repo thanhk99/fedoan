@@ -10,9 +10,10 @@ import { userService } from '../service/users.service';
 // import { environment } from '../../../environments/environment';
 //import { WebSocketService } from '../../service/socket.service';
 import { AtmService } from '../service/atm.service';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-transfer',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './transfer.component.html',
   styleUrl: './transfer.component.css',
 })
@@ -23,22 +24,14 @@ export class TransferComponent implements OnInit {
     private userService: userService,
     private atmService: AtmService
   ) {}
-  idPlayer: any = '';
+  idPlayer: any 
   nameplayer: any = '';
   moneyplay: any = '';
   fullname: any = '';
-  money: any = '';
+  money: any 
   ngOnInit(): void {
     this.fullname = this.userService.getNameCookies();
     this.money = this.userService.getBalanceCookies();
-    this.userService.getInfoUser(2).subscribe(
-      (rs: any) => {
-        console.log(rs);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
   }
   @ViewChild('note') note!: ElementRef<HTMLDivElement>;
   @ViewChild('msg') msg!: ElementRef<HTMLDivElement>;
@@ -67,10 +60,6 @@ export class TransferComponent implements OnInit {
   onInputChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.value = Number(target.value);
-    if (this.value <= 0) {
-      this.notifical2 = 'Số tiền nhập không hợp lệ !';
-      this.submitIsDisabled = true;
-    }
     if (this.value > Number(this.money)) {
       this.notifical2 = 'Số tiền bạn có không đủ!';
       this.submitIsDisabled = true;
@@ -81,20 +70,24 @@ export class TransferComponent implements OnInit {
   }
   onInputId(event: Event): void {
     const target = event.target as HTMLInputElement;
-    const IdPlayer = target.value;
-    this.atmService.searchAtm(IdPlayer).subscribe(
+    const stk = target.value;
+    this.atmService.searchAtm(stk).subscribe(
       (data: any) => {
-        console.log(data);
-        console.log(data.idPlayer);
-        if (this.userService.getCookies() === String(data.id)) {
+        if(data ===null){
+          this.notifical3 = 'Số tài khoản không tồn tại!';
+          return;
+        }
+        if (this.userService.getCookies() === String(data.idPlayer)) {
           this.notifical3 = 'Số tài khoản không hợp lệ';
           this.submitIsDisabled = true;
         } else {
-          this.userService.getInfoUser(data.id).subscribe((rs: any) => {
-            console.log(rs);
-            this.money = rs.money;
+          this.notifical3 =""
+          this.idPlayer=data.idPlayer
+          this.money = data.balance;
+          this.userService.getInfoUser(data.idPlayer).subscribe((rs: any) => {
             this.nameplayer = rs.fullname;
           });
+        
         }
       },
       (error) => {
@@ -107,5 +100,13 @@ export class TransferComponent implements OnInit {
     if (target === this.submit.nativeElement) {
       this.showNote();
     }
+  }
+  banking(){
+    console.log(this.message.nativeElement.value)
+    this.atmService.updateBalan(this.value*-1,this.userService.getCookies()).subscribe()
+    this.atmService.updateBalan(this.value,this.idPlayer).subscribe()
+    this.atmService.saveHisBalance(this.userService.getCookies(),this.message.nativeElement.value,this.value*-1,parseInt(this.userService.getBalanceCookies())-this.value).subscribe()
+    this.atmService.saveHisBalance(this.idPlayer,this.message.nativeElement.value,this.value,this.money+this.value).subscribe()
+    this.userService.setBalanceCookies(parseInt(this.userService.getBalanceCookies())-this.value)
   }
 }

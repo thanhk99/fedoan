@@ -9,7 +9,7 @@ export const environment = {
   apiGetHistoryGame: `http://${SERVER_IP}:8082/game/getHistoryCl`,
   apiSaveHisPlayer: `http://${SERVER_IP}:8082/game/savePlayerHis`,
   apiSaveHisBalan: `http://${SERVER_IP}:8082/Atm/saveHis`,
-  apiupdateBalan: `http://${SERVER_IP}:8082/Atm/updateBalan`,
+  apiupdateBalan: `http://${SERVER_IP}:8082/Atm/updateBalance`,
   apigetListFriend: `http://${SERVER_IP}:8082/friend/getListFriend`,
   apiaddFriend: `http://${SERVER_IP}:8082/friend/addFriend`,
   apiacceptFriend: `http://${SERVER_IP}:8082/friend/acceptFriend`,
@@ -23,4 +23,6 @@ export const environment = {
   apiSearchFullname: `http://${SERVER_IP}:8082/user/searchFullname`,
   urlSocketMess: `ws://${SERVER_IP}:8082/mess`,
   apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
+  apiFootball:'/api/competitions/PL/matches',
+  keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
 };
