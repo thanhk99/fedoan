@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { endWith, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
@@ -53,11 +53,16 @@ export class FriendService {
   }
 
   // Xóa bạn bè
-  deleteFriend(): Observable<any> {
-    const idMy = this.userService.getCookies();
-    const idFriend = this.getIdFriend();
-    return this.http.delete<any>(`${this.apideleFriend}/${idMy}/${idFriend}`);
-  }
+  deleteFriend(idMy: number, idFriend: number): Observable<any> {
+    const url = `${this.apideleFriend}`;
+    const body = { idMy, idFriend };
+
+    return this.http.delete<any>(url, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        body: body // Chỉ hoạt động nếu backend hỗ trợ DELETE có body
+    });
+}
+
 
   //Xóa lời mời kb
 
