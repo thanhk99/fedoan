@@ -15,13 +15,13 @@ export class userService {
   private apiGetAtm = environment.apiGetAtm;
   private apiSearchFullname = environment.apiSearchFullname;
   private username: any = '';
+  private apiSearch = environment.apiSearchFullname;
   private keySecret: string = environment.keysecret;
   constructor(private http: HttpClient, private cookieService: CookieService) {}
   login(account: string, password: string): Observable<any> {
     const body = { tk: account, mk: password };
     return this.http.post(this.apiLogin, body);
   }
-<<<<<<< HEAD
   getFullname(fullname: string): Observable<{ id: number; fullname: string }[]> {
     const body = { fullname };
     return this.http.post<{ id: number; fullname: string }[]>(this.apiSearch, body);
@@ -31,23 +31,9 @@ export class userService {
   getUser():Observable<any>{
     const id =this.getCookies()
     const body={id:id}
-=======
-  getFullname(fullname: string): Observable<string[]> {
-    const body = { fullname: fullname };
-    return this.http.post<any[]>(this.apiSearchFullname, body).pipe(
-      map((users) => users.map((user) => user.fullname)) // Chỉ lấy fullname
-    );
-  }
-  getInfoUser(id: any): Observable<any> {
-    const body = { id: id };
->>>>>>> 1a11d705946f6ac9dd81a452bf2a2245108e7da1
     return this.http.post(this.apiGetInfo, { params: body });
   }
-  getUser(): Observable<any> {
-    const id = this.getCookies();
-    const body = { id: id };
-    return this.http.post(this.apiGetInfo, { params: body });
-  }
+
   getAtmUser(id: any): Observable<any> {
     const body = { idPlayer: id };
     return this.http.post(this.apiGetAtm, body);

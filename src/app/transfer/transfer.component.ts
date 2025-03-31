@@ -31,11 +31,11 @@ export class TransferComponent implements OnInit {
   ngOnInit(): void {
     this.fullname = this.userService.getNameCookies();
     this.money = this.userService.getBalanceCookies();
-    this.userService.getInfoUser(2).subscribe(
+    this.userService.getUser().subscribe(
       (rs: any) => {
         console.log(rs);
       },
-      (error) => {
+      (error:any) => {
         console.log(error);
       }
     );
@@ -90,7 +90,7 @@ export class TransferComponent implements OnInit {
           this.notifical3 = 'Số tài khoản không hợp lệ';
           this.submitIsDisabled = true;
         } else {
-          this.userService.getInfoUser(data.id).subscribe((rs: any) => {
+          this.userService.getUser().subscribe((rs: any) => {
             console.log(rs);
             this.money = rs.money;
             this.nameplayer = rs.fullname;

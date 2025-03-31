@@ -66,7 +66,6 @@ export class FriendService {
 
   //Xóa lời mời kb
 
-<<<<<<< HEAD
   deleteFriendRequests(idMy: number, idFriend: number): Observable<any> {
     const url = `${this.apideleFriendRequets}`;
     console.log("Gửi request DELETE đến: ", url);
@@ -79,23 +78,9 @@ export class FriendService {
         body: body
     });
 }
-=======
-  deleteFriendRequets(): Observable<any> {
-    const idFriend = this.getIdFriend();
-    const idMy = this.userService.getCookies();
-    return this.http.delete<any>(`${this.apideleFriend}/${idMy}/${idFriend}`);
-  }
->>>>>>> 1a11d705946f6ac9dd81a452bf2a2245108e7da1
 
   // Chấp nhận lời mời kết bạn
-<<<<<<< HEAD
   acceptFriend(idMy: number , idFriend: number): Observable<any> {
     return this.http.post<any>(this.apiacceptFriend, {idMy , idFriend});
-=======
-  acceptFriend(): Observable<any> {
-    const idMy = this.userService.getCookies();
-    const idFriend = this.getIdFriend();
-    return this.http.post<any>(this.apiacceptFriend, { idMy, idFriend });
->>>>>>> 1a11d705946f6ac9dd81a452bf2a2245108e7da1
   }
 }
