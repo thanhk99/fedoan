@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { endWith, Observable } from 'rxjs';
@@ -66,16 +67,21 @@ export class FriendService {
 
   //Xóa lời mời kb
 
-  deleteFriendRequets(): Observable<any> {
-    const idFriend = this.getIdFriend();
-    const idMy = this.userService.getCookies();
-    return this.http.delete<any>(`${this.apideleFriend}/${idMy}/${idFriend}`);
-  }
+  deleteFriendRequests(idMy: number, idFriend: number): Observable<any> {
+    const url = `${this.apideleFriendRequets}`;
+    console.log("Gửi request DELETE đến: ", url);
+
+    const body = { idMy, idFriend };
+    console.log("Dữ liệu gửi đi:", body);
+
+    return this.http.delete<any>(url, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        body: body
+    });
+}
 
   // Chấp nhận lời mời kết bạn
-  acceptFriend(): Observable<any> {
-    const idMy = this.userService.getCookies();
-    const idFriend = this.getIdFriend();
-    return this.http.post<any>(this.apiacceptFriend, { idMy, idFriend });
+  acceptFriend(idMy: number , idFriend: number): Observable<any> {
+    return this.http.post<any>(this.apiacceptFriend, {idMy , idFriend});
   }
 }
