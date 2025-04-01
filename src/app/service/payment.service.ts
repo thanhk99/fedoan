@@ -45,4 +45,7 @@ export class PaymentService {
       .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
       .join('&');
   }
+  handlePaymentCallback(data: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/payment-callback`, data);
+  }
 }

@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService ,PaymentRequest} from '../service/payment.service';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
 @Component({
@@ -64,6 +64,7 @@ export class PaymentComponent implements OnInit {
     if (params['vnp_ResponseCode'] === '00') {
       this.paymentStatus = 'success';
       this.paymentMessage = 'Thanh toán thành công! Mã giao dịch: ' + params['vnp_TransactionNo'];
+      console.log("OKKK")
     } else {
       this.paymentStatus = 'failed';
       this.paymentMessage = 'Thanh toán thất bại! Mã lỗi: ' + params['vnp_ResponseCode'];
