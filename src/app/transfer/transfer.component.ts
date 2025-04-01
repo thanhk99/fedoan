@@ -32,6 +32,14 @@ export class TransferComponent implements OnInit {
   ngOnInit(): void {
     this.fullname = this.userService.getNameCookies();
     this.money = this.userService.getBalanceCookies();
+    this.userService.getUser().subscribe(
+      (rs: any) => {
+        console.log(rs);
+      },
+      (error:any) => {
+        console.log(error);
+      }
+    );
   }
   @ViewChild('note') note!: ElementRef<HTMLDivElement>;
   @ViewChild('msg') msg!: ElementRef<HTMLDivElement>;
@@ -81,10 +89,9 @@ export class TransferComponent implements OnInit {
           this.notifical3 = 'Số tài khoản không hợp lệ';
           this.submitIsDisabled = true;
         } else {
-          this.notifical3 =""
-          this.idPlayer=data.idPlayer
-          this.money = data.balance;
-          this.userService.getInfoUser(data.idPlayer).subscribe((rs: any) => {
+          this.userService.getUser().subscribe((rs: any) => {
+            console.log(rs);
+            this.money = rs.money;
             this.nameplayer = rs.fullname;
           });
         
