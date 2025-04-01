@@ -72,7 +72,7 @@ export class PaymentComponent implements OnInit {
   }
 
   activeTab: string = 'content';
-  activeChoice: string = 'bank';
+  activeChoice: string = 'wallet';
   amount: '200,000' | undefined;
   countdown: string = '15:00';
   private countdownInterval: any;
@@ -110,11 +110,11 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  bankInfo = {
-    accountNumber: '19035983187012',
-    accountHolder: 'Chương Nhược Nam',
-    transactionCode: 'U1UK5CXJ'
-  };
+  // bankInfo = {
+  //   accountNumber: '19035983187012',
+  //   accountHolder: 'Chương Nhược Nam',
+  //   transactionCode: 'U1UK5CXJ'
+  // };
 
   // wallets = {
   //   momo: {
@@ -149,15 +149,18 @@ export class PaymentComponent implements OnInit {
   showContent(tab: string) {
     this.activeTab = tab;
     this.activeChoice = '';
+    if (tab === 'content') {
+      this.activeChoice = 'wallet'; 
+    }
   }
   showChoice(choice: string) {
     this.activeChoice = choice;
   }
 
-  generateNewTransactionCode() {
-    const newCode = Math.random().toString(36).substring(2, 10).toUpperCase();
-    this.bankInfo.transactionCode = newCode;
-  }
+  // generateNewTransactionCode() {
+  //   const newCode = Math.random().toString(36).substring(2, 10).toUpperCase();
+  //   this.bankInfo.transactionCode = newCode;
+  // }
 
   hours: number = 7;
   minutes: number = 59;

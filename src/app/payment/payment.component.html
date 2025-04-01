@@ -6,11 +6,11 @@
   </div>
   <div class="recharge-content" *ngIf="activeTab === 'content'"> 
       <div class="header-content">
-          <button class="bank" (click)="showChoice('bank')"  [ngClass]="{'active': activeChoice === 'bank'}">Ngân hàng</button>
-          <button class="wallet" (click)="showChoice('wallet')"  [ngClass]="{'active': activeChoice === 'wallet'}">Ví điện tử</button>
+          <!-- <button class="bank" (click)="showChoice('bank')"  [ngClass]="{'active': activeChoice === 'bank'}">Ngân hàng</button> -->
+          <!-- <button class="wallet" (click)="showChoice('wallet')"  [ngClass]="{'active': activeChoice === 'wallet'}">Ví điện tử</button> -->
       </div>
       <div class="bank-content" *ngIf="activeChoice === 'bank'">
-          <div class="bank-left">
+          <!-- <div class="bank-left">
               <div class="bank-info">
                   <h3>CHUYỂN TIỀN LIÊN NGÂN HÀNG </h3>
                   <h3>MBBANK </h3>
@@ -39,9 +39,9 @@
               </div>
       
               <button class="new-btn" (click)="generateNewTransactionCode()">TẠO MỚI</button>
-          </div>
+          </div> -->
       
-          <div class="bank-right">
+          <!-- <div class="bank-right">
               <p>Mở ứng dụng Ngân Hàng quét QR Code</p>
               <div class="qr-code">
                   <img src="dia.png" alt="QR Code">
@@ -49,7 +49,7 @@
               <p>Code hết hạn sau: <span class="countdown">{{countdown}}</span></p>
               <p>Kiểm tra thông tin trước khi chuyển.</p>
               <p>Mỗi mã nội dung dùng cho 1 giao dịch.</p>
-          </div>
+          </div> -->
       </div>
       <div class="wallet-content" *ngIf="activeChoice === 'wallet'">
         <div class="payment-container">
@@ -65,7 +65,7 @@
                   name="amount" 
                   [(ngModel)]="paymentRequest.amount" 
                   required
-                  min="1000"
+                  min="10000"
                   class="form-control">
               </div>
         
