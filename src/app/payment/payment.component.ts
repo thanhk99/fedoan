@@ -13,13 +13,13 @@ import { CommonModule } from '@angular/common';
 })
 export class PaymentComponent implements OnInit {
   paymentRequest: PaymentRequest = {
-    amount: 10000, // Số tiền mặc định (đơn vị VND)
+    amount: 0, // Số tiền mặc định (đơn vị VND)
     orderInfo: 'Thanh toan don hang', // Thông tin đơn hàng
     orderType: '250000' // Mã loại hàng hóa, tham khảo tài liệu VnPay
   };
 
   isProcessing = false;
-  paymentMessage = '';
+  paymentMessage = '';    
   paymentStatus = '';
 
   constructor(
