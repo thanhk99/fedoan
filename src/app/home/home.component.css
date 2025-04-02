@@ -1,0 +1,48 @@
+.home {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 8px;
+    width: 80%;
+    height: 67vh;
+    left: 11%;
+    top: 5rem;
+    position: relative;
+}
+
+.home div {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.football {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+}
+
+.lottery {
+    grid-column: span 3 / span 3;
+    grid-row: span 3 / span 3;
+    grid-column-start: 4;
+}
+
+.games {
+    grid-column: span 4 / span 4;
+    grid-row: span 3 / span 3;
+    grid-row-start: 4;
+}
+
+.last-played {
+    grid-column: span 4 / span 4;
+    grid-row: span 2 / span 2;
+    grid-column-start: 1;
+    grid-row-start: 7;
+}
+
+.static {
+    grid-column: span 2 / span 2;
+    grid-row: span 5 / span 5;
+    grid-column-start: 5;
+    grid-row-start: 4;
+}
