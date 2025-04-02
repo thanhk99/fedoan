@@ -299,5 +299,5 @@ deleteFR(request: { id: number; name: string }) {
             console.log("Chi tiết lỗi:", error);
         }
     });
-}  
+  }  
 }

@@ -32,7 +32,7 @@ export class userService {
   getUser():Observable<any>{
     const id =this.getCookies()
     const body={id:id}
-    return this.http.post(this.apiGetInfo, { params: body });
+    return this.http.post(this.apiGetInfo, body );
   }
 
   getAtmUser(id: any): Observable<any> {
