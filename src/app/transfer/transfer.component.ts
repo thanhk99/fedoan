@@ -89,16 +89,9 @@ export class TransferComponent implements OnInit {
           this.notifical3 = 'Số tài khoản không hợp lệ';
           this.submitIsDisabled = true;
         } else {
-<<<<<<< HEAD
           this.userService.getUser().subscribe((rs: any) => {
             console.log(rs);
             this.money = rs.money;
-=======
-          this.notifical3 =""
-          this.idPlayer=data.idPlayer
-          this.money = data.balance;
-          this.userService.getInfoUser(data.idPlayer).subscribe((rs: any) => {
->>>>>>> e9da5f12d8022db6af566844cbb25e9c65b4f625
             this.nameplayer = rs.fullname;
           });
         
