@@ -11,15 +11,95 @@
 }
 
 .home div {
-    background-color: #f0f0f0;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
 }
+
+
+/*******************************************/
 
 .football {
     grid-column: span 3 / span 3;
     grid-row: span 3 / span 3;
+    overflow: hidden;
+    overflow-y: auto;
 }
+
+.match-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1e1e1e;
+    padding: 10px;
+    border-radius: 8px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  
+  .match-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .match-time {
+    text-align: center;
+    font-size: 14px;
+    color: #ccc;
+    flex-direction: column;
+  }
+  
+  .match-time span {
+   display: block;
+  }
+
+  .teams {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .team {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .team-logo {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .match-odds {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .odd-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .odds {
+    display: flex;
+    gap: 5px;
+    font-weight: bold;
+  }
+  
+  .green {
+    color: #4caf50;
+  }
+  
+  .red {
+    color: #ff4d4d;
+  }
+  
+  .yellow {
+    color: #ffcc00;
+  }
+
+/*******************************************/
 
 .lottery {
     grid-column: span 3 / span 3;

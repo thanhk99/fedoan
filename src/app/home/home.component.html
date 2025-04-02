@@ -1,5 +1,53 @@
 <div class="home">
-    <div class="football">bong da</div>
+    <div class="football">
+        <div class="match-card" *ngFor="let match of matches">
+            <div class="match-info">
+              <div class="match-time">
+                <span>{{ match.utcDate | date: 'HH:mm' }}</span>
+                <span>{{ match.utcDate | date: 'dd/MM' }}</span>
+              </div>
+              <div class="teams">
+                <div class="team">
+                  <img [src]="match.homeTeam.crest" class="team-logo" />
+                  <span>{{ match.homeTeam.name }}</span>
+                </div>
+                <div class="team">
+                  <img [src]="match.awayTeam.crest" class="team-logo" />
+                  <span>{{ match.awayTeam.name }}</span>
+                </div>
+              </div>
+            </div>
+          
+            <div class="match-odds">
+              <!-- <div class="odd-section">
+                <span>Kèo chấp TT</span>
+                <div class="odds">
+                  <span class="green">{{ match.handicap.home }}</span>
+                  <span>{{ match.handicap.value }}</span>
+                  <span class="red">{{ match.handicap.away }}</span>
+                </div>
+              </div> -->
+          
+              <!-- <div class="odd-section">
+                <span>Tài xỉu TT</span>
+                <div class="odds">
+                  <span class="green">{{ match.overUnder.home }}</span>
+                  <span>{{ match.overUnder.value }}</span>
+                  <span class="red">{{ match.overUnder.away }}</span>
+                </div>
+              </div> -->
+          
+              <!-- <div class="odd-section">
+                <span>Thắng TT</span>
+                <div class="odds">
+                  <span class="yellow">{{ match.winOdds.home }}</span>
+                  <span class="yellow">{{ match.winOdds.away }}</span>
+                </div>
+              </div> -->
+              
+            </div>
+          </div>
+    </div>
     <div class="lottery">xo so</div>
     <div class="games">gameee</div>
     <div class="last-played">lich su choi</div>

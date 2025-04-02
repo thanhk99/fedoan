@@ -51,7 +51,12 @@
                             </svg>
                         </a>
                         {{ result.fullname }}  <!-- Chỉ hiển thị tên -->
-                        <button class="btn_addFriend" (click)="addFriend(result.id)">{{ btn_add }}</button>
+                        <button 
+                        (click)="addFriend(result.id)" 
+                        class="btn_addFriend" 
+                        [disabled]="sentRequests.includes(result.id)">
+                            {{ sentRequests.includes(result.id) ? 'Đã gửi' : 'Kết bạn' }}
+                        </button>
                     </li>
                 </ul>
                 
