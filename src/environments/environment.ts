@@ -4,7 +4,7 @@ export const environment = {
     production: true,
     apiLogin: `http://${SERVER_IP}:8082/user/login`,
     apiGetInfo: `http://${SERVER_IP}:8082/user/info`,
-    apiGetAtm: `http://${SERVER_IP}:8082/user/atm`,
+    apiGetAtm: `http://${SERVER_IP}:8082/Atm/get`,
     urlSocketCl: `ws://${SERVER_IP}:8082/game/cl`,
     apiGetHistoryGame: `http://${SERVER_IP}:8082/game/getHistoryCl`,
     apiSaveHisPlayer: `http://${SERVER_IP}:8082/game/savePlayerHis`,
@@ -24,4 +24,5 @@ export const environment = {
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
+    
 };
