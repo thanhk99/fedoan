@@ -11,6 +11,7 @@ import path from 'path';
   providedIn: 'root',
 })
 export class userService {
+  
   private apiLogin = environment.apiLogin;
   private apiGetInfo = environment.apiGetInfo;
   private apiGetAtm = environment.apiGetAtm;
