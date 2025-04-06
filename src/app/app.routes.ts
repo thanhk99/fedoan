@@ -12,6 +12,7 @@ import { RechargeComponent } from './recharge/recharge.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
+import { FootballComponent } from './football/football.component';
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
@@ -26,4 +27,5 @@ export const routes: Routes = [
   { path: 'atm/transfer', component: TransferComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'payment-result', component: PaymentResultComponent },
+  { path: 'football', component: FootballComponent },
 ];

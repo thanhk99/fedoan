@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-leftside',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './leftside.component.html',
   styleUrls: ['./leftside.component.css']
 })
@@ -26,5 +27,11 @@ export class LeftsideComponent {
   }
   MessagePage() {
     this.route.navigate(["/message"]);
+  }
+  HomePage() {
+    this.route.navigate(["/home"]);
+  }
+  recharge(){
+    this.route.navigate(['/payment'])
   }
 }
