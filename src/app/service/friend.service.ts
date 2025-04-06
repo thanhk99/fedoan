@@ -84,4 +84,5 @@ export class FriendService {
   acceptFriend(idMy: number , idFriend: number): Observable<any> {
     return this.http.post<any>(this.apiacceptFriend, {idMy , idFriend});
   }
+  
 }
