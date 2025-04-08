@@ -1,12 +1,25 @@
 .football{
     height: 65vh;
     width: 80%;
-    left: 11%;
+    left: 10%;
     top: 5rem;
     position: relative;
     overflow: hidden;
     overflow-y: auto;
+    border-radius: 15px;
 }
+
+.football::-webkit-scrollbar {
+  width: 0px;
+  position: absolute;
+  right: 0;
+}
+
+p{
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
 .match-card {
     display: flex;
     align-items: center;
@@ -16,7 +29,8 @@
     border-radius: 8px;
     color: #fff;
     margin-bottom: 8px;
-    width: 90%;
+    width: 100%;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .match-info {
@@ -46,6 +60,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-top: 8%;
   }
   
   .team-logo {
@@ -53,31 +68,84 @@
     height: 20px;
   }
   
-  .match-odds {
+  .match-bet{
+    width: 60%;
     display: flex;
-    gap: 15px;
+    justify-content: space-evenly;
+    align-items: center;
   }
-  
-  .odd-section {
+
+  .score{
+    flex-direction: column;
+    display: flex;
+  }
+
+  .score-display {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.score-team {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 30px;
+    background: #333;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+}
+
+input[type="number"] {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+    background: #333;
+    color: white;
+}
+
+input[disabled] {
+  background-color: #f0f0f0; 
+  color: #a0a0a0; 
+  cursor: not-allowed;
+}
+
+.bet-amount {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .odds {
-    display: flex;
-    gap: 5px;
+}
+
+.bet-amount input {
+    width: 90px;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: #333;
+    color: white;
+    text-align: center;
+}
+
+.bet-button button {
+    padding: 8px 12px;
+    background: #ffcc00;
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
     font-weight: bold;
-  }
-  
-  .green {
-    color: #4caf50;
-  }
-  
-  .red {
-    color: #ff4d4d;
-  }
-  
-  .yellow {
-    color: #ffcc00;
-  }
+}
+
+.bet-button button:disabled {
+  background-color: #f0f0f0; 
+  color: #a0a0a0; 
+  cursor: not-allowed;
+}
+
+.bet-button button:hover {
+    background: #ffaa00;
+}

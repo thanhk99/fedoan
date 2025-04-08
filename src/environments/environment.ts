@@ -1,5 +1,5 @@
 
-const SERVER_IP = '192.168.0.101'; 
+const SERVER_IP = '127.0.0.1'; 
 export const environment = {
     production: true,
     apiLogin: `http://${SERVER_IP}:8082/user/login`,
@@ -24,5 +24,5 @@ export const environment = {
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
-    
+    apigetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getHisfbXs`,
 };

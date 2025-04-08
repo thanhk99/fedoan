@@ -2,6 +2,7 @@
     <div class="match-card" *ngFor="let match of matches">
         <div class="match-info">
           <div class="match-time">
+            <p>Thời gian</p>
             <span>{{ match.utcDate | date: 'HH:mm' }}</span>
             <span>{{ match.utcDate | date: 'dd/MM' }}</span>
           </div>
@@ -17,33 +18,34 @@
           </div>
         </div>
       
-        <div class="match-odds">
-           <!-- <div class="odd-section">
-            <span>Kèo chấp TT</span>
-            <div class="odds">
-              <span class="green">{{ match.handicap.home }}</span>
-              <span>{{ match.handicap.value }}</span>
-              <span class="red">{{ match.handicap.away }}</span>
-            </div>
-          </div> 
-      
-          <div class="odd-section">
-            <span>Tài xỉu TT</span>
-            <div class="odds">
-              <span class="green">{{ match.overUnder.home }}</span>
-              <span>{{ match.overUnder.value }}</span>
-              <span class="red">{{ match.overUnder.away }}</span>
-            </div>
+        <div class="match-bet">
+          <div class="score">
+              <p>Tỉ số</p>
+              <div class="score-display">
+                  <div class="score-team">
+                      <span *ngIf="match.status === 'FINISHED'; else homePrediction">{{ match.score.fullTime.home }}</span>
+                      <ng-template #homePrediction>
+                          <input type="number" [(ngModel)]="match.prediction.home" placeholder="0" min="0" [disabled]="match.status === 'FINISHED'" />
+                      </ng-template>
+                  </div>
+                  <div class="score-team">
+                      <span *ngIf="match.status === 'FINISHED'; else awayPrediction">{{ match.score.fullTime.away }}</span>
+                      <ng-template #awayPrediction>
+                          <input type="number" [(ngModel)]="match.prediction.away" placeholder="0" min="0" [disabled]="match.status === 'FINISHED'" />
+                      </ng-template>
+                  </div>
+              </div>
           </div>
       
-          <div class="odd-section">
-            <span>Thắng TT</span>
-            <div class="odds">
-              <span class="yellow">{{ match.winOdds.home }}</span>
-              <span class="yellow">{{ match.winOdds.away }}</span>
-            </div>
+          <div class="bet-amount">
+              <p>Tiền cược</p>
+              <input type="number" [(ngModel)]="match.betAmount" placeholder=""min = "1000" [disabled]="match.status === 'FINISHED'" />
           </div>
-          
-        </div> -->
+      
+          <div class="bet-button">
+            <button (click)="placeBet(match)" [disabled]="match.status === 'FINISHED' || (match.prediction.home === undefined && match.prediction.away === undefined) || !match.betAmount">Đặt cược</button>
+          </div>
+      </div>
+
     </div>
 </div>

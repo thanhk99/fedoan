@@ -19,7 +19,7 @@
 
 .sidebar {
     width: 25%;
-    background: #cf99b3; /* Đổi màu tối hơn để dễ phân biệt */
+    background: #cf99b3; 
     color: white;
     padding: 20px;
 }
@@ -68,8 +68,8 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 5px; /* Tạo khoảng cách giữa các tin nhắn */
-    padding-bottom: 20px; /* Tránh bị che bởi phần input */
+    gap: 5px; 
+    padding-bottom: 20px; 
 }
 
 .message {
@@ -98,7 +98,7 @@
     padding: 10px;
     border-top: 1px solid #ddd;
     background: white;
-    gap: 10px; /* Tăng khoảng cách giữa input và button */
+    gap: 10px; 
 }
 
 .chat-input input {
