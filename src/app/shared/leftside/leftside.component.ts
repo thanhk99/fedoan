@@ -7,14 +7,11 @@ import { Router } from '@angular/router';
   selector: 'app-leftside',
   imports: [CommonModule],
   templateUrl: './leftside.component.html',
-  styleUrls: ['./leftside.component.css']
+  styleUrls: ['./leftside.component.css'],
 })
 export class LeftsideComponent {
-  constructor(
-    private cookieService: CookieService,
-    private route: Router
-  ){}
-  logout(){
+  constructor(private cookieService: CookieService, private route: Router) {}
+  logout() {
     const allCookies = this.cookieService.getAll();
     for (const cookie in allCookies) {
       if (allCookies.hasOwnProperty(cookie)) {
@@ -22,9 +19,12 @@ export class LeftsideComponent {
       }
     }
     localStorage.clear();
-    location.reload()
+    location.reload();
   }
   MessagePage() {
-    this.route.navigate(["/message"]);
+    this.route.navigate(['/message']);
+  }
+  MenuGame() {
+    this.route.navigate(['/menugame']);
   }
 }
