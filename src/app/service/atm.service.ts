@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { format } from 'date-fns';
 import { Observable } from 'rxjs';
+import { userService } from './users.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AtmService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient , 
+              private userService: userService
+  ) {}
 
   searchAtm(stk: any): Observable<any> {
     // tìm thông tin tài khoản
@@ -32,4 +35,8 @@ export class AtmService {
     };
     return this.httpClient.post(environment.apiSaveHisBalance, body); 
   }
+
+
+
+
 }

@@ -117,6 +117,7 @@
 
 /* Icon thông báo */
 .notification {
-    font-size: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
 }
