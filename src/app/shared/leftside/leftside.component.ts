@@ -27,4 +27,7 @@ export class LeftsideComponent {
   MessagePage() {
     this.route.navigate(["/message"]);
   }
+  HomePage(){
+    this.route.navigate(["/"]);
+  }
 }

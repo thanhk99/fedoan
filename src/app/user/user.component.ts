@@ -13,8 +13,14 @@ export class UserComponent {
   fullname:any
   money:any
   numberFriend:any=0
+  stk:any
   ngOnInit(): void {
     this.fullname=this.userService.getNameCookies()
     this.money=this.userService.getBalanceCookies()
+    this.userService.getAtmUser(this.userService.getCookies()).subscribe(
+      (data:any)=>{
+        this.stk=data.stk
+      }
+    )
   }
 }

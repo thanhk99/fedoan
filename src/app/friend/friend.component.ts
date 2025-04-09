@@ -20,7 +20,7 @@ export class FriendComponent {
   showFriendRequest = false; // Biến kiểm soát hiển thị danh sách lời mời kết bạn
   searchQuery = ''; // Biến lưu trữ từ khóa tìm kiếm
   showSearchResults = false; // Biến kiểm soát hiển thị kết quả tìm kiếm người kết bạn
-  searchResults: { id: number; fullname: string }[] = []; // Danh sách kết quả tìm kiếm người kết bạn
+  searchResults: { id: number; fullname: string,relative:any }[] = []; // Danh sách kết quả tìm kiếm người kết bạn
 
 
   friends: { idFriend: number; name: string }[] = []; // Danh sách bạn bè
@@ -98,7 +98,7 @@ searchFriends() {
   this.showFriendsList = false;
   this.showFriendRequest = false;
   this.showSearchResults = true;
-
+  this.searchResults = []
   const query = (this.searchQuery || "").trim(); // Không chuyển đổi về chữ thường
   if (!query) {
       this.searchResults = [];
@@ -110,22 +110,28 @@ searchFriends() {
 
   this.userService.getFullname(query).subscribe({
       next: (users: any[]) => {
-          console.log("Dữ liệu từ API:", users);
 
           if (!Array.isArray(users)) {
               console.error("API không trả về danh sách hợp lệ:", users);
               this.searchResults = [];
               return;
           }
-
-          this.searchResults = users.filter(user => {
-              if (!user || typeof user.fullname !== "string") {
-                  console.warn("Bỏ qua dữ liệu không hợp lệ:", user);
-                  return false;
-              }
-              return regex.test(user.fullname); // Sử dụng biểu thức chính quy để kiểm tra
+          users.forEach(element => {
+            this.friendService.getRelativeFr(this.userService.getCookies(),element.id).subscribe(
+                (response: any) => {
+                    if(response != null){
+                        this.searchResults.push({id:element.id,fullname:element.fullname,relative:response.relative})
+                    }
+                    else{
+                        this.searchResults.push({id:element.id,fullname:element.fullname,relative:"Thêm bạn bè"})
+                    }
+                },
+                (error: any) => {
+                    console.error("Lỗi khi lấy thông tin người dùng:", error);
+                }
+            )
+            console.log(element)
           });
-
           console.log("Danh sách tìm kiếm (có id & fullname):", this.searchResults);
       },
       error: (error: any) => {
@@ -224,7 +230,7 @@ searchFriends() {
 }
 
 
-acpRequests(request: { id: number; name: string }) {
+acpRequests(request: { id: number}) {
     const idFriend = request.id; // ID của người gửi lời mời
 
     if (!idFriend) {
@@ -246,9 +252,9 @@ acpRequests(request: { id: number; name: string }) {
     this.friendService.acceptFriend(idMy, idFriend).subscribe({
         next: (response: any) => {
             console.log("Kết quả chấp nhận:", response);
-            this.friends.push({ idFriend: idFriend, name: request.name });
             this.friendRequests = this.friendRequests.filter(r => r.id !== idFriend);
-            alert(`Đã chấp nhận lời mời từ ${request.name}`);
+            alert("Chấp nhận lời mời kết bạn thành công ")
+            location.reload()
         },
         error: (error: any) => {
             console.error("Lỗi khi chấp nhận lời mời:", error);

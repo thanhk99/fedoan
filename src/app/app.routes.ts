@@ -13,7 +13,7 @@ import { TransferComponent } from './transfer/transfer.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'user', component: UserComponent },
   { path: 'friend', component: FriendComponent },

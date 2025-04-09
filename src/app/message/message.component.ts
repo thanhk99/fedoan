@@ -90,7 +90,6 @@ export class MessageComponent implements OnInit {
     this.urlSocketMess +='?id=' +this.userService.getCookies()
     this.socketService.connect(this.urlSocketMess);
     this.socketService.getMessages().subscribe((message: any) => {
-      console.log(message.message)
       this.displayMsg(message.message,'received')
     }
     );

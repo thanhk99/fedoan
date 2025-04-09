@@ -25,5 +25,5 @@ export const environment = {
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
     urlSocketMess: `ws://${SERVER_IP}:8082/mess`,
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
-
+    apiGetRelative:` http://${SERVER_IP}:8082/friend/getRelative`,
 };

@@ -24,4 +24,6 @@ export const environment = {
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
+    apiGetRelative:` http://${SERVER_IP}:8082/friend/getRelative`,
+
 };

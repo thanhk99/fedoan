@@ -23,17 +23,16 @@ export class HomeComponent implements OnInit {
       let  dayStart= format(new Date(), 'yyyy-MM-dd');
       let dayEnd = format(new Date(Date.now() + 86400000*4), 'yyyy-MM-dd');
       this.apiFootball+=`?dateFrom=${dayStart}&dateTo=${dayEnd}`
-      console.log("ok")
       const headers = new HttpHeaders({
         'X-Auth-Token': environment.keyFootball
       });
-      // this.http.get(this.apiFootball,{headers}).subscribe(
-      //   (data:any)=>{
-      //     console.log(data)
-      //   },
-      //   (error:any)=>{
-      //     console.log(error)
-      //   }
-      // )
+      this.http.get(this.apiFootball,{headers}).subscribe(
+        (data:any)=>{
+          console.log(data)
+        },
+        (error:any)=>{
+          console.log(error)
+        }
+      )
     }
 }
