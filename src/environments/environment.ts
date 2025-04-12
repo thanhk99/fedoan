@@ -1,13 +1,14 @@
 
-<<<<<<< HEAD
 const SERVER_IP = '127.0.0.1'; 
-=======
 <<<<<<< HEAD
-const SERVER_IP = '192.168.0.109'; 
+
 =======
-const SERVER_IP = '192.168.0.101'; 
->>>>>>> 418afe66bf6a1d6768d086ba6cfd86d09f87fce5
->>>>>>> 7a0e1836a473d4c1af8346cfb01dbab9f0b7f632
+=======
+
+const SERVER_IP = '127.0.0.1'; 
+
+>>>>>>> a51999f60b828d20849004837a6f166bc4f2eee9
+>>>>>>> b85397785ec299ca3f66cb36325979ca174e1719
 export const environment = {
     production: true,
     apiLogin: `http://${SERVER_IP}:8082/user/login`,
@@ -32,5 +33,11 @@ export const environment = {
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
+<<<<<<< HEAD
+    apigetbetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getbetHisfbxs`,
+    apiPlaceBet:`http://${SERVER_IP}:8082/betHisfbxs/placeBet`,
+=======
+    apiGetRelative:` http://${SERVER_IP}:8082/friend/getRelative`,
     apigetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getHisfbXs`,
+>>>>>>> b85397785ec299ca3f66cb36325979ca174e1719
 };

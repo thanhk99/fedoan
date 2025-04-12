@@ -12,10 +12,13 @@ import { RechargeComponent } from './recharge/recharge.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentResultComponent } from './payment-result/payment-result.component';
+<<<<<<< HEAD
 import { FootballComponent } from './football/football.component';
+=======
+>>>>>>> 5d72930dcee757bdde86ae72b0661644b8b79888
 import { MenugameComponent } from './menugame/menugame.component';
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'user', component: UserComponent },
   { path: 'friend', component: FriendComponent },
@@ -28,6 +31,9 @@ export const routes: Routes = [
   { path: 'atm/transfer', component: TransferComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'payment-result', component: PaymentResultComponent },
+<<<<<<< HEAD
   { path: 'football', component: FootballComponent },
+=======
+>>>>>>> 5d72930dcee757bdde86ae72b0661644b8b79888
   { path: 'menugame', component: MenugameComponent },
 ];

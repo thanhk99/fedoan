@@ -84,5 +84,9 @@ export class FriendService {
   acceptFriend(idMy: number , idFriend: number): Observable<any> {
     return this.http.post<any>(this.apiacceptFriend, {idMy , idFriend});
   }
-  
+
+  getRelativeFr(idMy:any,idFriend:any){
+    const body={idMy:idMy,idFriend:idFriend}
+    return this.http.post(environment.apiGetRelative,body)
+  }
 }

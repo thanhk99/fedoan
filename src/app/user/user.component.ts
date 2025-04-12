@@ -3,6 +3,7 @@ import { userService } from '../service/users.service';
 import { FriendService } from '../service/friend.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { error } from 'node:console';
 @Component({
   selector: 'app-user',
   imports: [CommonModule, FormsModule],
@@ -17,27 +18,13 @@ export class UserComponent {
   fullname:any;
   money:any;
   numberFriend:any=0;
-  friends: any[] = []
-  lichSuCuoc = [
-    {
-      game: 'Tài Xỉu',
-      nguoiCuoc: 'Nguyễn Văn A',
-      ketQua: 'Tài',
-      soTienCuoc: 500000,
-      phanThuong: 1000000,
-      datCuoc: 'Tài',
-      thoiGian: new Date('2025-04-05T14:20:00')
-    },
-    {
-      game: 'Tài Xỉu',
-      nguoiCuoc: 'Trần Văn B',
-      ketQua: 'Xỉu',
-      soTienCuoc: 1000000,
-      phanThuong: 0,
-      datCuoc: 'Tài',
-      thoiGian: new Date('2025-04-05T15:00:00')
-    }
-  ];
+  friends: any[] = [];
+  stk: any;
+  lichSuCuoc: { game: string , nguoiCuoc : string , ketQua : string , soTienCuoc : number , phanThuong : number , datCuoc : string , thoiGian : Date  }[] = [];
+  lichSuNap: { game: string , nguoiCuoc : string , ketQua : string , soTienCuoc : number , phanThuong : number , datCuoc : string , thoiGian : Date  }[]= [];
+  pages: number[] = [];
+  currentPage: number = 1;
+
   
   
   ngOnInit(): void {
@@ -55,6 +42,21 @@ export class UserComponent {
         console.error('Lỗi khi tải danh sách bạn bè:', error);
       }
     );
+    this.userService.getAtmUser(this.userService.getCookies()).subscribe(
+      (res : any) => {
+        this.stk = res.stk;
+        console.log("STK:", this.stk);
+      },
+      (err:any) => {
+        console.error('Lỗi khi tải danh sách bạn bè:', err);
+      }
+
+
+    );
 
   }
+  gotoPage(page: number) {
+    this.currentPage = page;
+  }
+  
 }
