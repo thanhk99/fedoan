@@ -27,4 +27,6 @@ export const environment = {
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
     apigetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getHisfbXs`,
+    apiGetHisBalance:`http://${SERVER_IP}:8082/game/getPlayerHis`,
+    apiGetPlayerHisAll:`http://${SERVER_IP}:8082/game/getPlayerHisAll`,
 };

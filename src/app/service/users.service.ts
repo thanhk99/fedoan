@@ -5,7 +5,7 @@ import { map, catchError } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import path from 'path';
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,8 @@ export class userService {
   private apiGetInfo = environment.apiGetInfo;
   private apiGetAtm = environment.apiGetAtm;
   private apiSearchFullname = environment.apiSearchFullname;
+  private apiGetHisBalance = environment.apiGetHisBalance;
+  private apiGetPlayerHisAll = environment.apiGetPlayerHisAll;
   private username: any = '';
   private apiSearch = environment.apiSearchFullname;
   private keySecret: string = environment.keysecret;
@@ -95,4 +97,65 @@ export class userService {
   getToken() {
     return localStorage.getItem('token');
   }
+  getHisBalance(id: any): Observable<any> {
+    const body = { idPlayer: id };
+    return this.http.post<any[]>(this.apiGetHisBalance, body).pipe(
+      map((response: any[]) => {
+        return response.map((item: any) => {
+          let formattedTime = 'Không xác định';
+          if (item.timeChange) {
+            const parsedDate = new Date(item.timeChange.replace(' ', 'T'));
+            if (!isNaN(parsedDate.getTime())) {
+              formattedTime = format(parsedDate, 'dd-MM-yyyy HH:mm:ss');
+            }
+          }
+    
+          return {
+            idPlayer: item.idPlayer,
+            content: item.content,
+            trans: item.trans,
+            balance: item.balance,
+            timeChangeFormatted: formattedTime
+          };
+        });
+      }),
+      catchError((error) => {
+        console.error('Lỗi khi lấy lịch sử cược:', error);
+        return of([]);
+      })
+    );
+  }
+
+  getPlayerHisAll(id: any): Observable<any> {
+    const body = { playerId: id };
+    return this.http.post<any[]>(this.apiGetPlayerHisAll, body).pipe(
+      map((response: any[]) => {
+        return response.map((item: any) => {
+          let formattedTime = 'Không xác định';
+          if (item.timeoccurs) {
+            const parsedDate = new Date(item.timeoccurs.replace(' ', 'T'));
+            if (!isNaN(parsedDate.getTime())) {
+              formattedTime = format(parsedDate, 'dd-MM-yyyy HH:mm:ss');
+            }
+          }
+    
+          return {
+            nameGame: item.nameGame,
+            playerId: item.playerId,
+            timeoccurs: formattedTime,
+            result: item.result,
+            bet: item.bet,
+            reward: item.reward,
+            choice: item.choice
+          };
+        });
+      }),
+      catchError((error) => {
+        console.error('Lỗi khi lấy lịch sử cược:', error);
+        return of([]);
+      })
+    );
+  }
+  
+  
 }
