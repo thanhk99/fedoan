@@ -1,5 +1,11 @@
 
+<<<<<<< HEAD
 const SERVER_IP = '127.0.0.1'; 
+=======
+
+const SERVER_IP = '127.0.0.1'; 
+
+>>>>>>> a51999f60b828d20849004837a6f166bc4f2eee9
 export const environment = {
     production: true,
     apiLogin: `http://${SERVER_IP}:8082/user/login`,

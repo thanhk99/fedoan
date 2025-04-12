@@ -75,16 +75,23 @@ export class RrComponent implements OnInit  {
   ngOnInit(): void {
     this.money = parseInt(this.userService.getBalanceCookies());
     this.setForcedBomb(3);
+    this.handleReload();
   
-    // ✅ Kiểm tra trạng thái reload từ sessionStorage
+    
+  }
+
+  handleReload() {
     const daReload = sessionStorage.getItem('forceReload') === 'true';
     const daCuoc = sessionStorage.getItem('gameStarted') === 'true';
   
     if (daReload && daCuoc) {
       const conf = confirm('Nếu bạn tải lại sẽ bị mất tiền cược. Bạn có muốn tiếp tục không?');
+  
       if (conf) {
+        // ✅ Người dùng chấp nhận mất tiền cược khi reload
         const amount = -this.betAmount;
         this.money = parseInt(this.userService.getBalanceCookies());
+        this.money += amount; // giảm tiền
         this.userService.setBalanceCookies(this.money.toString());
   
         const goldElement = document.querySelector('.gold');
@@ -106,16 +113,49 @@ export class RrComponent implements OnInit  {
   
         this.gameStarted = true;
         this.initializeGrid();
+      } else {
+        // ❌ Người dùng KHÔNG đồng ý reload → hoàn lại tiền cược
+        const amount = this.betAmount;
+        this.money = parseInt(this.userService.getBalanceCookies());
+        this.money += amount; // hoàn tiền
+        console.log("Tiền hoàn lại: ", this.money);
+
+        this.userService.setBalanceCookies(this.money.toString());
+        
+  
+        const goldElement = document.querySelector('.gold');
+        if (goldElement) {
+          goldElement.innerHTML = this.money.toString();
+        }
+  
+        // const userId = this.userService.getCookies();
+  
+        // this.atmService.updateBalan(amount, userId).subscribe(
+        //   response => console.log('Đã hoàn lại tiền cược', response),
+        //   error => console.error('Lỗi hoàn tiền:', error)
+        // );
+  
+        // this.atmService.saveHisBalance(userId, 'Hoàn tiền do hủy reload', amount, this.money).subscribe(
+        //   response => console.log('Đã lưu lịch sử hoàn tiền', response),
+        //   error => console.error('Lỗi lưu lịch sử:', error)
+        // );
+  
+        this.gameStarted = false;
+        this.initializeGrid();
       }
   
-      // ✅ Xóa trạng thái sau khi xử lý
+      // ✅ Dọn dẹp
       sessionStorage.removeItem('forceReload');
       sessionStorage.removeItem('gameStarted');
       sessionStorage.removeItem('userId');
     }
   
-    // ✅ Cảnh báo trước khi reload hoặc đóng tab
-    window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
+   
+  }
+   
+  Waring(){
+     // ✅ Cảnh báo trước khi reload hoặc đóng tab
+     window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
       if (this.gameStarted) {
         const userId = this.userService.getCookies();
         sessionStorage.setItem('forceReload', 'true');
@@ -130,6 +170,8 @@ export class RrComponent implements OnInit  {
       return undefined;
     });
   }
+  
+  
   
   initializeGrid() {
     this.gameOver = false;
@@ -224,6 +266,8 @@ export class RrComponent implements OnInit  {
     } else {
       alert("Không đủ tiền để đặt cược!");
     }
+    this.Waring(); // Gọi hàm cảnh báo khi cược
+    // Lưu trạng thái cược vào sessionStorage
   }
 
   forcedBombAt: number = 0; 
