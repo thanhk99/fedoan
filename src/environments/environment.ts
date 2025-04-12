@@ -1,10 +1,10 @@
 
-const SERVER_IP = '192.168.0.101'; 
+const SERVER_IP = '127.0.0.1'; 
 export const environment = {
     production: true,
     apiLogin: `http://${SERVER_IP}:8082/user/login`,
     apiGetInfo: `http://${SERVER_IP}:8082/user/info`,
-    apiGetAtm: `http://${SERVER_IP}:8082/user/atm`,
+    apiGetAtm: `http://${SERVER_IP}:8082/Atm/get`,
     urlSocketCl: `ws://${SERVER_IP}:8082/game/cl`,
     apiGetHistoryGame: `http://${SERVER_IP}:8082/game/getHistoryCl`,
     apiSaveHisPlayer: `http://${SERVER_IP}:8082/game/savePlayerHis`,
@@ -25,5 +25,5 @@ export const environment = {
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
     apiGetRelative:` http://${SERVER_IP}:8082/friend/getRelative`,
-
+    apigetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getHisfbXs`,
 };

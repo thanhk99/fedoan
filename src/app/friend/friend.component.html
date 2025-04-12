@@ -51,11 +51,12 @@
                             </svg>
                         </a>
                         {{ result.fullname }}  <!-- Chỉ hiển thị tên -->
-                        <button class="relative" *ngIf="result.relative =='Bạn bè' " >{{ result.relative}}</button>
-                        <button class="relative" *ngIf="result.relative =='Thêm bạn bè' " (click)="addFriend(result.id)">{{ result.relative}}</button>
-                        <button class="relative" *ngIf="result.relative =='Đang chờ' " (click)="addFriend(result.id)">Hủy Lời mời</button>
-                        <button class="relative" *ngIf="result.relative =='Xác nhận' " (click)="acpRequests(result)">{{ result.relative}}</button>
-
+                        <button 
+                        (click)="addFriend(result.id)" 
+                        class="btn_addFriend" 
+                        [disabled]="sentRequests.includes(result.id)">
+                            {{ sentRequests.includes(result.id) ? 'Đã gửi' : 'Kết bạn' }}
+                        </button>
                     </li>
                 </ul>
                 

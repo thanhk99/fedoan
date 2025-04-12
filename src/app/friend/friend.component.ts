@@ -27,6 +27,7 @@ export class FriendComponent {
   friendRequests : { id: number; name: string }[] = []; // Danh sách lời mời kết bạn
   btn_add = 'Thêm bạn bè';
   apiAddFriend = environment.apiaddFriend;
+  sentRequests: number[] = []; // Danh sách ID người đã gửi lời mời
 
   constructor(private friendService: FriendService , 
     private userService: userService,
@@ -200,16 +201,18 @@ searchFriends() {
     console.log("📤 Dữ liệu gửi lên API:", { idMy, idFriend: friendId });
 
     this.http.post(
-        this.apiAddFriend, // Đảm bảo API đúng
+        this.apiAddFriend, // API gửi lời mời kết bạn
         { idMy, idFriend: friendId },
     ).subscribe({
         next: (response: any) => {
             console.log("✅ Phản hồi từ API:", response);
-            
 
             if (response?.success) {
-                this.btn_add = 'Đã gửi'; // Cập nhật UI
-                // alert("Đã gửi lời mời kết bạn!");
+                if (!this.sentRequests.includes(friendId)) {
+                    this.sentRequests = [...this.sentRequests,friendId];
+                    // this.sentRequests.push(friendId);
+                    // UI will update automatically after modifying sentRequests
+                }
             } else {
                 alert(response?.message || "Gửi lời mời thất bại!");
             }
@@ -229,8 +232,7 @@ searchFriends() {
     });
 }
 
-
-acpRequests(request: { id: number}) {
+acpRequests(request: { id: number; name: string }) {
     const idFriend = request.id; // ID của người gửi lời mời
 
     if (!idFriend) {

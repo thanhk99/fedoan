@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient ,HttpHeaders} from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -6,13 +8,15 @@ import { format } from 'date-fns';
 import { userService } from '../service/users.service';
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone:true
 })
 export class HomeComponent implements OnInit {
+  matches: any[] = [];
 
+  
   apiFootball=environment.apiFootball
   constructor (
     private router:Router,
@@ -28,6 +32,7 @@ export class HomeComponent implements OnInit {
       });
       this.http.get(this.apiFootball,{headers}).subscribe(
         (data:any)=>{
+          this.matches = data.matches || [];
           console.log(data)
         },
         (error:any)=>{

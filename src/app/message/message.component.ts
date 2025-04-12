@@ -20,8 +20,8 @@ export class MessageComponent implements OnInit {
     private messageService: MessageService,
   ){}
   urlSocketMess=environment.urlSocketMess
-  users :any
-  selectedUser: { id: number; fullname: string } | null = null;
+  users: any[] = [];
+  selectedUser: { id: number; name: string } | null = null;
   newMessage: string = '';
 
   chatHistory: { [idFriend: number]: { idMy:number;content: string }[] } = {
@@ -29,7 +29,7 @@ export class MessageComponent implements OnInit {
 
   messages: { content: string; type: string }[] = [];
 
-  selectUser(user: { id: number; fullname: string }) {
+  selectUser(user: { id: number; name: string }) {
     this.selectedUser = user;
     // this.messages = this.chatHistory[user.id] || [];
     const idMy = parseInt(this.userService.getCookies());
@@ -80,10 +80,12 @@ export class MessageComponent implements OnInit {
   //be
   ngOnInit(): void {
     this.friendService.getListFriends().subscribe(
-      (data:any)=>{
+      (data:any[])=>{
+        console.log("Friend list data:", data);
         this.users=data
       },
       (error:any)=>{
+        console.error("Error fetching friends:", error);
         console.log(error)
       }
     )

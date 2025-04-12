@@ -12,6 +12,7 @@ import { WebSocketService } from '../../service/socket.service';
 import { userService } from '../../service/users.service';
 import { GameService } from '../../service/game.service';
 import { environment } from '../../../environments/environment';
+import { AtmService } from '../../service/atm.service';
 @Component({
   selector: 'app-cl',
   imports: [CommonModule],
@@ -32,7 +33,7 @@ export class ClComponent implements OnInit {
   betvalua_chanElement!: ElementRef;
   @ViewChild('betvalua_le', { static: true })
   betvalua_leElement!: ElementRef;
-
+  money : number = 0;
   isCountingDown: boolean = false;
   isDragging: boolean = false;
   offsetX: number = 0;
@@ -52,15 +53,17 @@ export class ClComponent implements OnInit {
     private router: Router,
     private socket: WebSocketService,
     private userService: userService,
-    private gameService: GameService
+    private gameService: GameService,
+    private atmService: AtmService
   ) {}
 
   ngOnInit(): void {
     this.userService.getUser();
+    this.money = parseInt(this.userService.getBalanceCookies());
     // Kết nối tới WebSocket
-    let username: any = this.userService.getNameCookies();
-    console.log(username);
-    this.urlSocketCl += '?username=' + username;
+    let idUser: any = this.userService.getCookies();
+    console.log(idUser);
+    this.urlSocketCl += '?id=' + idUser;
     this.socket.connect(this.urlSocketCl);
     //Lắng nghe tin nhắn
     this.messageSubscription = this.socket
@@ -93,27 +96,22 @@ export class ClComponent implements OnInit {
             case 'reward':
               const reward: number = Number(parsedMessage.reward);
               let playerId = this.userService.getCookies();
-              const rs = parsedMessage.result;
-              const moneyBet = parsedMessage.bet;
-              const choiceBet = parsedMessage.choice;
-              this.userService
-                .saveBetHis(
-                  'Chẵn lẻ',
-                  playerId,
-                  rs,
-                  moneyBet,
-                  reward,
-                  choiceBet
-                )
-                .subscribe(
-                  (data) => {
-                    console.log(data);
-                  },
-                  (error) => {
-                    console.log(error);
-                  }
-                );
+              const rs = parsedMessage.result; // Kết quả: 0 => chẵn, 1 => lẻ
+              const moneyBet = parsedMessage.bet; // Tiền cược
+              const choiceBet = parsedMessage.choice; // Lựa chọn người chơi: 'chan' hoặc 'le'
+              const goldElement = document.querySelector('.gold');
+              const gold = goldElement?.textContent
+              if(goldElement && gold && reward>0){
+                let tempGold=parseInt(gold,10)+reward*2
+                goldElement.textContent = tempGold.toString();
+                this.userService.setBalanceCookies(tempGold)
+                this.atmService.updateBalan(reward*2,this.userService.getCookies()).subscribe()
+                this.atmService.saveHisBalance(this.userService.getCookies(),"Trả thưởng chẵn lẻ",reward*2,tempGold).subscribe()
+              }
+
+              console.log( parsedMessage)
               break;
+              
           }
           this.messages.push(messageData.message);
         }
@@ -283,6 +281,10 @@ export class ClComponent implements OnInit {
     tempBet = doorBet?.textContent;
     let currentBet = parseInt(tempBet, 10);
     if (doorBet) {
+      if(amount > parseInt(this.userService.getBalanceCookies())){
+        alert('Số dư không đủ');
+        return;
+      }
       currentBet += amount;
       doorBet.innerHTML = currentBet.toString();
     } else {
@@ -300,6 +302,15 @@ export class ClComponent implements OnInit {
       let Sum = parseInt(tempSum, 10);
       Sum += Bet;
       this.sumBetElement.nativeElement.textContent = Sum.toString();
+      const goldElement = document.querySelector('.gold');
+      const gold = goldElement?.textContent
+      if(goldElement && gold){
+        let tempGold=parseInt(gold,10)-Bet
+        goldElement.textContent = tempGold.toString();
+        this.userService.setBalanceCookies(tempGold)
+        this.atmService.updateBalan(-Bet,this.userService.getCookies()).subscribe()
+        this.atmService.saveHisBalance(this.userService.getCookies(),"Cược chẵn lẻ",-Bet,tempGold).subscribe()
+      }
       this.sendBet(this.hiddenButton.nativeElement.id, Bet);
       this.cancelCuoc();
     }
