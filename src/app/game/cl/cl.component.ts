@@ -61,9 +61,9 @@ export class ClComponent implements OnInit {
     this.userService.getUser();
     this.money = parseInt(this.userService.getBalanceCookies());
     // Kết nối tới WebSocket
-    let username: any = this.userService.getNameCookies();
-    console.log(username);
-    this.urlSocketCl += '?username=' + username;
+    let idUser: any = this.userService.getCookies();
+    console.log(idUser);
+    this.urlSocketCl += '?id=' + idUser;
     this.socket.connect(this.urlSocketCl);
     //Lắng nghe tin nhắn
     this.messageSubscription = this.socket
@@ -93,112 +93,24 @@ export class ClComponent implements OnInit {
               this.sumBet_chan.nativeElement.textContent = firstNumber;
               this.sumBet_le.nativeElement.textContent = secondNumber;
               break;
-              case 'reward':
-                const reward: number = Number(parsedMessage.reward);
-                let playerId = this.userService.getCookies();
-                const rs = parsedMessage.result; // Kết quả: 0 => chẵn, 1 => lẻ
-                const moneyBet = parsedMessage.bet; // Tiền cược
-                const choiceBet = parsedMessage.choice; // Lựa chọn người chơi: 'chan' hoặc 'le'
-              
-                // Kiểm tra đủ tiền cược không
-                if (this.money >= moneyBet) {
-                  // Trừ tiền cược
-                  this.money -= moneyBet;
-              
-                  // Nếu chọn đúng => cộng thưởng
-                  const isWin = (choiceBet === 'chan' && rs === 0) || (choiceBet === 'le' && rs === 1);
-                  if (isWin) {
-                    this.money += reward;
-                    let amout = 0;
-                    amout = moneyBet;
-              
-                    // Cộng vào tổng tiền chẵn/lẻ
-                    if (rs === 0) {
-                      this.totalMoneyC += reward;
-                      this.sumBet_chan.nativeElement.textContent = this.totalMoneyC;
-                    } else {
-                      this.totalMoneyL += reward;
-                      this.sumBet_le.nativeElement.textContent = this.totalMoneyL;
-                    }
-              
-                    // Gọi API cập nhật số dư vào DB
-                    this.atmService.updateBalan(amout, playerId).subscribe(
-                      (res) => {
-                        console.log('Cập nhật số dư thành công:', res);
-                      },
-                      (err) => {
-                        console.error('Lỗi cập nhật số dư:', err);
-                      }
-                    );
+            case 'reward':
+              const reward: number = Number(parsedMessage.reward);
+              let playerId = this.userService.getCookies();
+              const rs = parsedMessage.result; // Kết quả: 0 => chẵn, 1 => lẻ
+              const moneyBet = parsedMessage.bet; // Tiền cược
+              const choiceBet = parsedMessage.choice; // Lựa chọn người chơi: 'chan' hoặc 'le'
+              const goldElement = document.querySelector('.gold');
+              const gold = goldElement?.textContent
+              if(goldElement && gold && reward>0){
+                let tempGold=parseInt(gold,10)+reward*2
+                goldElement.textContent = tempGold.toString();
+                this.userService.setBalanceCookies(tempGold)
+                this.atmService.updateBalan(reward*2,this.userService.getCookies()).subscribe()
+                this.atmService.saveHisBalance(this.userService.getCookies(),"Trả thưởng chẵn lẻ",reward*2,tempGold).subscribe()
+              }
 
-                    this.atmService.saveHisBalance(
-                      playerId,
-                      'Nhận tiền Chẵn lẻ',
-                      amout,
-                      this.money
-                    ).subscribe(
-                      (res) => console.log('Lưu lịch sử nhận tiền:', res),
-                      (err) => console.error('Lỗi lưu lịch sử:', err)
-                    );
-                  }
-                  else{
-                    this.money -= reward;
-                    let amout = 0;
-                    amout = - moneyBet;
-
-                    if (rs !== 0) {
-                      this.totalMoneyC -= reward;
-                      this.sumBet_chan.nativeElement.textContent = this.totalMoneyC;
-                    } else {
-                      this.totalMoneyL -= reward;
-                      this.sumBet_le.nativeElement.textContent = this.totalMoneyL;
-                    }
-                    
-                    this.atmService.updateBalan(amout , playerId).subscribe(
-                      (res) => console.log("Lưu lịch sử trừ tiền" , res),
-                      (err) => console.error("Lỗi lưu lịch sử" , err)
-                    );
-                    this.atmService.saveHisBalance(
-                      playerId,
-                      'Trừ tiền Chẵn lẻ',
-                      amout,
-                      this.money
-                    ).subscribe(
-                      (res) => console.log('Trừ tiền Chẵn lẻ thành công:', res),
-                      (err) => console.error('Lỗi trừ tiền Chẵn lẻ:', err)
-                    )
-
-                  }
-              
-                  // Cập nhật cookie và hiển thị số dư mới
-                  this.userService.setBalanceCookies(this.money.toString());
-                  const goldElement = document.querySelector('.gold');
-                  if (goldElement) {
-                    goldElement.innerHTML = this.money.toString();
-                  }
-              
-                  // Lưu lịch sử đặt cược
-                  this.userService
-                    .saveBetHis('Chẵn lẻ', playerId, rs, moneyBet, reward, choiceBet)
-                    .subscribe(
-                      (data) => {
-                        console.log('Lưu lịch sử cược:', data);
-                      },
-                      (error) => {
-                        console.log('Lỗi lưu lịch sử cược:', error);
-                      }
-                    );
-              
-                  // Reset trạng thái UI
-                  this.isClieckToggle = true;
-                  this.hiddenButton = null;
-                  this.isOptions = false;
-                  this.cancelCuoc();
-                } else {
-                  alert('Bạn không đủ tiền cược!');
-                }
-              
-                break;
+              console.log( parsedMessage)
+              break;
               
           }
           this.messages.push(messageData.message);
@@ -369,6 +281,10 @@ export class ClComponent implements OnInit {
     tempBet = doorBet?.textContent;
     let currentBet = parseInt(tempBet, 10);
     if (doorBet) {
+      if(amount > parseInt(this.userService.getBalanceCookies())){
+        alert('Số dư không đủ');
+        return;
+      }
       currentBet += amount;
       doorBet.innerHTML = currentBet.toString();
     } else {
@@ -386,6 +302,15 @@ export class ClComponent implements OnInit {
       let Sum = parseInt(tempSum, 10);
       Sum += Bet;
       this.sumBetElement.nativeElement.textContent = Sum.toString();
+      const goldElement = document.querySelector('.gold');
+      const gold = goldElement?.textContent
+      if(goldElement && gold){
+        let tempGold=parseInt(gold,10)-Bet
+        goldElement.textContent = tempGold.toString();
+        this.userService.setBalanceCookies(tempGold)
+        this.atmService.updateBalan(-Bet,this.userService.getCookies()).subscribe()
+        this.atmService.saveHisBalance(this.userService.getCookies(),"Cược chẵn lẻ",-Bet,tempGold).subscribe()
+      }
       this.sendBet(this.hiddenButton.nativeElement.id, Bet);
       this.cancelCuoc();
     }

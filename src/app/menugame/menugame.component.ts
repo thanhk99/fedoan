@@ -19,4 +19,7 @@ export class MenugameComponent {
   GameSpaceman() {
     this.route.navigate(['/game/spaceman']);
   }
+  GameChanLe() {
+    this.route.navigate(['/game/cl']);
+  }
 }

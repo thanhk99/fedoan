@@ -29,9 +29,9 @@ export class LeftsideComponent {
     this.route.navigate(['/menugame']);
   }
   HomePage() {
-    this.route.navigate(["/home"]);
+    this.route.navigate(["/"]);
   }
-  recharge(){
-    this.route.navigate(['/payment'])
+  tranfer(){
+    this.route.navigate(['/atm/transfer'])
   }
 }

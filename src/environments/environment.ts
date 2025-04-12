@@ -1,5 +1,4 @@
 
-
 const SERVER_IP = '127.0.0.1'; 
 
 export const environment = {
@@ -26,7 +25,12 @@ export const environment = {
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
+    apigetbetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getbetHisfbxs`,
+    apiPlaceBet:`http://${SERVER_IP}:8082/betHisfbxs/placeBet`,
+    apiGetRelative:` http://${SERVER_IP}:8082/friend/getRelative`,
     apigetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getHisfbXs`,
     apiGetHisBalance:`http://${SERVER_IP}:8082/game/getPlayerHis`,
     apiGetPlayerHisAll:`http://${SERVER_IP}:8082/game/getPlayerHisAll`,
+
+
 };

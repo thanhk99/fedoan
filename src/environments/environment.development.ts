@@ -1,9 +1,8 @@
 
 const SERVER_IP = '127.0.0.1'; 
 
-
 export const environment = {
-    production: false,
+    production: true,
     apiLogin: `http://${SERVER_IP}:8082/user/login`,
     apiGetInfo: `http://${SERVER_IP}:8082/user/info`,
     apiGetAtm: `http://${SERVER_IP}:8082/Atm/get`,
@@ -17,7 +16,6 @@ export const environment = {
     apiacceptFriend :`http://${SERVER_IP}:8082/friend/acceptFriend`,
     apideleFriend :`http://${SERVER_IP}:8082/friend/deleteFriend`,
     apideleFriendRequets :`http://${SERVER_IP}:8082/friend/deleteFriendRequest`,
-    apiSearch :`http://${SERVER_IP}:8082/user/searchFullname`,
     apiGetrequets:`http://${SERVER_IP}:8082/friend/getFriendRequests`,
     keysecret:"anhthanhdz",
     apiSearchAtm: `http://${SERVER_IP}:8082/Atm/search`,
@@ -27,8 +25,12 @@ export const environment = {
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
+    apigetbetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getbetHisfbxs`,
+    apiPlaceBet:`http://${SERVER_IP}:8082/betHisfbxs/placeBet`,
+    apiGetRelative:` http://${SERVER_IP}:8082/friend/getRelative`,
     apigetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getHisfbXs`,
     apiGetHisBalance:`http://${SERVER_IP}:8082/game/getPlayerHis`,
     apiGetPlayerHisAll:`http://${SERVER_IP}:8082/game/getPlayerHisAll`,
+
 
 };

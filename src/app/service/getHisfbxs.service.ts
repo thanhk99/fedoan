@@ -19,11 +19,11 @@ export class GetHisfbxsService {
         private userService: userService
     ) {}
 
-    private apigetHisfbxs = environment.apigetHisfbxs;
+    private apigetHisfbxs = environment.apigetbetHisfbxs;
 
     getHisfbxs(): Observable<any> {
-        const idMy = this.userService.getCookies();
-        return this.http.post(this.apigetHisfbxs, { idMy });
+      const idPlayer = parseInt(this.userService.getCookies(), 10);
+      return this.http.post(this.apigetHisfbxs, { idPlayer }); 
     }
 }
   
