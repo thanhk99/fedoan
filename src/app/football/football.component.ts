@@ -14,11 +14,14 @@ import { AtmService } from '../service/atm.service';
   styleUrl: './football.component.css'
 })
 export class FootballComponent {
+  activeTab: 'matches' | 'history' = 'matches';
   matches: any[] = [];
   betAmount: number = 1000; // Số tiền cược mặc định
   money: number = 0; // Số tiền cược cho mỗi trận
 
   apiFootball=environment.apiFootball
+  apiPlaceBet=environment.apiPlaceBet
+  apigetBethis=environment.apigetbetHisfbxs
     
     constructor (
       private router:Router,
@@ -31,6 +34,7 @@ export class FootballComponent {
       ngOnInit() {
         this.fetchMatches();
         this.money = parseInt(this.userService.getBalanceCookies());
+        this.fetchBetHistory();
       }
 
       private fetchMatches() {
@@ -46,6 +50,7 @@ export class FootballComponent {
           (data: any) => {
             this.matches = data.matches.map((match: any) => ({
               ...match,
+              id: match.id,
               prediction: { // Khởi tạo prediction cho mỗi trận
                 home: 0,
                 away: 0
@@ -62,34 +67,113 @@ export class FootballComponent {
       
       placeBet(match: any) {
         if (parseInt(this.userService.getBalanceCookies()) >= this.betAmount) {
-          let amount = 0 ;
-          amount = - this.betAmount;
+          let amount = -this.betAmount;
           this.money -= this.betAmount;
-          
-          // Cập nhật số dư trong giao diện ( Tìm phần tử có class "gold" và cập nhật nội dung của nó)
+      
+          // Cập nhật UI
           const goldElement = document.querySelector('.gold');
-          if (goldElement) {
-              goldElement.innerHTML = this.money.toString();
-          }
-          // Cập nhật số dư trong cookie
+          if (goldElement) goldElement.innerHTML = this.money.toString();
+
+          // Cập nhật cookie số dư
           this.userService.setBalanceCookies(this.money.toString());
+      
+          // Trừ tiền
+          this.atmService.updateBalan(amount, this.userService.getCookies()).subscribe(
+            response => {
+              console.log('Đã trừ tiền cược', response);
+      
+              // Gọi API lưu cược
+              const betData = {
+                idPlayer: parseInt(this.userService.getCookies()),
+                betType: 'FOOTBALL',
+                referenceId: match.id.toString(), 
+                prediction: `${match.prediction.home}-${match.prediction.away}`, 
+                betAmount: this.betAmount,
+                multi: 1
+              };
+      
+              this.http.post(this.apiPlaceBet, betData).subscribe(
+                (res: any) => {
+                  console.log('Đặt cược thành công:', JSON.stringify(res));
+                  alert(res.message || "Đặt cược thành công!");
 
-          // Gọi API cập nhật số dư
-          this.atmService.updateBalan(amount, this.userService.getCookies()).subscribe(response => {
-            console.log('Đã trừ tiền cược', response);
-            alert("Đặt cược thành công!");
-          }, error => {
-            console.error('Lỗi cập nhật số dư:', error);
-            alert("Có lỗi xảy ra khi trừ tiền. Vui lòng thử lại.");
+                  // reset lại giá trị cược
+                  match.prediction.home = 0;
+                  match.prediction.away = 0;
+                  match.betAmount = 0;
+                },
+                (err) => {
+                  console.error('Lỗi lưu đặt cược:', err);
+                  alert("Có lỗi xảy ra khi lưu cược.");
+                }
+              );
+            },
+            error => {
+              console.error('Lỗi cập nhật số dư:', error);
+              alert("Có lỗi xảy ra khi trừ tiền.");
+            }
+          );
+        } else {
+          alert("Bạn không đủ tiền để đặt cược!");
+        }
+    }
+
+    betHistory: any[] = [];
+
+    fetchBetHistory() {
+      const requestBody = { idPlayer: parseInt(this.userService.getCookies()) };  // tạo object gửi ID của người chơi lên server thông qua API.
+      const apiUrl = this.apigetBethis;   // Đường dẫn API lấy lịch sử cược
+
+      this.http.post(apiUrl, requestBody).subscribe(
+        (data: any) => {
+          this.betHistory = data.map((bet: any) => {
+            // Tìm trận đấu tương ứng theo referenceId
+            const matched = this.matches.find(m => m.id === parseInt(bet.referenceId));
+
+            let resultText = 'Đang chờ';
+    
+            if (matched && matched.status === 'FINISHED') {
+              const fullTime = matched.score.fullTime;
+              const actualScore = `${fullTime.home}-${fullTime.away}`;
+    
+              if (actualScore === bet.prediction) {
+                const reward = bet.betAmount * bet.multi;
+                resultText = `Thắng: +${reward}`;
+              } else {
+                resultText = 'Thua';
+              }
+            }
+
+            return {
+              matchName: matched
+                ? `${matched.homeTeam.name} vs ${matched.awayTeam.name}`
+                : 'Không rõ trận',
+              prediction: bet.prediction,
+              betAmount: bet.betAmount,
+              betTime: new Date(bet.betTime),
+              resultText: resultText,
+              status: bet.status,
+            };
           });
-
-          
-      }
-      else {
-        alert("Bạn không đủ tiền để đặt cược!");  
-      }
+    
+          console.log('Lịch sử cược sau xử lý:', this.betHistory);
+        },
+        (err) => {
+          console.error('Lỗi khi gọi API lấy lịch sử cược:', err);
+        }
+      );
+      
     }
 
 
+    showBetHistory() {
+      this.activeTab = 'history';
+      this.fetchBetHistory();
+    }
+  
+
+    showMatches() {
+      this.activeTab = 'matches';
+    }
 
 }
