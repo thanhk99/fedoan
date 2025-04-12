@@ -19,7 +19,7 @@
       <div class="card">
         <div class="card-header">
           <span class="logo"></span>
-          <span class="card-number">8386</span>
+          <span class="card-number">{{stk}}</span>
           <span class="expiry">05/26</span>
         </div>
         <div class="balance-text">Balance:</div>
@@ -61,13 +61,16 @@
       
       
       <div class="pagination">
-        <button>1</button>
-        <button>2</button>
-        <button>...</button>
-        <button>10</button>
-      </div>
+        <button
+          *ngFor="let page of pages"
+          [class.active]="page === currentPage"
+          (click)="gotoPage(page)">
+          {{ page }}
+        </button>
+      </div>      
 
       <div class="history-balance">
+        <h2>Lịch sử nạp tiền</h2>
         <table class="hisBalance">
           <thead>
             <tr>
@@ -82,7 +85,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let lichSu of lichSuCuoc; let i = index">
+            <tr *ngFor="let lichSu of lichSuNap; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ lichSu.game }}</td>
               <td>{{ lichSu.nguoiCuoc }}</td>

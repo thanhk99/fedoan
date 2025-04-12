@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Renderer2 } from '@angular/core';
 import { FriendService } from '../../service/friend.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-rightside',
   imports: [CommonModule, FormsModule],
@@ -14,6 +14,7 @@ import { FriendService } from '../../service/friend.service';
 export class RightsideComponent implements OnInit {
   constructor(
     private friendService: FriendService,
+    private router: Router,
   ){}
   // @ViewChild('tooltip') tooltip!: ElementRef;
   // tooltipVisible = false;
@@ -77,5 +78,8 @@ export class RightsideComponent implements OnInit {
           console.log(error);
         }
       )
+  }
+  friend(){
+    this.router.navigate(["/friend"])
   }
 }

@@ -38,7 +38,7 @@ export class FootballComponent {
       }
 
       private fetchMatches() {
-        const dayStart = format(new Date(Date.now() - 86400000), 'yyyy-MM-dd'); 
+        const dayStart = format(new Date(Date.now() - 86400000*4), 'yyyy-MM-dd'); 
         const dayEnd = format(new Date(Date.now() + 86400000 * 4), 'yyyy-MM-dd'); 
         const apiUrl = `${this.apiFootball}?dateFrom=${dayStart}&dateTo=${dayEnd}`;
         console.log("ok");
