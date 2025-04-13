@@ -97,34 +97,42 @@ export class userService {
   getToken() {
     return localStorage.getItem('token');
   }
+
   getHisBalance(id: any): Observable<any> {
     const body = { idPlayer: id };
     return this.http.post<any[]>(this.apiGetHisBalance, body).pipe(
       map((response: any[]) => {
         return response.map((item: any) => {
-          let formattedTime = 'Không xác định';
+          let formattedTime = 'Không xác định';  // Mặc định là Không xác định nếu không có thời gian
+  
+          // Kiểm tra trường hợp item.timeChange có giá trị hợp lệ không
           if (item.timeChange) {
-            const parsedDate = new Date(item.timeChange.replace(' ', 'T'));
+            const parsedDate = new Date(item.timeChange.replace(' ', 'T')); // Thử chuyển đổi
+  
+            // Nếu parsedDate hợp lệ thì định dạng lại
             if (!isNaN(parsedDate.getTime())) {
               formattedTime = format(parsedDate, 'dd-MM-yyyy HH:mm:ss');
+            } else {
+              console.log("Chuỗi thời gian không hợp lệ:", item.timeChange); // Log trường hợp không hợp lệ
             }
           }
-    
+  
           return {
             idPlayer: item.idPlayer,
             content: item.content,
             trans: item.trans,
             balance: item.balance,
-            timeChangeFormatted: formattedTime
+            timeChangeFormatted: formattedTime, // Trả về thời gian đã định dạng hoặc "Không xác định"
           };
         });
       }),
       catchError((error) => {
         console.error('Lỗi khi lấy lịch sử cược:', error);
-        return of([]);
+        return of([]); // Xử lý khi có lỗi API
       })
     );
   }
+      
 
   getPlayerHisAll(id: any): Observable<any> {
     const body = { playerId: id };
@@ -156,6 +164,8 @@ export class userService {
       })
     );
   }
+  
+  
   
   
 }

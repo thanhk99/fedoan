@@ -91,20 +91,33 @@ export class UserComponent {
     if (tab === 'lichSuCuoc') {
       this.userService.getPlayerHisAll(this.userService.getCookies()).subscribe(
         (res: any) => {
-          this.lichSuCuoc = res.map((item: any) => ({
-            namegame: item.nameGame,
-            ketQua: item.result,
-            soTienCuoc: item.bet,
-            phanThuong: item.reward,
-            datCuoc: item.datCuoc,
-            timeoccurs: item.timeoccurs,
-          }));
-          console.log("Lịch sử cược:", this.lichSuCuoc);
+          this.lichSuCuoc = res.map((item: any) => {
+            let parsedDate = null;
+      
+            if (item.timeoccurs) {
+              const parts = item.timeoccurs.split(/[- :]/); // ["13", "04", "2025", "14", "39", "29"]
+              const isoString = `${parts[2]}-${parts[1]}-${parts[0]}T${parts[3]}:${parts[4]}:${parts[5]}`;
+              parsedDate = new Date(isoString);
+            }
+      
+            console.log("Chuỗi ban đầu:", item.timeoccurs);
+            console.log("Date object đã chuyển:", parsedDate);
+      
+            return {
+              namegame: item.nameGame,
+              ketQua: item.result,
+              soTienCuoc: item.bet,
+              phanThuong: item.reward,
+              datCuoc: item.datCuoc,
+              timeoccurs: parsedDate, // 👈 Date object
+            };
+          });
         },
         (err: any) => {
           console.error('Lỗi khi tải lịch sử cược:', err);
         }
       );
+      
     }
 
   }
