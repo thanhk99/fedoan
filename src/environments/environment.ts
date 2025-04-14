@@ -1,5 +1,5 @@
 
-const SERVER_IP = 'e6a0-2405-4802-17c0-a2a0-d894-1412-db63-80e6.ngrok-free.app'; 
+const SERVER_IP = 'remarkably-arriving-imp.ngrok-free.app'; 
 
 export const environment = {
     production: true,
