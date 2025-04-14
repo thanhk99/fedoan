@@ -27,7 +27,7 @@ export class FootballComponent {
       private router:Router,
       private http :HttpClient,
       private userService: userService,
-      private atmService: AtmService, // Injecting atmService
+      private atmService: AtmService, 
     ) { }
 
 
@@ -139,6 +139,14 @@ export class FootballComponent {
               if (actualScore === bet.prediction) {
                 const reward = bet.betAmount * bet.multi;
                 resultText = `Thắng: +${reward}`;
+                this.atmService.updateBalan(reward, this.userService.getCookies()).subscribe(
+                  response => {
+                    console.log('Đã cộng tiền thưởng', response);
+                  }
+                );
+                this.userService.setBalanceCookies((parseInt(this.userService.getBalanceCookies()) + reward).toString());
+                const goldElement = document.querySelector('.gold');
+                if (goldElement) goldElement.innerHTML = this.money.toString();
               } else {
                 resultText = 'Thua';
               }

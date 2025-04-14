@@ -28,11 +28,7 @@ export const environment = {
     apiGetRelative:` http://${SERVER_IP}:8082/friend/getRelative`,
     apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
-<<<<<<< HEAD
     apigetbetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getbetHisfbxs`,
     apiPlaceBet:`http://${SERVER_IP}:8082/betHisfbxs/placeBet`,
-
-=======
-    apigetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getHisfbXs`,
->>>>>>> b85397785ec299ca3f66cb36325979ca174e1719
+    apiLottery :`https://xoso188.net/api/front/open/lottery/history/list/5/miba`
 };
