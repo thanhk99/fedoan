@@ -1,10 +1,11 @@
-import { Component, HostListener ,OnInit} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { userService } from '../../service/users.service';
 import { AtmService } from '../../service/atm.service';
 import { error } from 'node:console';
+import { GameService } from '../../service/game.service';
 
 @Component({
   selector: 'app-rr',
@@ -23,14 +24,15 @@ import { error } from 'node:console';
     ])
   ]
 })
-export class RrComponent implements OnInit  {
+export class RrComponent implements OnInit {
   constructor(
     private userService: userService,
-    private atmService: AtmService
-  ) { 
+    private atmService: AtmService,
+    private gameService: GameService
+  ) {
     this.initializeGrid()
   }
-  money: number=0;
+  money: number = 0;
   betAmount: number = 1000; //tiền cược mặc định
   totalBombs: number = 4;
   totalDiamonds: number = 25 - this.totalBombs;
@@ -44,7 +46,7 @@ export class RrComponent implements OnInit  {
   diamondsCollected: number = 0;
   diamondProgress: number = 0;
   bombProgress: number = 0;
-  
+
   diamondSound = new Audio('diamond.mp3');
   bombSound = new Audio('bomb.mp3');
 
@@ -64,9 +66,9 @@ export class RrComponent implements OnInit  {
 
     // Giữ tối đa 5 mục, xóa mục cũ nhất nếu cần
     if (this.history.length > 5) {
-        this.history.pop();
+      this.history.pop();
     }
-}
+  }
 
   // toggleMoney() {
   //   this.isHidden = !this.isHidden;
@@ -76,41 +78,41 @@ export class RrComponent implements OnInit  {
     this.money = parseInt(this.userService.getBalanceCookies());
     this.setForcedBomb(3);
     this.handleReload();
-  
-    
+
+
   }
 
   handleReload() {
     const daReload = sessionStorage.getItem('forceReload') === 'true';
     const daCuoc = sessionStorage.getItem('gameStarted') === 'true';
-  
+
     if (daReload && daCuoc) {
       const conf = confirm('Nếu bạn tải lại sẽ bị mất tiền cược. Bạn có muốn tiếp tục không?');
-  
+
       if (conf) {
         // ✅ Người dùng chấp nhận mất tiền cược khi reload
         const amount = -this.betAmount;
         this.money = parseInt(this.userService.getBalanceCookies());
         this.money += amount; // giảm tiền
         this.userService.setBalanceCookies(this.money.toString());
-  
+
         const goldElement = document.querySelector('.gold');
         if (goldElement) {
           goldElement.innerHTML = this.money.toString();
         }
-  
+
         const userId = this.userService.getCookies();
-  
+
         this.atmService.updateBalan(amount, userId).subscribe(
           response => console.log('Đã trừ tiền cược', response),
           error => console.error('Lỗi cập nhật số dư:', error)
         );
-  
+
         this.atmService.saveHisBalance(userId, 'Bỏ cược Reng Reng', amount, this.money).subscribe(
           response => console.log('Đã lưu lịch sử cược', response),
           error => console.error('Lỗi lưu lịch sử cược:', error)
         );
-  
+
         this.gameStarted = true;
         this.initializeGrid();
       } else {
@@ -121,47 +123,47 @@ export class RrComponent implements OnInit  {
         console.log("Tiền hoàn lại: ", this.money);
 
         this.userService.setBalanceCookies(this.money.toString());
-        
-  
+
+
         const goldElement = document.querySelector('.gold');
         if (goldElement) {
           goldElement.innerHTML = this.money.toString();
         }
-  
+
         // const userId = this.userService.getCookies();
-  
+
         // this.atmService.updateBalan(amount, userId).subscribe(
         //   response => console.log('Đã hoàn lại tiền cược', response),
         //   error => console.error('Lỗi hoàn tiền:', error)
         // );
-  
+
         // this.atmService.saveHisBalance(userId, 'Hoàn tiền do hủy reload', amount, this.money).subscribe(
         //   response => console.log('Đã lưu lịch sử hoàn tiền', response),
         //   error => console.error('Lỗi lưu lịch sử:', error)
         // );
-  
+
         this.gameStarted = false;
         this.initializeGrid();
       }
-  
+
       // ✅ Dọn dẹp
       sessionStorage.removeItem('forceReload');
       sessionStorage.removeItem('gameStarted');
       sessionStorage.removeItem('userId');
     }
-  
-   
+
+
   }
-   
-  Waring(){
-     // ✅ Cảnh báo trước khi reload hoặc đóng tab
-     window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
+
+  Waring() {
+    // ✅ Cảnh báo trước khi reload hoặc đóng tab
+    window.addEventListener('beforeunload', (e: BeforeUnloadEvent) => {
       if (this.gameStarted) {
         const userId = this.userService.getCookies();
         sessionStorage.setItem('forceReload', 'true');
         sessionStorage.setItem('gameStarted', 'true');
         sessionStorage.setItem('userId', userId.toString());
-  
+
         const msg = 'Bạn sẽ mất tiền cược nếu tiếp tục. Bạn có chắc không?';
         e.preventDefault();
         e.returnValue = msg;
@@ -170,9 +172,9 @@ export class RrComponent implements OnInit  {
       return undefined;
     });
   }
-  
-  
-  
+
+
+
   initializeGrid() {
     this.gameOver = false;
     this.diamondsCollected = 0;
@@ -217,23 +219,23 @@ export class RrComponent implements OnInit  {
 
   changeBombs(change: number) {
     if (!this.gameStarted) {  // Chỉ chỉnh khi chưa cược
-        const newTotal = this.totalBombs + change;
-        if (newTotal >= 1 && newTotal <= 10) {
-            // Tính phần trăm thay đổi hệ số nhân (mỗi bom thay đổi 10%)
-            const scaleFactor = Math.pow(1.1, newTotal - 4); // 1.1^(newTotal - 4)
+      const newTotal = this.totalBombs + change;
+      if (newTotal >= 1 && newTotal <= 10) {
+        // Tính phần trăm thay đổi hệ số nhân (mỗi bom thay đổi 10%)
+        const scaleFactor = Math.pow(1.1, newTotal - 4); // 1.1^(newTotal - 4)
 
-            // Cập nhật số bom
-            this.totalBombs = newTotal;
-            this.totalDiamonds = 25 - this.totalBombs;// Cập nhật tổng kim cương
+        // Cập nhật số bom
+        this.totalBombs = newTotal;
+        this.totalDiamonds = 25 - this.totalBombs;// Cập nhật tổng kim cương
 
-            // Cập nhật dãy hệ số nhân
-            this.multipliers = this.defaultMultipliers.map(value => parseFloat((value * scaleFactor).toFixed(2)));
+        // Cập nhật dãy hệ số nhân
+        this.multipliers = this.defaultMultipliers.map(value => parseFloat((value * scaleFactor).toFixed(2)));
 
-            // Cập nhật lại bàn chơi
-            this.initializeGrid();
-        }
+        // Cập nhật lại bàn chơi
+        this.initializeGrid();
+      }
     }
-}
+  }
 
   placeBet() {
     if (this.gameStarted) return; // Không cho phép cược lại khi chưa kết thúc ván trước
@@ -244,7 +246,7 @@ export class RrComponent implements OnInit  {
       this.userService.setBalanceCookies(this.money.toString());
       const goldElement = document.querySelector('.gold');
       if (goldElement) {
-          goldElement.innerHTML = this.money.toString();
+        goldElement.innerHTML = this.money.toString();
       }
       // this.atmService.updateBalan(amount, this.userService.getCookies()).subscribe(response => {
       //   console.log('Đã trừ tiền cược', response);
@@ -270,7 +272,7 @@ export class RrComponent implements OnInit  {
     // Lưu trạng thái cược vào sessionStorage
   }
 
-  forcedBombAt: number = 0; 
+  forcedBombAt: number = 0;
   forceBombTriggered: boolean = false; // ép bom
   bombSwapIndex: number = -1;
   consecutiveDiamonds: number = 0; // Số kim cương liên tiếp trong một ván
@@ -282,34 +284,34 @@ export class RrComponent implements OnInit  {
   }
 
   forceBomb() {
-  if (this.consecutiveDiamonds === this.forcedBombAt) { // Sử dụng consecutiveDiamonds thay vì diamondsCollected
-    this.forceBombTriggered = true;
+    if (this.consecutiveDiamonds === this.forcedBombAt) { // Sử dụng consecutiveDiamonds thay vì diamondsCollected
+      this.forceBombTriggered = true;
 
-    let hiddenBombIndex = this.flatGrid.findIndex(c => !c.revealed && c.type === 'bomb');
+      let hiddenBombIndex = this.flatGrid.findIndex(c => !c.revealed && c.type === 'bomb');
 
-    if (hiddenBombIndex !== -1) {
-      this.bombSwapIndex = hiddenBombIndex;
+      if (hiddenBombIndex !== -1) {
+        this.bombSwapIndex = hiddenBombIndex;
+      }
     }
   }
-}
 
   revealCell(index: number) {
     if (this.gameOver || !this.gameStarted) return;
 
     this.forceBomb(); // Kiểm tra nếu đã đạt số kim cương cần ép bom
-  
+
     const cell = this.flatGrid[index];
     if (!cell.revealed) {
       cell.revealed = true;
       this.firstReveal = true;
-  
+
       // Nếu ép bom, hoán đổi ô đang mở với một ô bom chưa mở
       if (this.forceBombTriggered && this.bombSwapIndex !== -1) {
         let bombCell = this.flatGrid[this.bombSwapIndex];
-  
+
         // Đổi vị trí bom với ô hiện tại
         [cell.type, bombCell.type] = [bombCell.type, cell.type];
-  
+
         this.forceBombTriggered = false; // Reset ép bom sau khi thực hiện
         this.bombSwapIndex = -1;
       }
@@ -318,20 +320,20 @@ export class RrComponent implements OnInit  {
         this.diamondsCollected++;
         this.consecutiveDiamonds++; // Tăng số kim cương liên tiếp
         this.playSound(this.diamondSound);
-  
+
         this.multiplierIndex++;
-        
+
         // Cập nhật currentMultiplierIndex để chuyển sang dãy hệ số mới
         this.currentMultiplierIndex = Math.floor(this.multiplierIndex / 5) * 5;
-  
+
         if (this.multiplierIndex >= this.multipliers.length) {
           this.multiplierIndex = this.multipliers.length - 1;
         }
-  
+
         this.lastWinning = Math.floor(this.betAmount * this.multipliers[this.multiplierIndex]);
-  
+
         this.diamondProgress = (this.diamondsCollected / (25 - this.totalBombs)) * 100;
-      } 
+      }
       else if (cell.type === 'bomb') {
         this.gameOver = true;
         this.gameStarted = false;
@@ -345,15 +347,23 @@ export class RrComponent implements OnInit  {
         }, error => {
           console.error('Lỗi cập nhật số dư:', error);
         });
-        
+
         const idPlayer = this.userService.getCookies();
-      this.atmService.saveHisBalance(idPlayer, 'Cược Reng Reng', amout, this.money).subscribe(
-        response => {
-          console.log('Đã lưu lịch sử cược', response);
-        }, error => {
-          console.error('Lỗi lưu lịch sử cược:', error);
-        }
-      );
+
+        this.userService.saveBetHis("Reng Reng", this.userService.getCookies(), 'Thua',this.betAmount, -this.lastWinning, '').subscribe(
+          response => {
+            console.log('Đã lưu lịch sử chơi', response);
+          }, error => {
+            console.error('Lỗi lưu lịch sử chơi:', error);
+          }
+        );
+        this.atmService.saveHisBalance(idPlayer, 'Cược Reng Reng', amout, this.money).subscribe(
+          response => {
+            console.log('Đã lưu lịch sử cược', response);
+          }, error => {
+            console.error('Lỗi lưu lịch sử cược:', error);
+          }
+        );
         this.consecutiveDiamonds = 0; // Reset chuỗi kim cương liên tiếp
 
         setTimeout(() => {
@@ -382,21 +392,36 @@ export class RrComponent implements OnInit  {
 
   cashOut() {
     if (!this.gameOver && this.lastWinning > 0 && this.firstReveal) {
-      this.money += this.lastWinning + this.betAmount ; // Cộng tiền thắng vào số dư
-      
+      this.money += this.lastWinning + this.betAmount; // Cộng tiền thắng vào số dư
+
       // Cập nhật số dư trên giao diện
       const goldElement = document.querySelector('.gold');
       if (goldElement) {
         goldElement.innerHTML = this.money.toString();
       }
-  
+
       // Cập nhật số dư vào cookies ngay sau khi thay đổi
       this.userService.setBalanceCookies(this.money.toString());
-  
+
       // Thêm vào lịch sử chơi
       this.addHistory(this.betAmount, this.lastWinning);
-      this.userService.saveBetHis("Reng Reng", this.userService.getCookies(), '', this.betAmount, this.lastWinning, '');
-  
+      this.userService.saveBetHis("Reng Reng", this.userService.getCookies(), 'Win', this.betAmount, this.lastWinning, '').subscribe(
+        response => {
+          console.log('Đã lưu lịch sử chơi', response);
+        }, error => {
+          console.error('Lỗi lưu lịch sử chơi:', error);
+        }
+      );
+
+      // Ghi lại lịch sử chơi
+      // this.userService.saveBetHis('Reng Reng', this.userService.getCookies(), '', 'Thắng', this.betAmount, this.lastWinning).subscribe(
+      //   response => {
+      //     console.log('Đã lưu lịch sử chơi', response);
+      //   }, error => {
+      //     console.error('Lỗi lưu lịch sử chơi:', error);
+      //   }
+      // );
+
       // Gọi API cập nhật số dư
       this.atmService.updateBalan(this.lastWinning, this.userService.getCookies()).subscribe(response => {
         console.log('Cập nhật số dư thành công:', response);
@@ -411,9 +436,9 @@ export class RrComponent implements OnInit  {
         }, error => {
           console.error('Lỗi lưu lịch sử nhận tiền:', error);
         }
-        
+
       )
-  
+
       this.revealAllCells(); // Mở tất cả các ô khi nhấn nút nhận tiền
       this.gameStarted = false; // Kết thúc ván cược
       setTimeout(() => {
@@ -421,7 +446,7 @@ export class RrComponent implements OnInit  {
       }, 1000);
     }
   }
-  
+
 
   currentMultiplierIndex: number = 0;
 
@@ -438,7 +463,7 @@ export class RrComponent implements OnInit  {
       this.currentMultiplierIndex = Math.min(this.currentMultiplierIndex + 5, this.multipliers.length - 5);
     }
   }
-  
+
   prevMultipliers() {
     if (this.currentMultiplierIndex - 5 >= 0) {
       this.currentMultiplierIndex = Math.max(this.currentMultiplierIndex - 5, 0);

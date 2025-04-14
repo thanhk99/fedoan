@@ -40,4 +40,7 @@ export class HomeComponent implements OnInit {
         }
       )
     }
+    FootballPage(){
+      this.router.navigate(['/football']);
+    }
 }
