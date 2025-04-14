@@ -37,6 +37,10 @@ export class userService {
     const body={id:id}
     return this.http.post(this.apiGetInfo, body );
   }
+  getUserById(id:any){
+    const body={id:id}
+    return this.http.post(this.apiGetInfo, body );
+  }
 
   getAtmUser(id: any): Observable<any> {
     const body = { idPlayer: id };

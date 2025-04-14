@@ -31,7 +31,7 @@ export class LeftsideComponent {
   HomePage() {
     this.route.navigate(["/"]);
   }
-  tranfer(){
+  TransPage(){
     this.route.navigate(['/atm/transfer'])
   }
 }

@@ -85,12 +85,11 @@ export class TransferComponent implements OnInit {
           this.notifical3 = 'Số tài khoản không tồn tại!';
           return;
         }
-        if (this.userService.getCookies() === String(data.idPlayer)) {
+        else if (this.userService.getCookies() === String(data.idPlayer)) {
           this.notifical3 = 'Số tài khoản không hợp lệ';
           this.submitIsDisabled = true;
         } else {
-          this.userService.getUser().subscribe((rs: any) => {
-            console.log(rs);
+          this.userService.getUserById(data.idPlayer).subscribe((rs: any) => {
             this.money = rs.money;
             this.nameplayer = rs.fullname;
           });
