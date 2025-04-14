@@ -1,12 +1,9 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { endWith, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import {  Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
-import { format } from 'date-fns';
 import { userService } from './users.service';
 @Injectable({
   providedIn: 'root',
