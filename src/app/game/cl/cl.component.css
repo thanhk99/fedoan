@@ -11,7 +11,7 @@
   left: 20%;
 }
 .circle-bg {
-  background-image: url("http://localhost:4200/pngtree-brown-wooden-texture-polished-vector-background-image_306870.jpg");
+  background-image: url("https://sbcb.vercel.app/pngtree-brown-wooden-texture-polished-vector-background-image_306870.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -22,7 +22,7 @@
 }
 /* bàn trong */
 .inner-circle {
-  background-image: url("http://localhost:4200/wooden-background-board-wallpaper-preview.jpg");
+  background-image: url("https://sbcb.vercel.app/wooden-background-board-wallpaper-preview.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -53,7 +53,7 @@
 }
 /* Bát che xúc xắc */
 .yellow-circle {
-  background-image: url("http://localhost:4200/bolt.png");
+  background-image: url("https://sbcb.vercel.app/bolt.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -91,7 +91,7 @@ span {
 }
 /*Kết quả chăn lẻ */
 .circle {
-  background-image: url("http://localhost:4200/dia.png");
+  background-image: url("https://sbcb.vercel.app/dia.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
