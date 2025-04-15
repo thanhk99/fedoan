@@ -23,7 +23,7 @@ export const environment = {
     apiSearchFullname: `http://${SERVER_IP}:8082/user/searchFullname`,
     urlSocketMess: `ws://${SERVER_IP}:8082/mess`,
     apiGetChatHis: `http://${SERVER_IP}:8082/mess/getChatHis`,
-    apiFootball:  '/api/competitions/PL/matches',
+    apiFootball:  'https://api.football-data.org/v4/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
     apigetbetHisfbxs:`http://${SERVER_IP}:8082/betHisfbxs/getbetHisfbxs`,
     apiPlaceBet:`http://${SERVER_IP}:8082/betHisfbxs/placeBet`,
