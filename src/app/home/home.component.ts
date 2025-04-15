@@ -26,11 +26,11 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
       let  dayStart= format(new Date(), 'yyyy-MM-dd');
       let dayEnd = format(new Date(Date.now() + 86400000*4), 'yyyy-MM-dd');
-      this.apiFootball+=`?dateFrom=${dayStart}&dateTo=${dayEnd}`
+      const apiUrl = `${this.apiFootball}?dateFrom=${dayStart}&dateTo=${dayEnd}`;
       const headers = new HttpHeaders({
         'X-Auth-Token': environment.keyFootball
       });
-      this.http.get(this.apiFootball,{headers}).subscribe(
+      this.http.get(apiUrl,{headers}).subscribe(
         (data:any)=>{
           this.matches = data.matches || [];
           console.log(data)
