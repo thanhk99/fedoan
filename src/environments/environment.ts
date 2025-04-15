@@ -6,7 +6,7 @@ export const environment = {
     apiLogin: `https://${SERVER_IP}/user/login`,
     apiGetInfo: `https://${SERVER_IP}/user/info`,
     apiGetAtm: `https://${SERVER_IP}/Atm/get`,
-    urlSocketCl: `ws://${SERVER_IP}/game/cl`,
+    urlSocketCl: `wss://${SERVER_IP}/game/cl`,
     apiGetHistoryGame: `https://${SERVER_IP}/game/getHistoryCl`,
     apiSaveHisPlayer: `https://${SERVER_IP}/game/savePlayerHis`,
     apiSaveHisBalan:`https://${SERVER_IP}/Atm/saveHis`,
