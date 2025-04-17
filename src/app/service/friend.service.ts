@@ -1,9 +1,12 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {  Observable } from 'rxjs';
+import { endWith, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
+import * as CryptoJS from 'crypto-js';
 import { environment } from '../../environments/environment';
+import { format } from 'date-fns';
 import { userService } from './users.service';
 @Injectable({
   providedIn: 'root',
@@ -53,8 +56,12 @@ export class FriendService {
   // Xóa bạn bè
   deleteFriend(idMy: number, idFriend: number): Observable<any> {
     const url = `${this.apideleFriend}`;
+    console.log("Gửi request DELETE đến: ", url);
+    console.log("ID của tôi:", idMy);
+    console.log("ID của bạn:", idFriend);
     const body = { idMy, idFriend };
-
+    console.log("Dữ liệu gửi đi:", body);
+    // Gửi yêu cầu DELETE với body
     return this.http.delete<any>(url, {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         body: body // Chỉ hoạt động nếu backend hỗ trợ DELETE có body

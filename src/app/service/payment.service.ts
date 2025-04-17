@@ -26,7 +26,7 @@ export interface PaymentCallback {
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:8082/payment';
+  private apiUrl = 'https://remarkably-arriving-imp.ngrok-free.app/payment';
 
   constructor(private http: HttpClient) { }
 
