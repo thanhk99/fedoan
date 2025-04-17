@@ -10,10 +10,12 @@ export class GameService {
     private http: HttpClient
   ) { }
   private apiSaveHisPlayer = environment.apiSaveHisPlayer;
-
+  apiFootBall=environment.apiFootball
   getHistory(namegame:string){
     const body = {"namegame":namegame}
     return this.http.post(environment.apiGetHistoryGame,body)
   }
-
+  getMatches(dateFrom: string, dateTo: string){
+    return this.http.get(`${this.apiFootBall}?dateFrom=${dateFrom}&dateTo=${dateTo}`);
+  }
 }
