@@ -42,7 +42,6 @@ export class HomeComponent implements OnInit {
     this.http.get(this.apiFootball, { headers }).subscribe(
       (data: any) => {
         this.matches = data.matches || [];
-        console.log(data);
       },
       (error: any) => {
         console.log(error);
@@ -54,7 +53,6 @@ export class HomeComponent implements OnInit {
     const dayStart = format(new Date(Date.now() - 86400000), 'yyyy-MM-dd');
     const dayEnd = format(new Date(Date.now()), 'yyyy-MM-dd');
     const apiUrl = `${this.apiLottery}?dateFrom=${dayStart}&dateTo=${dayEnd}`;
-    console.log('ok');
 
     this.http.get(apiUrl).subscribe({
       next: (res: any) => {
@@ -72,7 +70,6 @@ export class HomeComponent implements OnInit {
             g7: parsed[7].split(','),
           };
         }
-        console.log('Dữ liệu nhận về từ API:', res);
       },
       error: (err) => {
         console.error('Lỗi khi gọi API:', err);
