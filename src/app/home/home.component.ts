@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { format } from 'date-fns';
 import { userService } from '../service/users.service';
 import { GameService } from '../service/game.service';
+
 @Component({
   selector: 'app-home',
   imports: [CommonModule, FormsModule],
@@ -16,6 +17,7 @@ import { GameService } from '../service/game.service';
 })
 export class HomeComponent implements OnInit {
   matches: any[] = [];
+  isLoading: boolean = false; // Thêm biến để theo dõi trạng thái loading
 
   apiFootball = environment.apiFootball;
   apiLottery = environment.apiLottery;
@@ -26,6 +28,7 @@ export class HomeComponent implements OnInit {
     private userService: userService,
     private gameService: GameService
   ) {}
+
   ngOnInit() {
     this.fetchMatches();
     this.loadLotteryData();
@@ -35,17 +38,19 @@ export class HomeComponent implements OnInit {
   selectedDate = new Date();
 
   fetchMatches() {
+    this.isLoading = true; // Bật trạng thái loading trước khi gọi API
     let dayStart = format(new Date(), 'yyyy-MM-dd');
     let dayEnd = format(new Date(Date.now() + 86400000 * 4), 'yyyy-MM-dd');
-    this.gameService.getMatches(dayStart,dayEnd).subscribe(
+    this.gameService.getMatches(dayStart, dayEnd).subscribe(
       (response: any) => {
         this.matches = response.matches;
+        this.isLoading = false; // Tắt trạng thái loading khi nhận được dữ liệu
       },
       (error) => {
         console.error(error);
+        this.isLoading = false; // Tắt trạng thái loading nếu có lỗi
       }
-    )
-
+    );
   }
 
   loadLotteryData() {
