@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { format } from 'date-fns';
 import { userService } from '../service/users.service';
 import { AtmService } from '../service/atm.service';
+import { GameService } from '../service/game.service';
 @Component({
   selector: 'app-football',
   imports: [CommonModule, FormsModule],
@@ -22,12 +23,14 @@ export class FootballComponent {
   apiFootball=environment.apiFootball
   apiPlaceBet=environment.apiPlaceBet
   apigetBethis=environment.apigetbetHisfbxs
+  isLoading: boolean=false;
     
     constructor (
       private router:Router,
       private http :HttpClient,
       private userService: userService,
       private atmService: AtmService, 
+      private gameService: GameService
     ) { }
 
 
@@ -37,18 +40,14 @@ export class FootballComponent {
         this.fetchBetHistory();
       }
 
-      private fetchMatches() {
-        const dayStart = format(new Date(Date.now() - 86400000*4), 'yyyy-MM-dd'); 
-        const dayEnd = format(new Date(Date.now() + 86400000 * 4), 'yyyy-MM-dd'); 
-        const apiUrl = `${this.apiFootball}?dateFrom=${dayStart}&dateTo=${dayEnd}`;
-        console.log("ok");
-        const headers = new HttpHeaders({
-          'X-Auth-Token': environment.keyFootball
-        });
-    
-        this.http.get(apiUrl, { headers }).subscribe(
-          (data: any) => {
-            this.matches = data.matches.map((match: any) => ({
+      fetchMatches() {
+        this.isLoading = true; // Bật trạng thái loading trước khi gọi API
+        const dayStart = format(new Date(Date.now() - 86400000 * 4), 'yyyy-MM-dd'); // Lấy ngày bắt đầu (4 ngày trước)
+        const dayEnd = format(new Date(Date.now() + 86400000 * 4), 'yyyy-MM-dd'); // Lấy ngày kết thúc (4 ngày sau)
+      
+        this.gameService.getMatches(dayStart, dayEnd).subscribe(
+          (response: any) => {
+            this.matches = response.matches.map((match: any) => ({
               ...match,
               id: match.id,
               prediction: { // Khởi tạo prediction cho mỗi trận
@@ -57,10 +56,12 @@ export class FootballComponent {
               },
               betAmount: 0 // Khởi tạo betAmount cho mỗi trận
             })) || [];
-            console.log(data);
+            console.log(response); // Giữ lại console.log để debug
+            this.isLoading = false; // Tắt trạng thái loading khi nhận được dữ liệu
           },
           (error: any) => {
-            console.log(error);
+            console.error(error);
+            this.isLoading = false; // Tắt trạng thái loading nếu có lỗi
           }
         );
       }
