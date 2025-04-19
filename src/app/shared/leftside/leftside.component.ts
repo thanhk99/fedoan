@@ -16,7 +16,7 @@ export class LeftsideComponent {
     const allCookies = this.cookieService.getAll();
     for (const cookie in allCookies) {
       if (allCookies.hasOwnProperty(cookie)) {
-        this.cookieService.delete(cookie);
+        this.cookieService.deleteAll(cookie);
       }
     }
     localStorage.clear();

@@ -3,6 +3,7 @@ import { userService } from '../../service/users.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { AtmService } from '../../service/atm.service';
 @Component({
   selector: 'app-header',
   imports: [NgIf],
@@ -13,13 +14,23 @@ export class HeaderComponent implements OnInit {
   constructor (
     private userService: userService,
     private cookie:CookieService,
-    private router: Router
+    private router: Router,
+    private atmService: AtmService
   ) { }
   fullname:any =""
   money:any=""
   ngOnInit(): void {
-    this.fullname=this.userService.getNameCookies()
-    this.money=this.userService.getBalanceCookies()
+    console.log(this.userService.getCookies())
+    this.userService.getUser().subscribe(
+      (data)=>{
+        this.fullname=data.fullname
+      }
+    )
+    this.userService.getAtmUser(this.userService.getCookies()).subscribe(
+      (data)=>{
+        this.money=data.balance
+      }
+    )
   }
   Login(){
     this.router.navigate(['/login'])
