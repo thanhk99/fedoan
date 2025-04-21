@@ -19,6 +19,7 @@ export class LeftsideComponent {
         this.cookieService.deleteAll(cookie);
       }
     }
+    this.route.navigate(['/'])
     localStorage.clear();
     location.reload();
   }

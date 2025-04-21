@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 import { format } from 'date-fns';
 import { userService } from '../service/users.service';
 import { GameService } from '../service/game.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-home',
   imports: [CommonModule, FormsModule],
@@ -26,7 +26,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private userService: userService,
-    private gameService: GameService
+    private gameService: GameService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
