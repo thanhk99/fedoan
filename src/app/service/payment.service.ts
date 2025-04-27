@@ -1,12 +1,14 @@
 // src/app/services/vnpay.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 export interface PaymentRequest {
   amount: number;
   orderInfo: string;
   orderType: string;
+  // idPlayer?: string;   
+  // content?: string; 
 }
 
 export interface PaymentResponse {
@@ -26,7 +28,7 @@ export interface PaymentCallback {
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'https://remarkably-arriving-imp.ngrok-free.app/payment';
+  private apiUrl = 'http://localhost:8082/payment';
 
   constructor(private http: HttpClient) { }
 
@@ -48,4 +50,5 @@ export class PaymentService {
   handlePaymentCallback(data: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/payment-callback`, data);
   }
+
 }

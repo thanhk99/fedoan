@@ -31,7 +31,11 @@ export class LotteryComponent {
 
   ngOnInit() {
     this.loadLotteryData();
-    this.money = parseInt(this.userService.getBalanceCookies());
+    const goldElement = document.querySelector('.gold');
+    const gold = goldElement?.textContent
+    if(gold){
+      this.money = parseInt(gold);
+    }
 
   }
 
@@ -86,20 +90,13 @@ export class LotteryComponent {
 
   
   placeBet() {
-    const goldElement = document.querySelector('.gold');
-    if (!goldElement) {
-      alert("Không tìm thấy phần tử gold.");
-      return;
-    }
-    const gold = parseInt(goldElement.textContent || '0', 10);
-    if (gold >= this.betAmount) {
+    if (this.money >= this.betAmount) {
       let amount = -this.betAmount;
       this.money -= this.betAmount;
   
-     
-  
-      // Cập nhật cookie số dư
-      this.userService.setBalanceCookies(this.money.toString());
+      // Cập nhật UI số vàng
+      const goldElement = document.querySelector('.gold');
+      if (goldElement) goldElement.innerHTML = this.money.toString();
   
       // Gọi API cập nhật số dư (trừ tiền)
       this.atmService.updateBalan(amount, this.userService.getCookies()).subscribe(
@@ -120,7 +117,10 @@ export class LotteryComponent {
             (res: any) => {
               console.log('Đặt cược xổ số thành công:', res);
               alert(res.message || "Đặt cược thành công!");
-              location.reload()
+  
+              // Reset lại form
+              this.betNumber = '';
+              this.betAmount = 1000;
             },
             (err) => {
               console.error('Lỗi khi lưu cược xổ số:', err);
@@ -174,12 +174,7 @@ export class LotteryComponent {
                       console.log('Đã cộng tiền thưởng', response);
                     }
                   );
-            
-                  const newBalance = parseInt(this.userService.getBalanceCookies()) + bet.reward;
-                  this.userService.setBalanceCookies(newBalance.toString());
-            
-                  const goldElement = document.querySelector('.gold');
-                  if (goldElement) goldElement.innerHTML = newBalance.toString();
+          
             
                   // Đánh dấu đã cộng để không cộng lại khi reload
                   localStorage.setItem(rewardKey, 'true');

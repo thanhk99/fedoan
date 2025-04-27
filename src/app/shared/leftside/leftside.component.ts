@@ -16,10 +16,9 @@ export class LeftsideComponent {
     const allCookies = this.cookieService.getAll();
     for (const cookie in allCookies) {
       if (allCookies.hasOwnProperty(cookie)) {
-        this.cookieService.deleteAll(cookie);
+        this.cookieService.delete(cookie);
       }
     }
-    this.route.navigate(['/'])
     localStorage.clear();
     location.reload();
   }

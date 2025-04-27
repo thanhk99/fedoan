@@ -13,26 +13,69 @@
       </div>
     </div>
 
-    <button class="change-password">change password</button>
+    <button (click)="openModal()" class="change-password">Change password</button>
 
-    <div class="money">
-      <div class="card">
-        <div class="card-header">
-          <span class="logo"></span>
-          <span class="card-number">{{stk}}</span>
-          <span class="expiry">05/26</span>
+
+
+    <div class="modal" [ngClass]="{ 'show': isModalOpen }">
+      <div class="modal-content">
+        <h2>Đổi mật khẩu</h2>
+    
+        <label>Mật khẩu cũ</label>
+        <input type="password" [(ngModel)]="oldPassword" class="form-control" />
+    
+        <label>Mật khẩu mới</label>
+        <input type="password" [(ngModel)]="newPassword" class="form-control" />
+    
+        <label>Xác nhận mật khẩu mới</label>
+        <input type="password" [(ngModel)]="confirmPassword" class="form-control" />
+    
+        <div class="actions">
+          <button (click)="changePassword()">Xác nhận</button>
+          <button (click)="closeModal()">Huỷ</button>
         </div>
-        <div class="balance-text">Balance:</div>
-        <div class="balance-amount">$ {{money}}</div>
-        <span class="new-badge">mâm 1</span>
       </div>
     </div>
+
+    <div class="money">
+      <div *ngIf="stk; else addCardTemplate">
+        <div class="card">
+          <div class="card-header">
+            <span class="logo"></span>
+            <span class="card-number">{{ stk }}</span>
+            <span class="expiry">05/26</span>
+          </div>
+          <div class="balance-text">Balance:</div>
+          <div class="balance-amount">$ {{ money }}</div>
+          <span class="new-badge">mâm 1</span>
+        </div>
+      </div>
+      
+      <ng-template #addCardTemplate>
+        <div *ngIf="!showForm; else formTemplate" class="add-card" (click)="showForm = true">
+          <span class="plus-icon">+</span>
+          <div class="add-card-text">Tạo ATM</div>
+        </div>
+      </ng-template>
+      
+      <ng-template #formTemplate>
+        <div class="add-card-form">
+          <label for="stkInput">Số tài khoản</label>
+          <input
+            id="stkInput"
+            type="text"
+            [(ngModel)]="newStk"
+            placeholder="Nhập số tài khoản"
+          />
+          <button (click)="addCard()">Thêm</button>
+        </div>
+      </ng-template>
   </div>
   <!-- Right Section -->
   <div class="right-section">
     <div class="menu-his">
-      <button class="hisbet" (click)="selectTab('lichSuCuoc')">Lịch sử cược</button>
-      <button class="hisbala" (click)="selectTab('lichSuThayDoi')">Lịch sử thay đổi số dư</button>
+      <button class="hisbet" [class.active]="selectedTab === 'lichSuCuoc'" (click)="selectTab('lichSuCuoc')">Lịch sử cược</button>
+      <button class="hisbala" [class.active]="selectedTab === 'lichSuThayDoi'" (click)="selectTab('lichSuThayDoi')">Lịch sử thay đổi số dư</button>
     </div>
     <div class="transaction-history" *ngIf="selectedTab === 'lichSuCuoc'">
       <h2>Lịch sử cược</h2>
@@ -49,7 +92,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let lichSu of lichSuCuoc; let i = index">
+          <tr *ngFor="let lichSu of lichSuCuoc | paginate: { itemsPerPage: 4, currentPage: pages } ; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ lichSu.namegame }}</td>
             <td>{{ lichSu.ketQua }}</td>
@@ -60,16 +103,6 @@
           </tr>
         </tbody>
       </table>
-      
-      
-      <!-- <div class="pagination">
-        <button
-          *ngFor="let page of pages"
-          [class.active]="page === currentPage"
-          (click)="gotoPage(page)">
-          {{ page }}
-        </button>
-      </div>       -->
     </div>
     <div class="history-balance" *ngIf="selectedTab === 'lichSuThayDoi'">
       <h2>Lịch sử thay đổi số dư</h2>
@@ -78,13 +111,13 @@
           <tr>
             <th>STT</th>
             <th>Nội dung</th>
-            <th>Thay đổi số dư</th>
+            <th>Biến động</th>
             <th>Số dư</th>
             <th>Thời gian</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let lichSu of lichSuThayDoi; let i = index">
+          <tr *ngFor="let lichSu of lichSuThayDoi | paginate: { itemsPerPage: 4, currentPage: pages }; let i = index ">
             <td>{{ i + 1 }}</td>
             <td>{{ lichSu.content }}</td>
             <td>{{ lichSu.trans }}</td>
@@ -94,6 +127,17 @@
         </tbody>
       </table>
     </div>
+    <div class="pagination-container">
+      <pagination-controls
+        (pageChange)="pages = $event"
+        previousLabel="«"
+        nextLabel="»"
+        [maxSize]="4"
+        [directionLinks]="true"
+        [autoHide]="true">
+      </pagination-controls>
+    </div>
+
    
   </div>
 </div>

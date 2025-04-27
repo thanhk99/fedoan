@@ -7,7 +7,6 @@ import { environment } from '../../environments/environment';
 import { format } from 'date-fns';
 import { userService } from '../service/users.service';
 import { AtmService } from '../service/atm.service';
-import { GameService } from '../service/game.service';
 @Component({
   selector: 'app-football',
   imports: [CommonModule, FormsModule],
@@ -23,31 +22,37 @@ export class FootballComponent {
   apiFootball=environment.apiFootball
   apiPlaceBet=environment.apiPlaceBet
   apigetBethis=environment.apigetbetHisfbxs
-  isLoading: boolean=false;
     
     constructor (
       private router:Router,
       private http :HttpClient,
       private userService: userService,
       private atmService: AtmService, 
-      private gameService: GameService
     ) { }
 
 
       ngOnInit() {
         this.fetchMatches();
-        this.money = parseInt(this.userService.getBalanceCookies());
+        const goldElement = document.querySelector('.gold');
+        const gold = goldElement?.textContent
+        if(gold){
+          this.money = parseInt(gold);
+        }
         this.fetchBetHistory();
       }
 
-      fetchMatches() {
-        this.isLoading = true; // Bật trạng thái loading trước khi gọi API
-        const dayStart = format(new Date(Date.now() - 86400000 * 4), 'yyyy-MM-dd'); // Lấy ngày bắt đầu (4 ngày trước)
-        const dayEnd = format(new Date(Date.now() + 86400000 * 4), 'yyyy-MM-dd'); // Lấy ngày kết thúc (4 ngày sau)
-      
-        this.gameService.getMatches(dayStart, dayEnd).subscribe(
-          (response: any) => {
-            this.matches = response.matches.map((match: any) => ({
+      private fetchMatches() {
+        const dayStart = format(new Date(Date.now() - 86400000*4), 'yyyy-MM-dd'); 
+        const dayEnd = format(new Date(Date.now() + 86400000 * 4), 'yyyy-MM-dd'); 
+        const apiUrl = `${this.apiFootball}?dateFrom=${dayStart}&dateTo=${dayEnd}`;
+        console.log("ok");
+        const headers = new HttpHeaders({
+          'X-Auth-Token': environment.keyFootball
+        });
+    
+        this.http.get(apiUrl, { headers }).subscribe(
+          (data: any) => {
+            this.matches = data.matches.map((match: any) => ({
               ...match,
               id: match.id,
               prediction: { // Khởi tạo prediction cho mỗi trận
@@ -56,18 +61,16 @@ export class FootballComponent {
               },
               betAmount: 0 // Khởi tạo betAmount cho mỗi trận
             })) || [];
-            console.log(response); // Giữ lại console.log để debug
-            this.isLoading = false; // Tắt trạng thái loading khi nhận được dữ liệu
+            console.log(data);
           },
           (error: any) => {
-            console.error(error);
-            this.isLoading = false; // Tắt trạng thái loading nếu có lỗi
+            console.log(error);
           }
         );
       }
       
       placeBet(match: any) {
-        if (parseInt(this.userService.getBalanceCookies()) >= this.betAmount) {
+        if (this.money >= this.betAmount) {
           let amount = -this.betAmount;
           this.money -= this.betAmount;
       
@@ -75,8 +78,6 @@ export class FootballComponent {
           const goldElement = document.querySelector('.gold');
           if (goldElement) goldElement.innerHTML = this.money.toString();
 
-          // Cập nhật cookie số dư
-          this.userService.setBalanceCookies(this.money.toString());
       
           // Trừ tiền
           this.atmService.updateBalan(amount, this.userService.getCookies()).subscribe(
@@ -122,7 +123,11 @@ export class FootballComponent {
     betHistory: any[] = [];
 
     fetchBetHistory() {
-      const requestBody = { idPlayer: parseInt(this.userService.getCookies()) };  // tạo object gửi ID của người chơi lên server thông qua API.
+      // tạo object gửi ID của người chơi lên server thông qua API.
+      const requestBody = {
+        idPlayer: parseInt(this.userService.getCookies()),
+        betType: 'FOOTBALL'  
+      };
       const apiUrl = this.apigetBethis;   // Đường dẫn API lấy lịch sử cược
 
       this.http.post(apiUrl, requestBody).subscribe(
@@ -140,14 +145,17 @@ export class FootballComponent {
               if (actualScore === bet.prediction) {
                 const reward = bet.betAmount * bet.multi;
                 resultText = `Thắng: +${reward}`;
-                this.atmService.updateBalan(reward, this.userService.getCookies()).subscribe(
-                  response => {
-                    console.log('Đã cộng tiền thưởng', response);
-                  }
-                );
-                this.userService.setBalanceCookies((parseInt(this.userService.getBalanceCookies()) + reward).toString());
-                const goldElement = document.querySelector('.gold');
-                if (goldElement) goldElement.innerHTML = this.money.toString();
+    
+                // Chỉ cộng tiền nếu status là false (chưa xử lý trước đó)
+                if (!bet.status) {
+                  this.atmService.updateBalan(reward, this.userService.getCookies()).subscribe(
+                    response => {
+                      console.log('Đã cộng tiền thưởng', response);
+                    }
+                  );
+                
+                  const goldElement = document.querySelector('.gold');
+                }
               } else {
                 resultText = 'Thua';
               }

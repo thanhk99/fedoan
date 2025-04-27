@@ -1,4 +1,3 @@
-
 const SERVER_IP = 'remarkably-arriving-imp.ngrok-free.app'; 
 
 export const environment = {
@@ -6,7 +5,7 @@ export const environment = {
     apiLogin: `https://${SERVER_IP}/user/login`,
     apiGetInfo: `https://${SERVER_IP}/user/info`,
     apiGetAtm: `https://${SERVER_IP}/Atm/get`,
-    urlSocketCl: `wss://${SERVER_IP}/game/cl`,
+    urlSocketCl: `wss://${SERVER_IP}:8082/game/cl`,
     apiGetHistoryGame: `https://${SERVER_IP}/game/getHistoryCl`,
     apiSaveHisPlayer: `https://${SERVER_IP}/game/savePlayerHis`,
     apiSaveHisBalan:`https://${SERVER_IP}/Atm/saveHis`,
@@ -21,9 +20,9 @@ export const environment = {
     apiSearchAtm: `https://${SERVER_IP}/Atm/search`,
     apiSaveHisBalance: `https://${SERVER_IP}/Atm/saveHis`,
     apiSearchFullname: `https://${SERVER_IP}/user/searchFullname`,
-    urlSocketMess: `ws://${SERVER_IP}/mess`,
+    urlSocketMess: `wss://${SERVER_IP}:8082/mess`,
     apiGetChatHis: `https://${SERVER_IP}/mess/getChatHis`,
-    apiFootball:  `https://${SERVER_IP}/football/matches`,
+    apiFootball:  '/api/competitions/PL/matches',
     keyFootball:'17ee52ab7c3d494794f524ea8abff2f8',
     apigetbetHisfbxs:`https://${SERVER_IP}/betHisfbxs/getbetHisfbxs`,
     apiPlaceBet:`https://${SERVER_IP}/betHisfbxs/placeBet`,
@@ -32,5 +31,8 @@ export const environment = {
     apigetHisfbxs:`https://${SERVER_IP}/betHisfbxs/getHisfbXs`,
     apiGetHisBalance:`https://${SERVER_IP}/game/getPlayerHis`,
     apiGetPlayerHisAll:`https://${SERVER_IP}/game/getPlayerHisAll`,
-    apiRegister:`https://${SERVER_IP}/user/regis`,
+    apiRegister:`https://${SERVER_IP}/regis`,
+    apiCreateAtm:`https://${SERVER_IP}/Atm/createATM`,
+    apiGetFriendRelative:`https://${SERVER_IP}/friend/getRelativeMy`,
+
 };

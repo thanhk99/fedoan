@@ -22,22 +22,21 @@ export class HeaderComponent implements OnInit {
   fullname:any =""
   money:any=""
   ngOnInit(): void {
-    if (this.router.url === '/login') {
-      return;
+    if(this.userService.getCookies()!==""){
+      this.userService.getUser().subscribe(
+        (data)=>{
+          this.fullname=data.fullname
+        }
+      )
+      this.userService.getAtmUser(this.userService.getCookies()).subscribe(
+        (data:any)=>{
+          this.money=data.balance
+          if(data.error !==undefined){
+            this.toastr.warning("Hãy bấm vào User để tạo ATM ", "Hệ thống")
+          }
+        }
+      )
     }
-    this.userService.getUser().subscribe(
-      (data)=>{
-        this.fullname=data.fullname
-      }
-    )
-    this.userService.getAtmUser(this.userService.getCookies()).subscribe(
-      (data)=>{
-        this.money=data.balance
-      },
-      (error)=>{
-        this.toastr.warning("Chưa có Atm , Vui lòng tạo","Thông báo")
-      }
-    )
   }
   Login(){
     this.router.navigate(['/login'])
