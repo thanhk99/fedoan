@@ -6,7 +6,6 @@ import { FriendComponent } from './friend/friend.component';
 import { MessageComponent } from './message/message.component';
 import { ClComponent } from './game/cl/cl.component';
 import { RrComponent } from './game/rr/rr.component';
-import { SpacemanComponent } from './game/spaceman/spaceman.component';
 import { Slot777Component } from './game/slot777/slot777.component';
 import { RechargeComponent } from './recharge/recharge.component';
 import { TransferComponent } from './transfer/transfer.component';
@@ -25,7 +24,6 @@ export const routes: Routes = [
   { path: 'message', component: MessageComponent , canActivate: [authGuard]},
   { path: 'game/cl', component: ClComponent , canActivate: [authGuard]},
   { path: 'game/rr', component: RrComponent , canActivate: [authGuard]},
-  { path: 'game/spaceman', component: SpacemanComponent , canActivate: [authGuard]},
   { path: 'game/slot777', component: Slot777Component , canActivate: [authGuard]},
   { path: 'recharge', component: RechargeComponent , canActivate: [authGuard]},
   { path: 'atm/transfer', component: TransferComponent , canActivate: [authGuard]},
