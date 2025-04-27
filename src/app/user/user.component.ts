@@ -23,7 +23,7 @@ export class UserComponent {
     private friendService: FriendService,
     private atm: AtmService,
     private toastr: ToastrService,
-    private http : HttpClient
+
   ) { }
   fullname: any;
   money: any;
