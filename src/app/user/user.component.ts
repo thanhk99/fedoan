@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
 import { AtmService } from '../service/atm.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
+import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-user',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,NgxPaginationModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
