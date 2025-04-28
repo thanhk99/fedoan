@@ -1,4 +1,4 @@
-<aside class="sidebar left">
+<aside class="sidebar left" [ngClass]="{'active': isSidebarActive}">
   <div class="logo"></div>
   <nav>
     <ul>
@@ -8,7 +8,6 @@
           <span>HOME</span>
         </a>
       </li>
-
       <li>
         <a (click)="MenuGame()">
           <i class="fas fa-gamepad"></i>
@@ -16,35 +15,34 @@
         </a>
       </li>
       <li>
-        <a>
-          <i class="fas fa-trophy"></i>
-          <span>AWARDS</span>
-        </a>
-      </li>
-      <li (click)="TransPage()">
-        <a>
+        <a (click)="TransPage()">
           <i class="fas fa-exchange-alt"></i>
           <span>Transfer</span>
         </a>
       </li>
       <li>
-        <a  (click)="MessagePage()">
+        <a (click)="MessagePage()">
           <i class="fas fa-comments"></i>
           <span>MESSAGES</span>
         </a>
       </li>
       <li>
-        <a>
+        <a >
           <i class="fas fa-chart-bar"></i>
           <span>STATISTIC</span>
         </a>
       </li>
       <li>
         <a (click)="logout()">
-          <i class="fas fa-right-from-bracket"></i>
+          <i class="fas fa-sign-out-alt"></i>
+          <span>LOGOUT</span>
         </a>
-        <span>EXIT</span>
       </li>
     </ul>
   </nav>
 </aside>
+
+<!-- Hamburger icon for mobile -->
+<div class="hamburger" (click)="toggleSidebar()" *ngIf="isMobile">
+  <i class="fas" [ngClass]="isSidebarActive ? 'fa-times' : 'fa-bars'"></i>
+</div>

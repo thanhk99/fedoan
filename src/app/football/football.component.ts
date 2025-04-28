@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient ,HttpHeaders} from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { format } from 'date-fns';
+import { GameService } from '../service/game.service';
 import { userService } from '../service/users.service';
 import { AtmService } from '../service/atm.service';
+import { format } from 'date-fns';
 @Component({
   selector: 'app-football',
   imports: [CommonModule, FormsModule],
@@ -22,9 +23,10 @@ export class FootballComponent {
   apiFootball=environment.apiFootball
   apiPlaceBet=environment.apiPlaceBet
   apigetBethis=environment.apigetbetHisfbxs
+  isLoading: boolean=false;
     
     constructor (
-      private router:Router,
+      private gameService: GameService,
       private http :HttpClient,
       private userService: userService,
       private atmService: AtmService, 
@@ -41,16 +43,11 @@ export class FootballComponent {
         this.fetchBetHistory();
       }
 
-      private fetchMatches() {
-        const dayStart = format(new Date(Date.now() - 86400000*4), 'yyyy-MM-dd'); 
-        const dayEnd = format(new Date(Date.now() + 86400000 * 4), 'yyyy-MM-dd'); 
-        const apiUrl = `${this.apiFootball}?dateFrom=${dayStart}&dateTo=${dayEnd}`;
-        console.log("ok");
-        const headers = new HttpHeaders({
-          'X-Auth-Token': environment.keyFootball
-        });
-    
-        this.http.get(apiUrl, { headers }).subscribe(
+      private fetchMatches() { 
+        this.isLoading=true
+        const dayStart = format(new Date(Date.now() - 86400000), 'yyyy-MM-dd');
+        const dayEnd = format(new Date(Date.now()), 'yyyy-MM-dd');
+        this.gameService.getMatches(dayStart,dayEnd).subscribe(
           (data: any) => {
             this.matches = data.matches.map((match: any) => ({
               ...match,
@@ -61,9 +58,10 @@ export class FootballComponent {
               },
               betAmount: 0 // Khởi tạo betAmount cho mỗi trận
             })) || [];
-            console.log(data);
+            this.isLoading=false
           },
           (error: any) => {
+            this.isLoading=false
             console.log(error);
           }
         );

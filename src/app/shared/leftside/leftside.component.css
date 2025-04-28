@@ -11,7 +11,7 @@
   padding: 10px;
   height: 90%;
   border-radius: 30px;
-  width: 60px; /* Fixed width to ensure icons are visible */
+  width: 60px;
   transition: width 0.3s ease-in-out;
   overflow: hidden;
   white-space: nowrap;
@@ -19,7 +19,7 @@
 }
 
 .sidebar.left:hover {
-  width: 200px; /* Expand sidebar on hover */
+  width: 200px;
   align-items: flex-start;
   padding-left: 15px;
 }
@@ -52,7 +52,7 @@
 }
 
 .sidebar.left:hover .logo {
-  width: 5.5ch; /* Enough space for SBCB */
+  width: 5.5ch;
   animation: typing 1.5s steps(20) infinite alternate;
 }
 
@@ -78,21 +78,21 @@
 .sidebar nav ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-left: 45px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items in collapsed state */
+  align-items: center;
   width: 100%;
 }
 
 .sidebar.left:hover nav ul {
-  align-items: flex-start; /* Align to left when expanded */
+  align-items: flex-start;
 }
 
 .sidebar nav ul li {
   display: flex;
   align-items: center;
-  justify-content: center; /* Center content in collapsed state */
+  justify-content: center;
   padding: 15px;
   font-size: 16px;
   cursor: pointer;
@@ -102,7 +102,7 @@
 }
 
 .sidebar.left:hover nav ul li {
-  justify-content: flex-start; /* Align content to left when expanded */
+  justify-content: flex-start;
 }
 
 .sidebar nav ul li:hover {
@@ -115,24 +115,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px; /* Fixed width for icons in collapsed state */
+  width: 40px;
   height: 40px;
   flex-shrink: 0;
   text-align: center;
 }
 
 .sidebar.left:hover nav ul li a {
-  width: 40px; /* Keep icon size consistent when expanded */
-  
+  width: 40px;
 }
 
 /* Font Awesome Icons */
 .sidebar i {
-  margin-left: 55px;
-  font-size: 24px; /* Size of Font Awesome icons */
-  color: #ada9a9; /* Match the previous SVG fill color */
+  font-size: 24px;
+  color: #ada9a9;
   flex-shrink: 0;
-  display: block; /* Ensure icons are visible */
+  display: block;
 }
 
 /* Text Labels */
@@ -141,7 +139,7 @@
   visibility: hidden;
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
   white-space: nowrap;
-  margin-left: 10px; /* Add spacing between icon and text */
+  margin-left: 10px;
 }
 
 .sidebar.left:hover nav ul li span {
@@ -149,49 +147,107 @@
   visibility: visible;
 }
 
-/* Exit Button */
-.exit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 15px;
-  font-size: 16px;
+/* Hamburger Icon */
+.hamburger {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-size: 24px;
+  color: #ffffff;
+  background: #2B0E0E;
+  padding: 10px;
+  border-radius: 50%;
   cursor: pointer;
+  z-index: 1000;
+  display: none;
 }
 
-.sidebar.left:hover .exit {
-  justify-content: flex-start; /* Align to left when expanded */
+.hamburger i {
+  color: #ada9a9;
 }
 
-.exit a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+/* Rotate icon when active */
+.hamburger i.fa-times {
+  transform: rotate(180deg);
+}
+/* Mobile Devices (768px and below) */
+@media (max-width: 768px) {
+  .sidebar.left {
+    top: 0;
+    left: -100%; /* Hide sidebar off-screen */
+    width: 200px;
+    height: 100%;
+    transform: none;
+    border-radius: 0;
+    transition: left 0.3s ease-in-out;
+    align-items: flex-start;
+    padding-left: 15px;
+    transition: padding-left 0.5s ease-in-out ;
+  }
+
+  .sidebar.left.active {
+    left: 0; /* Show sidebar when active */
+  }
+  .sidebar.left.active + .hamburger {
+    top: -3px;
+    left: 185px;
+  }
+  .sidebar.left:hover {
+    width: 200px; /* Keep expanded width */
+    align-items: flex-start;
+    padding-left: 15px;
+  }
+
+  .logo {
+    display: block;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .sidebar.left .logo::before {
+    content: "SBCB";
+  }
+
+  .sidebar.left .logo {
+    width: 5.5ch;
+  }
+
+  .sidebar nav ul {
+    align-items: flex-start;
+  }
+
+  .sidebar nav ul li {
+    justify-content: flex-start;
+    padding: 15px;
+  }
+
+  .sidebar nav ul li span {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sidebar i {
+    font-size: 20px;
+  }
+
+  .hamburger {
+    display: block; /* Show hamburger icon */
+  }
 }
 
-.exit span {
-  font-size: 20px;
-  margin-left: 10px;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  white-space: nowrap;
-}
+/* Small Mobile Devices (480px and below) */
+@media (max-width: 480px) {
+  .sidebar.left {
+    width: 180px;
+  }
 
-.exit:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  .hamburger {
+    top: 15px;
+    left: 15px;
+    font-size: 20px;
+    padding: 8px;
+  }
 }
-
-.sidebar.left:hover .exit span {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Responsive Adjustments */
 
 /* Large Screens (1400px and above) */
 @media (min-width: 1400px) {
@@ -200,159 +256,5 @@
   }
   .sidebar.left:hover {
     width: 200px;
-  }
-}
-
-/* Tablets (1024px and below) */
-@media (max-width: 1024px) {
-  .sidebar.left {
-    width: 50px;
-    height: 80%;
-    left: 1%;
-  }
-  .sidebar.left:hover {
-    width: 180px;
-  }
-  .sidebar nav ul li {
-    padding: 0;
-  }
-  .logo {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-  .sidebar i {
-    font-size: 20px;
-  }
-  .sidebar nav ul li a,
-  .exit a {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-/* Mobile Devices (768px and below) */
-@media (max-width: 768px) {
-  .sidebar.left {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    transform: none;
-    width: 100%;
-    height: 60px;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    border-radius: 0;
-    background: #2B0E0E;
-  }
-
-  /* Remove hover effect on mobile */
-  .sidebar.left:hover {
-    width: 100%;
-    align-items: center;
-    padding-left: 0;
-  }
-
-  /* Logo Adjustments */
-  .logo {
-    display: none; /* Hide logo on mobile */
-  }
-
-  /* Navigation Adjustments */
-  .sidebar nav {
-    flex: none;
-    width: auto;
-  }
-
-  .sidebar nav ul {
-    flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-    align-items: center;
-  }
-
-  .sidebar.left:hover nav ul {
-    align-items: center; /* Keep centered on mobile */
-  }
-
-  .sidebar nav ul li {
-    padding: 10px;
-    font-size: 14px;
-    width: auto;
-    justify-content: center;
-  }
-
-  .sidebar.left:hover nav ul li {
-    justify-content: center; /* Keep centered on mobile */
-  }
-
-  .sidebar nav ul li a {
-    width: 40px;
-    height: 40px;
-  }
-
-  .sidebar.left:hover nav ul li a {
-    width: 40px;
-  }
-
-  /* Hide text labels on mobile */
-  .sidebar nav ul li span {
-    display: none;
-  }
-
-  .sidebar.left:hover nav ul li span {
-    display: none;
-  }
-
-  /* Exit Button Adjustments */
-  .exit {
-    padding: 10px;
-    justify-content: center;
-  }
-
-  .exit a {
-    width: 40px;
-    height: 40px;
-  }
-
-  .sidebar.left:hover .exit {
-    justify-content: center;
-  }
-
-  .exit span {
-    display: none;
-  }
-
-  .sidebar.left:hover .exit span {
-    display: none;
-  }
-
-  .sidebar i {
-    font-size: 20px;
-  }
-}
-
-/* Small Mobile Devices (480px and below) */
-@media (max-width: 480px) {
-  .sidebar.left {
-    height: 50px;
-  }
-
-  .sidebar nav ul li {
-    padding: 8px;
-  }
-
-  .exit {
-    padding: 8px;
-  }
-
-  .sidebar i {
-    font-size: 18px;
-  }
-
-  .sidebar nav ul li a,
-  .exit a {
-    width: 36px;
-    height: 36px;
   }
 }

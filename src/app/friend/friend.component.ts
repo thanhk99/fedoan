@@ -7,9 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-import { relative } from 'node:path';
-import { title } from 'node:process';
-import { text } from 'node:stream/consumers';
+import { Router } from '@angular/router';
 @Component({
     selector: 'app-friend',
     imports: [CommonModule, FormsModule],
@@ -36,8 +34,8 @@ export class FriendComponent {
 
     constructor(private friendService: FriendService,
         private userService: userService,
-        private http: HttpClient,
-        private toastr : ToastrService
+        private toastr : ToastrService,
+        private router:Router
     ) { }
 
     ngOnInit() {
@@ -95,8 +93,8 @@ export class FriendComponent {
     }
 
 
-    sendMessage(friend: string) {
-        alert(`Nhắn tin với ${friend}`);
+    sendMessage() {
+        this.router.navigate(['/message'])
     }
 
     removeFriend(friend: { id: number; fullname: string,relative:string }) {

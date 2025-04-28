@@ -81,8 +81,8 @@
 /* Dice Area */
 .dice-area {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,8 +96,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   background: #ffd700;
   border-radius: 50%;
   z-index: 100;
@@ -431,10 +431,13 @@
     height: 100px;
     width: 100px;
   }
-
+  .bolt{
+    width: 100px;
+    height: 100px;
+  }
   .dice1 {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 
   .countdown, .total-score {
@@ -462,7 +465,7 @@
   }
 
   .dice-area {
-    height: 120px;
+    height: 100px;
   }
 
   .dice1 {
